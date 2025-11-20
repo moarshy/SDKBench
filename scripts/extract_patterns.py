@@ -12,6 +12,7 @@ from pathlib import Path
 from typing import List, Dict, Set
 from collections import Counter, defaultdict
 from dotenv import load_dotenv
+from tqdm import tqdm
 import click
 
 load_dotenv()

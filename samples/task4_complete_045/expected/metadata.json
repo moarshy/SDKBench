@@ -1,0 +1,67 @@
+{
+  "sample_id": "task4_complete_045",
+  "task_type": 4,
+  "task_name": "complete_integration",
+  "framework": "nextjs",
+  "clerk_version": "5.0.0",
+  "difficulty": "hard",
+  "estimated_lines": 50,
+  "description": "Complete Clerk integration with all 4 ingredients: initialization, configuration, middleware, and API protection",
+  "ground_truth": {
+    "ingredients": {
+      "initialization": {
+        "location": "app/layout.tsx",
+        "pattern": "ClerkProvider",
+        "imports": [
+          "@clerk/nextjs"
+        ]
+      },
+      "configuration": {
+        "env_vars": [
+          "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY",
+          "CLERK_SECRET_KEY",
+          "NEXT_PUBLIC_CLERK_SIGN_IN_URL",
+          "NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL"
+        ],
+        "middleware_config": [
+          "publicRoutes"
+        ]
+      },
+      "integration_points": [
+        {
+          "location": "middleware.ts",
+          "type": "authMiddleware"
+        },
+        {
+          "location": "app/dashboard/page.tsx",
+          "type": "currentUser"
+        },
+        {
+          "location": "app/api/user/route.ts",
+          "type": "auth()"
+        }
+      ]
+    }
+  },
+  "evaluation_targets": {
+    "i_acc": {
+      "correct_files": [
+        "app/layout.tsx",
+        "middleware.ts",
+        "app/dashboard/page.tsx",
+        "app/api/user/route.ts"
+      ],
+      "all_patterns_present": true
+    },
+    "c_comp": {
+      "required_env_vars": 4
+    },
+    "ipa": {
+      "expected_protection_points": 3
+    },
+    "f_corr": {
+      "test_command": "npm test -- integration.test.ts",
+      "expected_pass": true
+    }
+  }
+}

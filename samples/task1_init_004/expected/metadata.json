@@ -1,0 +1,47 @@
+{
+  "sample_id": "task1_init_004",
+  "task_type": 1,
+  "task_name": "initialization",
+  "framework": "react",
+  "clerk_version": "5.0.0",
+  "difficulty": "easy",
+  "estimated_lines": 10,
+  "description": "Initialize Clerk authentication by wrapping the application with ClerkProvider",
+  "ground_truth": {
+    "ingredients": {
+      "initialization": {
+        "location": "src/index.tsx",
+        "pattern": "ClerkProvider wrapper",
+        "imports": [
+          "@clerk/clerk-react"
+        ]
+      },
+      "configuration": {
+        "env_vars": [
+          "REACT_APP_CLERK_PUBLISHABLE_KEY"
+        ],
+        "provider_props": [
+          "publishableKey"
+        ],
+        "optional_config": []
+      }
+    }
+  },
+  "evaluation_targets": {
+    "i_acc": {
+      "correct_file": "src/index.tsx",
+      "correct_pattern": "ClerkProvider",
+      "correct_imports": [
+        "ClerkProvider from @clerk/clerk-react"
+      ]
+    },
+    "c_comp": {
+      "required_env_vars": 1,
+      "optional_env_vars": 0
+    },
+    "f_corr": {
+      "test_command": "npm test -- init.test.ts",
+      "expected_pass": true
+    }
+  }
+}

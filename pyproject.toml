@@ -22,6 +22,7 @@ dependencies = [
     "tqdm>=4.66.1",
     "click>=8.1.7",
     "colorama>=0.4.6",
+    "pydantic>=2.0.0",
 ]
 
 [project.optional-dependencies]
@@ -37,6 +38,7 @@ dev = [
 search-repos = "scripts.search_repos:main"
 mine-repos = "scripts.mine_repos:main"
 extract-patterns = "scripts.extract_patterns:main"
+build-samples = "scripts.build_samples:main"
 
 [build-system]
 requires = ["hatchling"]

@@ -1,0 +1,39 @@
+{
+  "sample_id": "task3_hooks_038",
+  "task_type": 3,
+  "task_name": "hooks",
+  "framework": "nextjs",
+  "clerk_version": "5.0.0",
+  "difficulty": "medium",
+  "estimated_lines": 20,
+  "description": "Use useAuth hook to access user authentication data",
+  "ground_truth": {
+    "ingredients": {
+      "integration_points": [
+        {
+          "location": "components/UserProfile.tsx",
+          "type": "hook_usage",
+          "hook": "useAuth"
+        }
+      ]
+    }
+  },
+  "evaluation_targets": {
+    "i_acc": {
+      "correct_file": "components/UserProfile.tsx",
+      "correct_pattern": "useAuth",
+      "correct_imports": [
+        "useAuth from @clerk/nextjs"
+      ]
+    },
+    "ipa": {
+      "expected_hooks": [
+        "useAuth"
+      ]
+    },
+    "f_corr": {
+      "test_command": "npm test -- hooks.test.ts",
+      "expected_pass": true
+    }
+  }
+}

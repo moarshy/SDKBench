@@ -1,0 +1,61 @@
+{
+  "sample_id": "task2_middleware_030",
+  "task_type": 2,
+  "task_name": "middleware",
+  "framework": "nextjs",
+  "clerk_version": "5.0.0",
+  "difficulty": "medium",
+  "estimated_lines": 15,
+  "description": "Add Clerk authentication middleware to protect routes",
+  "ground_truth": {
+    "ingredients": {
+      "initialization": {
+        "location": "middleware.ts",
+        "pattern": "authMiddleware",
+        "imports": [
+          "@clerk/nextjs/server"
+        ]
+      },
+      "configuration": {
+        "middleware_config": [
+          "publicRoutes"
+        ],
+        "optional_config": [
+          "ignoredRoutes"
+        ]
+      },
+      "integration_points": [
+        {
+          "location": "middleware.ts",
+          "type": "route_protection"
+        }
+      ]
+    }
+  },
+  "evaluation_targets": {
+    "i_acc": {
+      "correct_file": "middleware.ts",
+      "correct_pattern": "authMiddleware",
+      "correct_imports": [
+        "authMiddleware from @clerk/nextjs/server"
+      ]
+    },
+    "c_comp": {
+      "required_middleware_config": [
+        "publicRoutes"
+      ],
+      "optional_middleware_config": [
+        "ignoredRoutes"
+      ]
+    },
+    "ipa": {
+      "expected_protection_points": [
+        "middleware.ts"
+      ]
+    },
+    "f_corr": {
+      "test_command": "npm test -- middleware.test.ts",
+      "expected_pass": true
+    }
+  }
+}

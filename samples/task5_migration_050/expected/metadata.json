@@ -1,0 +1,37 @@
+{
+  "sample_id": "task5_migration_050",
+  "task_type": 5,
+  "task_name": "migration_v4_to_v5",
+  "framework": "nextjs",
+  "clerk_version_from": "4.x",
+  "clerk_version_to": "5.0.0",
+  "difficulty": "hard",
+  "estimated_lines": 25,
+  "description": "Migrate Clerk v4 to v5: server_component breaking changes",
+  "migration_scenario": "server_component",
+  "breaking_changes": [
+    "@clerk/nextjs/app-beta \u2192 @clerk/nextjs/server"
+  ],
+  "ground_truth": {
+    "changes_required": [
+      {
+        "file": "app/profile/page.tsx",
+        "changes": [
+          "Update imports",
+          "Update function calls",
+          "Update patterns"
+        ]
+      }
+    ]
+  },
+  "evaluation_targets": {
+    "i_acc": {
+      "v5_patterns_present": true,
+      "v4_patterns_absent": true
+    },
+    "f_corr": {
+      "test_command": "npm test -- migration.test.ts",
+      "expected_pass": true
+    }
+  }
+}

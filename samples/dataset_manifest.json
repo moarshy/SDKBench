@@ -1,0 +1,264 @@
+{
+  "dataset_version": "1.0",
+  "created_at": "2025-11-20T10:57:30.123920",
+  "total_samples": 50,
+  "by_task_type": {
+    "1": 15,
+    "2": 15,
+    "3": 10,
+    "4": 7,
+    "5": 3
+  },
+  "samples": [
+    {
+      "sample_id": "task1_init_001",
+      "task_type": 1,
+      "created_at": "2025-11-20T10:57:30.080289"
+    },
+    {
+      "sample_id": "task1_init_002",
+      "task_type": 1,
+      "created_at": "2025-11-20T10:57:30.081239"
+    },
+    {
+      "sample_id": "task1_init_003",
+      "task_type": 1,
+      "created_at": "2025-11-20T10:57:30.082206"
+    },
+    {
+      "sample_id": "task1_init_004",
+      "task_type": 1,
+      "created_at": "2025-11-20T10:57:30.083108"
+    },
+    {
+      "sample_id": "task1_init_005",
+      "task_type": 1,
+      "created_at": "2025-11-20T10:57:30.083347"
+    },
+    {
+      "sample_id": "task1_init_006",
+      "task_type": 1,
+      "created_at": "2025-11-20T10:57:30.084268"
+    },
+    {
+      "sample_id": "task1_init_007",
+      "task_type": 1,
+      "created_at": "2025-11-20T10:57:30.085208"
+    },
+    {
+      "sample_id": "task1_init_008",
+      "task_type": 1,
+      "created_at": "2025-11-20T10:57:30.086660"
+    },
+    {
+      "sample_id": "task1_init_009",
+      "task_type": 1,
+      "created_at": "2025-11-20T10:57:30.087745"
+    },
+    {
+      "sample_id": "task1_init_010",
+      "task_type": 1,
+      "created_at": "2025-11-20T10:57:30.088071"
+    },
+    {
+      "sample_id": "task1_init_011",
+      "task_type": 1,
+      "created_at": "2025-11-20T10:57:30.089361"
+    },
+    {
+      "sample_id": "task1_init_012",
+      "task_type": 1,
+      "created_at": "2025-11-20T10:57:30.090382"
+    },
+    {
+      "sample_id": "task1_init_013",
+      "task_type": 1,
+      "created_at": "2025-11-20T10:57:30.091402"
+    },
+    {
+      "sample_id": "task1_init_014",
+      "task_type": 1,
+      "created_at": "2025-11-20T10:57:30.092500"
+    },
+    {
+      "sample_id": "task1_init_015",
+      "task_type": 1,
+      "created_at": "2025-11-20T10:57:30.092793"
+    },
+    {
+      "sample_id": "task2_middleware_016",
+      "task_type": 2,
+      "created_at": "2025-11-20T10:57:30.093994"
+    },
+    {
+      "sample_id": "task2_middleware_017",
+      "task_type": 2,
+      "created_at": "2025-11-20T10:57:30.095066"
+    },
+    {
+      "sample_id": "task2_middleware_018",
+      "task_type": 2,
+      "created_at": "2025-11-20T10:57:30.096338"
+    },
+    {
+      "sample_id": "task2_middleware_019",
+      "task_type": 2,
+      "created_at": "2025-11-20T10:57:30.098015"
+    },
+    {
+      "sample_id": "task2_middleware_020",
+      "task_type": 2,
+      "created_at": "2025-11-20T10:57:30.099207"
+    },
+    {
+      "sample_id": "task2_middleware_021",
+      "task_type": 2,
+      "created_at": "2025-11-20T10:57:30.100250"
+    },
+    {
+      "sample_id": "task2_middleware_022",
+      "task_type": 2,
+      "created_at": "2025-11-20T10:57:30.101274"
+    },
+    {
+      "sample_id": "task2_middleware_023",
+      "task_type": 2,
+      "created_at": "2025-11-20T10:57:30.102256"
+    },
+    {
+      "sample_id": "task2_middleware_024",
+      "task_type": 2,
+      "created_at": "2025-11-20T10:57:30.103251"
+    },
+    {
+      "sample_id": "task2_middleware_025",
+      "task_type": 2,
+      "created_at": "2025-11-20T10:57:30.104219"
+    },
+    {
+      "sample_id": "task2_middleware_026",
+      "task_type": 2,
+      "created_at": "2025-11-20T10:57:30.105089"
+    },
+    {
+      "sample_id": "task2_middleware_027",
+      "task_type": 2,
+      "created_at": "2025-11-20T10:57:30.105972"
+    },
+    {
+      "sample_id": "task2_middleware_028",
+      "task_type": 2,
+      "created_at": "2025-11-20T10:57:30.106866"
+    },
+    {
+      "sample_id": "task2_middleware_029",
+      "task_type": 2,
+      "created_at": "2025-11-20T10:57:30.107820"
+    },
+    {
+      "sample_id": "task2_middleware_030",
+      "task_type": 2,
+      "created_at": "2025-11-20T10:57:30.108895"
+    },
+    {
+      "sample_id": "task3_hooks_031",
+      "task_type": 3,
+      "created_at": "2025-11-20T10:57:30.109424"
+    },
+    {
+      "sample_id": "task3_hooks_032",
+      "task_type": 3,
+      "created_at": "2025-11-20T10:57:30.109912"
+    },
+    {
+      "sample_id": "task3_hooks_033",
+      "task_type": 3,
+      "created_at": "2025-11-20T10:57:30.110394"
+    },
+    {
+      "sample_id": "task3_hooks_034",
+      "task_type": 3,
+      "created_at": "2025-11-20T10:57:30.110873"
+    },
+    {
+      "sample_id": "task3_hooks_035",
+      "task_type": 3,
+      "created_at": "2025-11-20T10:57:30.111649"
+    },
+    {
+      "sample_id": "task3_hooks_036",
+      "task_type": 3,
+      "created_at": "2025-11-20T10:57:30.112180"
+    },
+    {
+      "sample_id": "task3_hooks_037",
+      "task_type": 3,
+      "created_at": "2025-11-20T10:57:30.112678"
+    },
+    {
+      "sample_id": "task3_hooks_038",
+      "task_type": 3,
+      "created_at": "2025-11-20T10:57:30.113138"
+    },
+    {
+      "sample_id": "task3_hooks_039",
+      "task_type": 3,
+      "created_at": "2025-11-20T10:57:30.113574"
+    },
+    {
+      "sample_id": "task3_hooks_040",
+      "task_type": 3,
+      "created_at": "2025-11-20T10:57:30.114021"
+    },
+    {
+      "sample_id": "task4_complete_041",
+      "task_type": 4,
+      "created_at": "2025-11-20T10:57:30.115118"
+    },
+    {
+      "sample_id": "task4_complete_042",
+      "task_type": 4,
+      "created_at": "2025-11-20T10:57:30.116234"
+    },
+    {
+      "sample_id": "task4_complete_043",
+      "task_type": 4,
+      "created_at": "2025-11-20T10:57:30.117354"
+    },
+    {
+      "sample_id": "task4_complete_044",
+      "task_type": 4,
+      "created_at": "2025-11-20T10:57:30.118871"
+    },
+    {
+      "sample_id": "task4_complete_045",
+      "task_type": 4,
+      "created_at": "2025-11-20T10:57:30.120148"
+    },
+    {
+      "sample_id": "task4_complete_046",
+      "task_type": 4,
+      "created_at": "2025-11-20T10:57:30.121230"
+    },
+    {
+      "sample_id": "task4_complete_047",
+      "task_type": 4,
+      "created_at": "2025-11-20T10:57:30.122283"
+    },
+    {
+      "sample_id": "task5_migration_048",
+      "task_type": 5,
+      "created_at": "2025-11-20T10:57:30.122868"
+    },
+    {
+      "sample_id": "task5_migration_049",
+      "task_type": 5,
+      "created_at": "2025-11-20T10:57:30.123208"
+    },
+    {
+      "sample_id": "task5_migration_050",
+      "task_type": 5,
+      "created_at": "2025-11-20T10:57:30.123910"
+    }
+  ]
+}

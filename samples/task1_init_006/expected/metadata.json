@@ -1,0 +1,46 @@
+{
+  "sample_id": "task1_init_006",
+  "task_type": 1,
+  "task_name": "initialization",
+  "framework": "nextjs",
+  "clerk_version": "5.0.0",
+  "difficulty": "easy",
+  "estimated_lines": 10,
+  "description": "Initialize Clerk authentication by wrapping the application with ClerkProvider",
+  "ground_truth": {
+    "ingredients": {
+      "initialization": {
+        "location": "app/layout.tsx",
+        "pattern": "ClerkProvider wrapper",
+        "imports": [
+          "@clerk/nextjs"
+        ]
+      },
+      "configuration": {
+        "env_vars": [
+          "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY",
+          "CLERK_SECRET_KEY"
+        ],
+        "provider_props": [],
+        "optional_config": []
+      }
+    }
+  },
+  "evaluation_targets": {
+    "i_acc": {
+      "correct_file": "app/layout.tsx",
+      "correct_pattern": "ClerkProvider",
+      "correct_imports": [
+        "ClerkProvider from @clerk/nextjs"
+      ]
+    },
+    "c_comp": {
+      "required_env_vars": 2,
+      "optional_env_vars": 0
+    },
+    "f_corr": {
+      "test_command": "npm test -- init.test.ts",
+      "expected_pass": true
+    }
+  }
+}

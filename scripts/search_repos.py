@@ -84,10 +84,17 @@ class ClerkRepoSearcher:
                 return []
 
             # Convert to list for parallel processing
-            # Get up to 100 repos per query (not limited by max_repos)
-            # The total limit is applied in run_all_searches()
-            per_query_limit = min(100, repos.totalCount)
+            # If unlimited mode (max_repos >= 10000), get all results from this query
+            # Otherwise, get up to 100 per query to avoid rate limits
+            if self.max_repos >= 10000:
+                # Unlimited mode: get all repos from this query
+                per_query_limit = repos.totalCount
+            else:
+                # Limited mode: get up to 100 per query
+                per_query_limit = min(100, repos.totalCount)
+
             repo_list = list(repos[:per_query_limit])
+            print(f"Processing {len(repo_list)} repos from this query...")
 
             # Process repositories in parallel
             results = []
