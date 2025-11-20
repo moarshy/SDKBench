@@ -10,7 +10,8 @@ import json
 import time
 from datetime import datetime, timedelta
 from pathlib import Path
-from typing import List, Dict
+from typing import List, Dict, Optional
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from dotenv import load_dotenv
 from github import Github, GithubException
 from tqdm import tqdm
@@ -23,12 +24,13 @@ load_dotenv()
 class ClerkRepoSearcher:
     """Search GitHub for Clerk repositories."""
 
-    def __init__(self, token: str, max_repos: int = 100):
+    def __init__(self, token: str, max_repos: int = 100, n_workers: int = 10):
         """Initialize GitHub API client."""
         from github import Auth
         auth = Auth.Token(token)
         self.github = Github(auth=auth)
         self.max_repos = max_repos
+        self.n_workers = n_workers
         self.results = []
 
     def search_repositories(
@@ -81,57 +83,96 @@ class ClerkRepoSearcher:
                 print(f"⚠️  No repositories found for this query")
                 return []
 
+            # Convert to list for parallel processing
+            # Get up to 100 repos per query (not limited by max_repos)
+            # The total limit is applied in run_all_searches()
+            per_query_limit = min(100, repos.totalCount)
+            repo_list = list(repos[:per_query_limit])
+
+            # Process repositories in parallel
             results = []
-            for repo in tqdm(repos[: self.max_repos], desc="Processing repos"):
-                try:
-                    # Extract repository metadata
-                    metadata = {
-                        "id": f"repo_{len(self.results) + len(results) + 1:03d}",
-                        "name": repo.name,
-                        "full_name": repo.full_name,
-                        "url": repo.html_url,
-                        "clone_url": repo.clone_url,
-                        "stars": repo.stargazers_count,
-                        "forks": repo.forks_count,
-                        "language": repo.language,
-                        "description": repo.description,
-                        "created_at": repo.created_at.isoformat(),
-                        "updated_at": repo.updated_at.isoformat(),
-                        "pushed_at": (
-                            repo.pushed_at.isoformat() if repo.pushed_at else None
-                        ),
-                        "size_kb": repo.size,
-                        "default_branch": repo.default_branch,
-                        "topics": repo.get_topics(),
-                        "has_issues": repo.has_issues,
-                        "has_wiki": repo.has_wiki,
-                        "has_tests": self._check_has_tests(repo),
-                        "search_query": query,
-                        "collected_at": datetime.now().isoformat(),
-                    }
+            with ThreadPoolExecutor(max_workers=self.n_workers) as executor:
+                # Submit all tasks
+                future_to_repo = {
+                    executor.submit(
+                        self._process_repository,
+                        repo,
+                        len(self.results) + i,
+                        query
+                    ): repo
+                    for i, repo in enumerate(repo_list)
+                }
 
-                    # Try to get additional stats
+                # Collect results with progress bar
+                for future in tqdm(
+                    as_completed(future_to_repo),
+                    total=len(future_to_repo),
+                    desc="Processing repos"
+                ):
+                    repo = future_to_repo[future]
                     try:
-                        contributors = repo.get_contributors()
-                        metadata["contributors"] = contributors.totalCount
-                    except:
-                        metadata["contributors"] = 0
-
-                    results.append(metadata)
-
-                    # Rate limiting
-                    if len(results) % 10 == 0:
-                        time.sleep(1)
-
-                except GithubException as e:
-                    print(f"⚠️  Error processing {repo.full_name}: {e}")
-                    continue
+                        metadata = future.result()
+                        if metadata:
+                            results.append(metadata)
+                    except Exception as e:
+                        print(f"⚠️  Error processing {repo.full_name}: {e}")
 
             return results
 
         except GithubException as e:
             print(f"❌ Search failed: {e}")
             return []
+
+    def _process_repository(self, repo, index: int, query: str) -> Optional[Dict]:
+        """
+        Process a single repository to extract metadata.
+
+        Args:
+            repo: GitHub repository object
+            index: Repository index for ID generation
+            query: Search query used to find this repo
+
+        Returns:
+            Repository metadata dictionary or None if processing failed
+        """
+        try:
+            metadata = {
+                "id": f"repo_{index + 1:03d}",
+                "name": repo.name,
+                "full_name": repo.full_name,
+                "url": repo.html_url,
+                "clone_url": repo.clone_url,
+                "stars": repo.stargazers_count,
+                "forks": repo.forks_count,
+                "language": repo.language,
+                "description": repo.description,
+                "created_at": repo.created_at.isoformat(),
+                "updated_at": repo.updated_at.isoformat(),
+                "pushed_at": (
+                    repo.pushed_at.isoformat() if repo.pushed_at else None
+                ),
+                "size_kb": repo.size,
+                "default_branch": repo.default_branch,
+                "topics": repo.get_topics(),
+                "has_issues": repo.has_issues,
+                "has_wiki": repo.has_wiki,
+                "has_tests": self._check_has_tests(repo),
+                "search_query": query,
+                "collected_at": datetime.now().isoformat(),
+            }
+
+            # Try to get additional stats
+            try:
+                contributors = repo.get_contributors()
+                metadata["contributors"] = contributors.totalCount
+            except:
+                metadata["contributors"] = 0
+
+            return metadata
+
+        except GithubException as e:
+            print(f"⚠️  Error processing {repo.full_name}: {e}")
+            return None
 
     def _check_has_tests(self, repo) -> bool:
         """Check if repository likely has tests."""
@@ -196,19 +237,37 @@ class ClerkRepoSearcher:
         all_results = []
         seen_repos = set()
 
-        for search_config in searches:
+        target_text = f"{self.max_repos}" if self.max_repos < 10000 else "unlimited"
+        print(f"\n📊 Target: {target_text} unique repositories")
+
+        for i, search_config in enumerate(searches, 1):
+            print(f"\n[Query {i}/{len(searches)}] Running search...")
             results = self.search_repositories(**search_config)
 
-            # Deduplicate
+            # Deduplicate and add to results
+            new_repos = 0
             for result in results:
                 if result["full_name"] not in seen_repos:
                     seen_repos.add(result["full_name"])
                     all_results.append(result)
+                    new_repos += 1
 
-            if len(all_results) >= self.max_repos:
+                    # Stop if we've reached the target (if limited)
+                    if self.max_repos < 10000 and len(all_results) >= self.max_repos:
+                        break
+
+            if self.max_repos < 10000:
+                print(f"   Added {new_repos} new repos (total: {len(all_results)}/{self.max_repos})")
+            else:
+                print(f"   Added {new_repos} new repos (total: {len(all_results)})")
+
+            # Stop searching if we've reached the target (if limited)
+            if self.max_repos < 10000 and len(all_results) >= self.max_repos:
+                print(f"\n✅ Reached target of {self.max_repos} repositories!")
                 break
 
-        return all_results[: self.max_repos]
+        print(f"\n📦 Collected {len(all_results)} unique repositories")
+        return all_results
 
     def classify_repositories(self, repos: List[Dict]) -> Dict:
         """Classify repositories by framework and suitability."""
@@ -298,9 +357,10 @@ class ClerkRepoSearcher:
 
 
 @click.command()
-@click.option("--max-repos", default=100, help="Maximum repositories to collect")
+@click.option("--max-repos", default=None, type=int, help="Maximum repositories to collect (default: unlimited)")
 @click.option("--output", default="data/repositories.json", help="Output file path")
-def main(max_repos: int, output: str):
+@click.option("--workers", default=10, help="Number of concurrent workers for processing")
+def main(max_repos: int, output: str, workers: int):
     """Search GitHub for Clerk repositories."""
 
     # Check for GitHub token
@@ -312,11 +372,13 @@ def main(max_repos: int, output: str):
         return
 
     print("🚀 SDK-Bench: Clerk Repository Search")
-    print(f"   Max repos: {max_repos}")
+    print(f"   Max repos: {max_repos if max_repos else 'unlimited'}")
+    print(f"   Workers: {workers}")
     print(f"   Output: {output}")
 
-    # Initialize searcher
-    searcher = ClerkRepoSearcher(token=token, max_repos=max_repos)
+    # Initialize searcher (use very high number if unlimited)
+    actual_max = max_repos if max_repos else 10000
+    searcher = ClerkRepoSearcher(token=token, max_repos=actual_max, n_workers=workers)
 
     # Run searches
     repos = searcher.run_all_searches()
