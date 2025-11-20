@@ -39,6 +39,7 @@ search-repos = "scripts.search_repos:main"
 mine-repos = "scripts.mine_repos:main"
 extract-patterns = "scripts.extract_patterns:main"
 build-samples = "scripts.build_samples:main"
+evaluate = "scripts.evaluate:main"
 
 [build-system]
 requires = ["hatchling"]
