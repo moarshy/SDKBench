@@ -1,0 +1,62 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+env/
+ENV/
+
+# Environment variables
+.env
+.env.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# uv
+.uv/
+
+# Data
+data/repositories/
+data/cloned-repos/
+data/*.json
+!data/.gitkeep
+*.zip
+*.tar.gz
+
+# Results
+results/*.json
+results/*.csv
+!results/.gitkeep
+reports/*.png
+reports/*.pdf
+!reports/.gitkeep
+
+# Logs
+*.log
+logs/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Distribution
+dist/
+build/
+*.egg-info/
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Node (for JS/TS test samples in Week 2-4)
+node_modules/
+package-lock.json
