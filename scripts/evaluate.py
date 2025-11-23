@@ -257,7 +257,7 @@ def output_text_results(result, detailed, evaluator, quiet):
     if result.c_comp:
         print(f"  C-COMP (Configuration):      {result.c_comp.score:6.1f}%")
     if result.ipa:
-        print(f"  IPA    (Integration):        {result.ipa.f1_score*100:6.1f}%")
+        print(f"  IPA    (Integration):        {result.ipa.f1*100:6.1f}%")
     if result.f_corr:
         print(f"  F-CORR (Functionality):      {result.f_corr.score:6.1f}%")
     if result.cq:

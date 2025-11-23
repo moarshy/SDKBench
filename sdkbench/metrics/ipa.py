@@ -46,34 +46,47 @@ class IPAEvaluator:
             return IPAResult(
                 precision=1.0,
                 recall=1.0,
-                f1_score=1.0,
-                true_positives=0,
-                false_positives=0,
-                false_negatives=0,
+                f1=1.0,
+                true_positives=[],
+                false_positives=[],
+                false_negatives=[],
             )
 
         # Extract integration points from solution
         solution_points = self.solution.extract_integration_points()
 
+        # Extract file paths from expected points (they are dicts with 'location' key)
+        expected_paths = []
+        for point in expected_points:
+            if isinstance(point, dict) and 'location' in point:
+                expected_paths.append(point['location'])
+            elif isinstance(point, str):
+                expected_paths.append(point)
+
         # Convert to sets of file paths for comparison
-        expected_files = set(self._normalize_paths(expected_points))
+        expected_files = set(self._normalize_paths(expected_paths))
         solution_files = set(self._normalize_paths(solution_points))
 
         # Calculate metrics
-        true_positives = len(expected_files.intersection(solution_files))
-        false_positives = len(solution_files - expected_files)
-        false_negatives = len(expected_files - solution_files)
+        true_positives = list(expected_files.intersection(solution_files))
+        false_positives = list(solution_files - expected_files)
+        false_negatives = list(expected_files - solution_files)
+
+        # Calculate counts for precision/recall
+        tp_count = len(true_positives)
+        fp_count = len(false_positives)
+        fn_count = len(false_negatives)
 
         # Calculate precision and recall
         precision = (
-            true_positives / (true_positives + false_positives)
-            if (true_positives + false_positives) > 0
+            tp_count / (tp_count + fp_count)
+            if (tp_count + fp_count) > 0
             else 0.0
         )
 
         recall = (
-            true_positives / (true_positives + false_negatives)
-            if (true_positives + false_negatives) > 0
+            tp_count / (tp_count + fn_count)
+            if (tp_count + fn_count) > 0
             else 0.0
         )
 
@@ -87,7 +100,7 @@ class IPAEvaluator:
         return IPAResult(
             precision=precision,
             recall=recall,
-            f1_score=f1_score,
+            f1=f1_score,
             true_positives=true_positives,
             false_positives=false_positives,
             false_negatives=false_negatives,
@@ -153,7 +166,7 @@ class IPAEvaluator:
             },
             "precision": result.precision,
             "recall": result.recall,
-            "f1_score": result.f1_score,
+            "f1_score": result.f1,
         }
 
     def analyze_integration_patterns(self) -> Dict:

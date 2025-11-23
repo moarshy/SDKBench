@@ -218,8 +218,16 @@ class SemSimEvaluator:
 
         solution_points = self.solution.extract_integration_points()
 
+        # Extract paths from integration points (they may be dicts with 'location' key)
+        expected_paths = []
+        for point in integration_points:
+            if isinstance(point, dict) and 'location' in point:
+                expected_paths.append(point['location'])
+            elif isinstance(point, str):
+                expected_paths.append(point)
+
         # Normalize paths
-        expected_normalized = set(self._normalize_path(p) for p in integration_points)
+        expected_normalized = set(self._normalize_path(p) for p in expected_paths)
         solution_normalized = set(self._normalize_path(p) for p in solution_points)
 
         # Calculate overlap

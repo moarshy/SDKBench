@@ -54,9 +54,9 @@ def test_c_comp():
     evaluator = CCompEvaluator(solution, ground_truth)
     result = evaluator.evaluate()
 
-    print(f"   Env vars: {result.env_vars_correct}")
-    print(f"   Dependencies: {result.dependencies_correct}")
-    print(f"   Middleware: {result.middleware_correct}")
+    print(f"   Env vars: {result.env_vars_score}")
+    print(f"   Provider props: {result.provider_props_score}")
+    print(f"   Middleware config: {result.middleware_config_score}")
     print(f"   Overall Score: {result.score:.1f}%")
 
     # Get detailed breakdown
@@ -85,7 +85,7 @@ def test_ipa():
 
     print(f"   Precision: {result.precision:.2%}")
     print(f"   Recall: {result.recall:.2%}")
-    print(f"   F1 Score: {result.f1_score:.2%}")
+    print(f"   F1 Score: {result.f1:.2%}")
     print(f"   True Positives: {result.true_positives}")
     print(f"   False Positives: {result.false_positives}")
     print(f"   False Negatives: {result.false_negatives}")
