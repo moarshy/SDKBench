@@ -15,9 +15,9 @@ class CCompEvaluator:
 
     C-COMP Score = 0-100%
     Components (weighted):
-    - Environment variables (40%): Are all required env vars present?
-    - Dependencies (30%): Are correct packages installed?
-    - Middleware config (30%): Is middleware configured correctly?
+    - Environment variables (50%): Are all required env vars present?
+    - Dependencies/Provider Props (30%): Are correct packages installed?
+    - Middleware config (20%): Is middleware configured correctly?
     """
 
     def __init__(self, solution: Solution, ground_truth: GroundTruth):
@@ -40,11 +40,11 @@ class CCompEvaluator:
         config_data = self.ground_truth.get_configuration()
 
         if not config_data:
-            # No configuration expected
+            # No configuration expected - return perfect scores
             return CCompResult(
-                env_vars_correct=True,
-                dependencies_correct=True,
-                middleware_correct=True,
+                env_vars_score=1.0,
+                provider_props_score=1.0,  # Maps to dependencies
+                middleware_config_score=1.0,
             )
 
         # Evaluate each component
@@ -53,9 +53,9 @@ class CCompEvaluator:
         middleware = self._check_middleware(config_data)
 
         return CCompResult(
-            env_vars_correct=env_vars,
-            dependencies_correct=dependencies,
-            middleware_correct=middleware,
+            env_vars_score=float(env_vars),
+            provider_props_score=float(dependencies),  # Dependencies map to provider_props
+            middleware_config_score=float(middleware),
         )
 
     def _check_env_vars(self, config_data: Dict) -> bool:

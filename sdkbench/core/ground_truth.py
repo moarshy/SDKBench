@@ -30,8 +30,15 @@ class GroundTruth:
         self.task_type: int = self.metadata["task_type"]
         self.task_name: str = self.metadata["task_name"]
         self.framework: str = self.metadata["framework"]
-        self.clerk_version: str = self.metadata["clerk_version"]
         self.difficulty: str = self.metadata["difficulty"]
+
+        # Handle clerk_version differently for migration tasks
+        if self.task_type == 5:
+            # For migration tasks, use the target version
+            self.clerk_version: str = self.metadata.get("clerk_version_to", "5.0.0")
+            self.clerk_version_from: str = self.metadata.get("clerk_version_from", "4.x")
+        else:
+            self.clerk_version: str = self.metadata["clerk_version"]
 
         # Ground truth data
         self.ground_truth: Dict = self.metadata["ground_truth"]
@@ -50,11 +57,19 @@ class GroundTruth:
             "task_type",
             "task_name",
             "framework",
-            "clerk_version",
             "difficulty",
             "ground_truth",
             "evaluation_targets"
         ]
+
+        # Special handling for migration tasks (task_type 5)
+        if self.metadata.get("task_type") == 5:
+            # Migration tasks have clerk_version_from and clerk_version_to
+            if "clerk_version_from" not in self.metadata or "clerk_version_to" not in self.metadata:
+                raise ValueError("Migration tasks require clerk_version_from and clerk_version_to fields")
+        else:
+            # Other tasks require clerk_version
+            required_fields.append("clerk_version")
 
         for field in required_fields:
             if field not in self.metadata:
