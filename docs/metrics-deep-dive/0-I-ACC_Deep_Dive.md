@@ -1,4 +1,4 @@
-# I-ACC (Implementation Accuracy) Deep Dive
+# I-ACC (Initialization Correctness) Deep Dive
 
 ## Table of Contents
 1. [Overview](#overview)
@@ -11,7 +11,7 @@
 
 ## Overview
 
-**I-ACC (Implementation Accuracy)** measures whether the SDK was initialized correctly in the solution. It has a **30% weight** in the overall SDK-Bench evaluation, making it the most important single metric.
+**I-ACC (Initialization Correctness)** measures whether the SDK was initialized correctly in the solution. It has a **30% weight** in the overall SDK-Bench evaluation, making it the most important single metric.
 
 The metric evaluates four key aspects of SDK initialization:
 - **File Location** (20%): Is the initialization in the correct file?

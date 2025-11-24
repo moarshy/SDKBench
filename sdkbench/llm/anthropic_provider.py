@@ -56,7 +56,7 @@ class AnthropicProvider(LLMProvider):
 
         # Make API call
         try:
-            # Claude Haiku 4.5 doesn't allow both temperature and top_p
+            # Claude 4.5 models don't allow both temperature and top_p
             create_params = {
                 "model": self.config.model,
                 "messages": messages,
@@ -67,8 +67,8 @@ class AnthropicProvider(LLMProvider):
             if system_prompt:
                 create_params["system"] = system_prompt
 
-            # Only add top_p if not using Haiku 4.5
-            if "haiku-4-5" not in self.config.model:
+            # Only add top_p if not using 4.5 models (they don't support both params)
+            if "4-5" not in self.config.model and "4.5" not in self.config.model:
                 create_params["top_p"] = self.config.top_p
 
             response = self.client.messages.create(**create_params)

@@ -8,9 +8,13 @@ import argparse
 from pathlib import Path
 from typing import Optional, List, Dict
 import time
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Add parent directory to path
-sys.path.insert(0, str(Path(__file__).parent.parent))
+sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
 from sdkbench.llm import LLMConfig, AnthropicProvider, OpenAIProvider
 from sdkbench.llm.prompt_builder import PromptBuilder
