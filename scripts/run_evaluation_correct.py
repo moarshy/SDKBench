@@ -328,13 +328,19 @@ class CorrectEvaluator:
 
         # Generate overall report
         elapsed = time.time() - start_time
-        self._generate_overall_report(all_results, elapsed)
+        self._generate_overall_report(all_results, elapsed, models)
 
         print(f"\n{'='*80}")
         print(f"EVALUATION COMPLETE")
         print(f"Time: {elapsed:.2f} seconds")
         print(f"Solutions: {self.solutions_dir}")
-        print(f"Summary: {self.results_dir}/overall_summary.json")
+
+        # Display correct summary path
+        if len(models) == 1:
+            print(f"Summary: {self.results_dir}/{models[0]}/overall_summary.json")
+        else:
+            model_names = "_".join(models)
+            print(f"Summary: {self.results_dir}/overall_summary_{model_names}.json")
         print(f"{'='*80}\n")
 
     def _save_model_summary(self, model: str, results: List[Dict]):
@@ -372,29 +378,43 @@ class CorrectEvaluator:
                 "count": len(scores)
             }
 
-        # Save summary
-        summary_path = self.results_dir / f"summary_{model}.json"
+        # Create model-specific directory
+        model_dir = self.results_dir / model
+        model_dir.mkdir(exist_ok=True)
+
+        # Save summary in model directory
+        summary_path = model_dir / "summary.json"
         with open(summary_path, 'w') as f:
             json.dump(summary, f, indent=2)
 
         print(f"\nModel summary saved: {summary_path}")
 
-    def _generate_overall_report(self, all_results: List[Dict], elapsed_time: float):
+    def _generate_overall_report(self, all_results: List[Dict], elapsed_time: float, models: List[str]):
         """Generate overall summary."""
         report = {
             "timestamp": datetime.now().isoformat(),
             "total_time_seconds": elapsed_time,
+            "models": models,
             "results": all_results
         }
 
+        # If single model, save in model directory; otherwise in root results dir
+        if len(models) == 1:
+            model_dir = self.results_dir / models[0]
+            model_dir.mkdir(exist_ok=True)
+            summary_path = model_dir / "overall_summary.json"
+            md_path = model_dir / f"evaluation_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.md"
+        else:
+            # Multiple models - save in root with combined names
+            model_names = "_".join(models)
+            summary_path = self.results_dir / f"overall_summary_{model_names}.json"
+            md_path = self.results_dir / f"evaluation_report_{model_names}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.md"
+
         # Save overall summary
-        summary_path = self.results_dir / "overall_summary.json"
         with open(summary_path, 'w') as f:
             json.dump(report, f, indent=2)
 
         # Generate markdown report
-        md_path = self.results_dir / f"evaluation_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.md"
-
         with open(md_path, 'w') as f:
             f.write("# SDK Bench Evaluation Report\n\n")
             f.write(f"**Generated:** {datetime.now().isoformat()}\n")

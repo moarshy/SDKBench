@@ -65,13 +65,21 @@ class OpenAIProvider(LLMProvider):
 
         # Make API call
         try:
-            response = self.client.chat.completions.create(
-                model=self.config.model,
-                messages=messages,
-                max_tokens=self.config.max_tokens,
-                temperature=self.config.temperature,
-                top_p=self.config.top_p,
-            )
+            # For newer models like gpt-5.1, use max_completion_tokens instead of max_tokens
+            kwargs = {
+                "model": self.config.model,
+                "messages": messages,
+                "temperature": self.config.temperature,
+                "top_p": self.config.top_p,
+            }
+
+            # Try with max_completion_tokens first for newer models
+            if "gpt-5" in self.config.model or "2025" in self.config.model:
+                kwargs["max_completion_tokens"] = self.config.max_tokens
+            else:
+                kwargs["max_tokens"] = self.config.max_tokens
+
+            response = self.client.chat.completions.create(**kwargs)
 
             # Calculate latency
             latency_ms = (time.time() - start_time) * 1000
@@ -155,15 +163,12 @@ class OpenAIProvider(LLMProvider):
         Returns:
             Cost in USD
         """
+        # Don't validate model names - allow any model to be used
+        # If model not in PRICING, just return 0.0 for cost calculation
         if self.config.model not in self.PRICING:
-            # Check for base model name (without fine-tuning suffix)
-            base_model = self.config.model.split(':')[0]
-            if base_model not in self.PRICING:
-                return 0.0
-            pricing = self.PRICING[base_model]
-        else:
-            pricing = self.PRICING[self.config.model]
+            return 0.0
 
+        pricing = self.PRICING[self.config.model]
         input_cost = (prompt_tokens / 1_000_000) * pricing["input"]
         output_cost = (completion_tokens / 1_000_000) * pricing["output"]
 
