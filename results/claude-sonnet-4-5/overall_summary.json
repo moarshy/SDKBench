@@ -1,0 +1,1156 @@
+{
+  "timestamp": "2025-11-24T12:11:11.149144",
+  "total_time_seconds": 189.19952416419983,
+  "results": [
+    {
+      "sample": "task1_init_009",
+      "model": "claude-sonnet-4-5",
+      "provider": "anthropic",
+      "generation": {
+        "success": true,
+        "data": {
+          "status": "success",
+          "files_count": 7
+        }
+      },
+      "evaluation": {
+        "success": true,
+        "data": {
+          "model": "claude-sonnet-4-5",
+          "sample": "task1_init_009",
+          "timestamp": "2025-11-24T12:08:25.975363",
+          "success": true,
+          "overall_score": "84.0%",
+          "metrics": {}
+        }
+      }
+    },
+    {
+      "sample": "task1_init_006",
+      "model": "claude-sonnet-4-5",
+      "provider": "anthropic",
+      "generation": {
+        "success": true,
+        "data": {
+          "status": "success",
+          "files_count": 6
+        }
+      },
+      "evaluation": {
+        "success": true,
+        "data": {
+          "model": "claude-sonnet-4-5",
+          "sample": "task1_init_006",
+          "timestamp": "2025-11-24T12:08:29.179941",
+          "success": true,
+          "overall_score": "84.0%",
+          "metrics": {}
+        }
+      }
+    },
+    {
+      "sample": "task1_init_002",
+      "model": "claude-sonnet-4-5",
+      "provider": "anthropic",
+      "generation": {
+        "success": true,
+        "data": {
+          "status": "success",
+          "files_count": 6
+        }
+      },
+      "evaluation": {
+        "success": true,
+        "data": {
+          "model": "claude-sonnet-4-5",
+          "sample": "task1_init_002",
+          "timestamp": "2025-11-24T12:08:29.870353",
+          "success": true,
+          "overall_score": "84.0%",
+          "metrics": {}
+        }
+      }
+    },
+    {
+      "sample": "task1_init_003",
+      "model": "claude-sonnet-4-5",
+      "provider": "anthropic",
+      "generation": {
+        "success": true,
+        "data": {
+          "status": "success",
+          "files_count": 6
+        }
+      },
+      "evaluation": {
+        "success": true,
+        "data": {
+          "model": "claude-sonnet-4-5",
+          "sample": "task1_init_003",
+          "timestamp": "2025-11-24T12:08:29.888913",
+          "success": true,
+          "overall_score": "84.0%",
+          "metrics": {}
+        }
+      }
+    },
+    {
+      "sample": "task1_init_004",
+      "model": "claude-sonnet-4-5",
+      "provider": "anthropic",
+      "generation": {
+        "success": true,
+        "data": {
+          "status": "success",
+          "files_count": 8
+        }
+      },
+      "evaluation": {
+        "success": true,
+        "data": {
+          "model": "claude-sonnet-4-5",
+          "sample": "task1_init_004",
+          "timestamp": "2025-11-24T12:08:32.327929",
+          "success": true,
+          "overall_score": "84.0%",
+          "metrics": {}
+        }
+      }
+    },
+    {
+      "sample": "task1_init_008",
+      "model": "claude-sonnet-4-5",
+      "provider": "anthropic",
+      "generation": {
+        "success": true,
+        "data": {
+          "status": "success",
+          "files_count": 6
+        }
+      },
+      "evaluation": {
+        "success": true,
+        "data": {
+          "model": "claude-sonnet-4-5",
+          "sample": "task1_init_008",
+          "timestamp": "2025-11-24T12:08:34.497539",
+          "success": true,
+          "overall_score": "84.0%",
+          "metrics": {}
+        }
+      }
+    },
+    {
+      "sample": "task1_init_001",
+      "model": "claude-sonnet-4-5",
+      "provider": "anthropic",
+      "generation": {
+        "success": true,
+        "data": {
+          "status": "success",
+          "files_count": 6
+        }
+      },
+      "evaluation": {
+        "success": true,
+        "data": {
+          "model": "claude-sonnet-4-5",
+          "sample": "task1_init_001",
+          "timestamp": "2025-11-24T12:08:36.350589",
+          "success": true,
+          "overall_score": "84.0%",
+          "metrics": {}
+        }
+      }
+    },
+    {
+      "sample": "task1_init_007",
+      "model": "claude-sonnet-4-5",
+      "provider": "anthropic",
+      "generation": {
+        "success": true,
+        "data": {
+          "status": "success",
+          "files_count": 6
+        }
+      },
+      "evaluation": {
+        "success": true,
+        "data": {
+          "model": "claude-sonnet-4-5",
+          "sample": "task1_init_007",
+          "timestamp": "2025-11-24T12:08:36.422465",
+          "success": true,
+          "overall_score": "84.0%",
+          "metrics": {}
+        }
+      }
+    },
+    {
+      "sample": "task1_init_005",
+      "model": "claude-sonnet-4-5",
+      "provider": "anthropic",
+      "generation": {
+        "success": true,
+        "data": {
+          "status": "success",
+          "files_count": 10
+        }
+      },
+      "evaluation": {
+        "success": true,
+        "data": {
+          "model": "claude-sonnet-4-5",
+          "sample": "task1_init_005",
+          "timestamp": "2025-11-24T12:08:47.706547",
+          "success": true,
+          "overall_score": "83.5%",
+          "metrics": {}
+        }
+      }
+    },
+    {
+      "sample": "task1_init_010",
+      "model": "claude-sonnet-4-5",
+      "provider": "anthropic",
+      "generation": {
+        "success": true,
+        "data": {
+          "status": "success",
+          "files_count": 11
+        }
+      },
+      "evaluation": {
+        "success": true,
+        "data": {
+          "model": "claude-sonnet-4-5",
+          "sample": "task1_init_010",
+          "timestamp": "2025-11-24T12:08:48.641961",
+          "success": true,
+          "overall_score": "83.5%",
+          "metrics": {}
+        }
+      }
+    },
+    {
+      "sample": "task1_init_011",
+      "model": "claude-sonnet-4-5",
+      "provider": "anthropic",
+      "generation": {
+        "success": true,
+        "data": {
+          "status": "success",
+          "files_count": 7
+        }
+      },
+      "evaluation": {
+        "success": true,
+        "data": {
+          "model": "claude-sonnet-4-5",
+          "sample": "task1_init_011",
+          "timestamp": "2025-11-24T12:08:54.251671",
+          "success": true,
+          "overall_score": "84.0%",
+          "metrics": {}
+        }
+      }
+    },
+    {
+      "sample": "task1_init_013",
+      "model": "claude-sonnet-4-5",
+      "provider": "anthropic",
+      "generation": {
+        "success": true,
+        "data": {
+          "status": "success",
+          "files_count": 7
+        }
+      },
+      "evaluation": {
+        "success": true,
+        "data": {
+          "model": "claude-sonnet-4-5",
+          "sample": "task1_init_013",
+          "timestamp": "2025-11-24T12:08:55.499124",
+          "success": true,
+          "overall_score": "84.0%",
+          "metrics": {}
+        }
+      }
+    },
+    {
+      "sample": "task1_init_014",
+      "model": "claude-sonnet-4-5",
+      "provider": "anthropic",
+      "generation": {
+        "success": true,
+        "data": {
+          "status": "success",
+          "files_count": 8
+        }
+      },
+      "evaluation": {
+        "success": true,
+        "data": {
+          "model": "claude-sonnet-4-5",
+          "sample": "task1_init_014",
+          "timestamp": "2025-11-24T12:08:59.379557",
+          "success": true,
+          "overall_score": "84.0%",
+          "metrics": {}
+        }
+      }
+    },
+    {
+      "sample": "task1_init_012",
+      "model": "claude-sonnet-4-5",
+      "provider": "anthropic",
+      "generation": {
+        "success": true,
+        "data": {
+          "status": "success",
+          "files_count": 6
+        }
+      },
+      "evaluation": {
+        "success": true,
+        "data": {
+          "model": "claude-sonnet-4-5",
+          "sample": "task1_init_012",
+          "timestamp": "2025-11-24T12:09:01.354705",
+          "success": true,
+          "overall_score": "84.0%",
+          "metrics": {}
+        }
+      }
+    },
+    {
+      "sample": "task2_middleware_017",
+      "model": "claude-sonnet-4-5",
+      "provider": "anthropic",
+      "generation": {
+        "success": true,
+        "data": {
+          "status": "success",
+          "files_count": 4
+        }
+      },
+      "evaluation": {
+        "success": true,
+        "data": {
+          "model": "claude-sonnet-4-5",
+          "sample": "task2_middleware_017",
+          "timestamp": "2025-11-24T12:09:07.968222",
+          "success": true,
+          "overall_score": "82.5%",
+          "metrics": {}
+        }
+      }
+    },
+    {
+      "sample": "task2_middleware_016",
+      "model": "claude-sonnet-4-5",
+      "provider": "anthropic",
+      "generation": {
+        "success": true,
+        "data": {
+          "status": "success",
+          "files_count": 5
+        }
+      },
+      "evaluation": {
+        "success": true,
+        "data": {
+          "model": "claude-sonnet-4-5",
+          "sample": "task2_middleware_016",
+          "timestamp": "2025-11-24T12:09:09.332576",
+          "success": true,
+          "overall_score": "82.5%",
+          "metrics": {}
+        }
+      }
+    },
+    {
+      "sample": "task2_middleware_018",
+      "model": "claude-sonnet-4-5",
+      "provider": "anthropic",
+      "generation": {
+        "success": true,
+        "data": {
+          "status": "success",
+          "files_count": 7
+        }
+      },
+      "evaluation": {
+        "success": true,
+        "data": {
+          "model": "claude-sonnet-4-5",
+          "sample": "task2_middleware_018",
+          "timestamp": "2025-11-24T12:09:11.213448",
+          "success": true,
+          "overall_score": "84.0%",
+          "metrics": {}
+        }
+      }
+    },
+    {
+      "sample": "task1_init_015",
+      "model": "claude-sonnet-4-5",
+      "provider": "anthropic",
+      "generation": {
+        "success": true,
+        "data": {
+          "status": "success",
+          "files_count": 10
+        }
+      },
+      "evaluation": {
+        "success": true,
+        "data": {
+          "model": "claude-sonnet-4-5",
+          "sample": "task1_init_015",
+          "timestamp": "2025-11-24T12:09:17.429680",
+          "success": true,
+          "overall_score": "83.5%",
+          "metrics": {}
+        }
+      }
+    },
+    {
+      "sample": "task2_middleware_019",
+      "model": "claude-sonnet-4-5",
+      "provider": "anthropic",
+      "generation": {
+        "success": true,
+        "data": {
+          "status": "success",
+          "files_count": 6
+        }
+      },
+      "evaluation": {
+        "success": true,
+        "data": {
+          "model": "claude-sonnet-4-5",
+          "sample": "task2_middleware_019",
+          "timestamp": "2025-11-24T12:09:19.084463",
+          "success": true,
+          "overall_score": "84.0%",
+          "metrics": {}
+        }
+      }
+    },
+    {
+      "sample": "task2_middleware_021",
+      "model": "claude-sonnet-4-5",
+      "provider": "anthropic",
+      "generation": {
+        "success": true,
+        "data": {
+          "status": "success",
+          "files_count": 5
+        }
+      },
+      "evaluation": {
+        "success": true,
+        "data": {
+          "model": "claude-sonnet-4-5",
+          "sample": "task2_middleware_021",
+          "timestamp": "2025-11-24T12:09:26.781296",
+          "success": true,
+          "overall_score": "82.5%",
+          "metrics": {}
+        }
+      }
+    },
+    {
+      "sample": "task2_middleware_020",
+      "model": "claude-sonnet-4-5",
+      "provider": "anthropic",
+      "generation": {
+        "success": true,
+        "data": {
+          "status": "success",
+          "files_count": 5
+        }
+      },
+      "evaluation": {
+        "success": true,
+        "data": {
+          "model": "claude-sonnet-4-5",
+          "sample": "task2_middleware_020",
+          "timestamp": "2025-11-24T12:09:27.098316",
+          "success": true,
+          "overall_score": "82.5%",
+          "metrics": {}
+        }
+      }
+    },
+    {
+      "sample": "task2_middleware_022",
+      "model": "claude-sonnet-4-5",
+      "provider": "anthropic",
+      "generation": {
+        "success": true,
+        "data": {
+          "status": "success",
+          "files_count": 6
+        }
+      },
+      "evaluation": {
+        "success": true,
+        "data": {
+          "model": "claude-sonnet-4-5",
+          "sample": "task2_middleware_022",
+          "timestamp": "2025-11-24T12:09:27.945360",
+          "success": true,
+          "overall_score": "82.5%",
+          "metrics": {}
+        }
+      }
+    },
+    {
+      "sample": "task2_middleware_023",
+      "model": "claude-sonnet-4-5",
+      "provider": "anthropic",
+      "generation": {
+        "success": true,
+        "data": {
+          "status": "success",
+          "files_count": 5
+        }
+      },
+      "evaluation": {
+        "success": true,
+        "data": {
+          "model": "claude-sonnet-4-5",
+          "sample": "task2_middleware_023",
+          "timestamp": "2025-11-24T12:09:34.803229",
+          "success": true,
+          "overall_score": "82.5%",
+          "metrics": {}
+        }
+      }
+    },
+    {
+      "sample": "task2_middleware_024",
+      "model": "claude-sonnet-4-5",
+      "provider": "anthropic",
+      "generation": {
+        "success": true,
+        "data": {
+          "status": "success",
+          "files_count": 5
+        }
+      },
+      "evaluation": {
+        "success": true,
+        "data": {
+          "model": "claude-sonnet-4-5",
+          "sample": "task2_middleware_024",
+          "timestamp": "2025-11-24T12:09:35.157454",
+          "success": true,
+          "overall_score": "82.5%",
+          "metrics": {}
+        }
+      }
+    },
+    {
+      "sample": "task2_middleware_025",
+      "model": "claude-sonnet-4-5",
+      "provider": "anthropic",
+      "generation": {
+        "success": true,
+        "data": {
+          "status": "success",
+          "files_count": 5
+        }
+      },
+      "evaluation": {
+        "success": true,
+        "data": {
+          "model": "claude-sonnet-4-5",
+          "sample": "task2_middleware_025",
+          "timestamp": "2025-11-24T12:09:39.649049",
+          "success": true,
+          "overall_score": "82.5%",
+          "metrics": {}
+        }
+      }
+    },
+    {
+      "sample": "task2_middleware_027",
+      "model": "claude-sonnet-4-5",
+      "provider": "anthropic",
+      "generation": {
+        "success": true,
+        "data": {
+          "status": "success",
+          "files_count": 5
+        }
+      },
+      "evaluation": {
+        "success": true,
+        "data": {
+          "model": "claude-sonnet-4-5",
+          "sample": "task2_middleware_027",
+          "timestamp": "2025-11-24T12:09:45.377134",
+          "success": true,
+          "overall_score": "84.0%",
+          "metrics": {}
+        }
+      }
+    },
+    {
+      "sample": "task2_middleware_026",
+      "model": "claude-sonnet-4-5",
+      "provider": "anthropic",
+      "generation": {
+        "success": true,
+        "data": {
+          "status": "success",
+          "files_count": 5
+        }
+      },
+      "evaluation": {
+        "success": true,
+        "data": {
+          "model": "claude-sonnet-4-5",
+          "sample": "task2_middleware_026",
+          "timestamp": "2025-11-24T12:09:45.625424",
+          "success": true,
+          "overall_score": "84.0%",
+          "metrics": {}
+        }
+      }
+    },
+    {
+      "sample": "task2_middleware_029",
+      "model": "claude-sonnet-4-5",
+      "provider": "anthropic",
+      "generation": {
+        "success": true,
+        "data": {
+          "status": "success",
+          "files_count": 5
+        }
+      },
+      "evaluation": {
+        "success": true,
+        "data": {
+          "model": "claude-sonnet-4-5",
+          "sample": "task2_middleware_029",
+          "timestamp": "2025-11-24T12:09:50.213329",
+          "success": true,
+          "overall_score": "84.0%",
+          "metrics": {}
+        }
+      }
+    },
+    {
+      "sample": "task2_middleware_028",
+      "model": "claude-sonnet-4-5",
+      "provider": "anthropic",
+      "generation": {
+        "success": true,
+        "data": {
+          "status": "success",
+          "files_count": 5
+        }
+      },
+      "evaluation": {
+        "success": true,
+        "data": {
+          "model": "claude-sonnet-4-5",
+          "sample": "task2_middleware_028",
+          "timestamp": "2025-11-24T12:09:52.141847",
+          "success": true,
+          "overall_score": "82.5%",
+          "metrics": {}
+        }
+      }
+    },
+    {
+      "sample": "task2_middleware_030",
+      "model": "claude-sonnet-4-5",
+      "provider": "anthropic",
+      "generation": {
+        "success": true,
+        "data": {
+          "status": "success",
+          "files_count": 6
+        }
+      },
+      "evaluation": {
+        "success": true,
+        "data": {
+          "model": "claude-sonnet-4-5",
+          "sample": "task2_middleware_030",
+          "timestamp": "2025-11-24T12:10:00.502189",
+          "success": true,
+          "overall_score": "84.0%",
+          "metrics": {}
+        }
+      }
+    },
+    {
+      "sample": "task3_hooks_032",
+      "model": "claude-sonnet-4-5",
+      "provider": "anthropic",
+      "generation": {
+        "success": true,
+        "data": {
+          "status": "success",
+          "files_count": 5
+        }
+      },
+      "evaluation": {
+        "success": true,
+        "data": {
+          "model": "claude-sonnet-4-5",
+          "sample": "task3_hooks_032",
+          "timestamp": "2025-11-24T12:10:06.473885",
+          "success": true,
+          "overall_score": "79.3%",
+          "metrics": {}
+        }
+      }
+    },
+    {
+      "sample": "task3_hooks_031",
+      "model": "claude-sonnet-4-5",
+      "provider": "anthropic",
+      "generation": {
+        "success": true,
+        "data": {
+          "status": "success",
+          "files_count": 3
+        }
+      },
+      "evaluation": {
+        "success": true,
+        "data": {
+          "model": "claude-sonnet-4-5",
+          "sample": "task3_hooks_031",
+          "timestamp": "2025-11-24T12:10:10.016751",
+          "success": true,
+          "overall_score": "83.7%",
+          "metrics": {}
+        }
+      }
+    },
+    {
+      "sample": "task3_hooks_035",
+      "model": "claude-sonnet-4-5",
+      "provider": "anthropic",
+      "generation": {
+        "success": true,
+        "data": {
+          "status": "success",
+          "files_count": 5
+        }
+      },
+      "evaluation": {
+        "success": true,
+        "data": {
+          "model": "claude-sonnet-4-5",
+          "sample": "task3_hooks_035",
+          "timestamp": "2025-11-24T12:10:17.008605",
+          "success": true,
+          "overall_score": "83.7%",
+          "metrics": {}
+        }
+      }
+    },
+    {
+      "sample": "task3_hooks_034",
+      "model": "claude-sonnet-4-5",
+      "provider": "anthropic",
+      "generation": {
+        "success": true,
+        "data": {
+          "status": "success",
+          "files_count": 4
+        }
+      },
+      "evaluation": {
+        "success": true,
+        "data": {
+          "model": "claude-sonnet-4-5",
+          "sample": "task3_hooks_034",
+          "timestamp": "2025-11-24T12:10:17.936807",
+          "success": true,
+          "overall_score": "81.0%",
+          "metrics": {}
+        }
+      }
+    },
+    {
+      "sample": "task3_hooks_033",
+      "model": "claude-sonnet-4-5",
+      "provider": "anthropic",
+      "generation": {
+        "success": true,
+        "data": {
+          "status": "success",
+          "files_count": 3
+        }
+      },
+      "evaluation": {
+        "success": true,
+        "data": {
+          "model": "claude-sonnet-4-5",
+          "sample": "task3_hooks_033",
+          "timestamp": "2025-11-24T12:10:18.576973",
+          "success": true,
+          "overall_score": "87.3%",
+          "metrics": {}
+        }
+      }
+    },
+    {
+      "sample": "task3_hooks_037",
+      "model": "claude-sonnet-4-5",
+      "provider": "anthropic",
+      "generation": {
+        "success": true,
+        "data": {
+          "status": "success",
+          "files_count": 5
+        }
+      },
+      "evaluation": {
+        "success": true,
+        "data": {
+          "model": "claude-sonnet-4-5",
+          "sample": "task3_hooks_037",
+          "timestamp": "2025-11-24T12:10:28.413978",
+          "success": true,
+          "overall_score": "81.0%",
+          "metrics": {}
+        }
+      }
+    },
+    {
+      "sample": "task3_hooks_036",
+      "model": "claude-sonnet-4-5",
+      "provider": "anthropic",
+      "generation": {
+        "success": true,
+        "data": {
+          "status": "success",
+          "files_count": 5
+        }
+      },
+      "evaluation": {
+        "success": true,
+        "data": {
+          "model": "claude-sonnet-4-5",
+          "sample": "task3_hooks_036",
+          "timestamp": "2025-11-24T12:10:28.601002",
+          "success": true,
+          "overall_score": "87.3%",
+          "metrics": {}
+        }
+      }
+    },
+    {
+      "sample": "task3_hooks_038",
+      "model": "claude-sonnet-4-5",
+      "provider": "anthropic",
+      "generation": {
+        "success": true,
+        "data": {
+          "status": "success",
+          "files_count": 5
+        }
+      },
+      "evaluation": {
+        "success": true,
+        "data": {
+          "model": "claude-sonnet-4-5",
+          "sample": "task3_hooks_038",
+          "timestamp": "2025-11-24T12:10:28.798622",
+          "success": true,
+          "overall_score": "83.7%",
+          "metrics": {}
+        }
+      }
+    },
+    {
+      "sample": "task3_hooks_039",
+      "model": "claude-sonnet-4-5",
+      "provider": "anthropic",
+      "generation": {
+        "success": true,
+        "data": {
+          "status": "success",
+          "files_count": 3
+        }
+      },
+      "evaluation": {
+        "success": true,
+        "data": {
+          "model": "claude-sonnet-4-5",
+          "sample": "task3_hooks_039",
+          "timestamp": "2025-11-24T12:10:35.524518",
+          "success": true,
+          "overall_score": "87.3%",
+          "metrics": {}
+        }
+      }
+    },
+    {
+      "sample": "task3_hooks_040",
+      "model": "claude-sonnet-4-5",
+      "provider": "anthropic",
+      "generation": {
+        "success": true,
+        "data": {
+          "status": "success",
+          "files_count": 4
+        }
+      },
+      "evaluation": {
+        "success": true,
+        "data": {
+          "model": "claude-sonnet-4-5",
+          "sample": "task3_hooks_040",
+          "timestamp": "2025-11-24T12:10:40.510725",
+          "success": true,
+          "overall_score": "83.7%",
+          "metrics": {}
+        }
+      }
+    },
+    {
+      "sample": "task4_complete_041",
+      "model": "claude-sonnet-4-5",
+      "provider": "anthropic",
+      "generation": {
+        "success": true,
+        "data": {
+          "status": "success",
+          "files_count": 5
+        }
+      },
+      "evaluation": {
+        "success": true,
+        "data": {
+          "model": "claude-sonnet-4-5",
+          "sample": "task4_complete_041",
+          "timestamp": "2025-11-24T12:10:50.427746",
+          "success": true,
+          "overall_score": "78.3%",
+          "metrics": {}
+        }
+      }
+    },
+    {
+      "sample": "task4_complete_042",
+      "model": "claude-sonnet-4-5",
+      "provider": "anthropic",
+      "generation": {
+        "success": true,
+        "data": {
+          "status": "success",
+          "files_count": 5
+        }
+      },
+      "evaluation": {
+        "success": true,
+        "data": {
+          "model": "claude-sonnet-4-5",
+          "sample": "task4_complete_042",
+          "timestamp": "2025-11-24T12:10:50.520287",
+          "success": true,
+          "overall_score": "73.6%",
+          "metrics": {}
+        }
+      }
+    },
+    {
+      "sample": "task5_migration_048",
+      "model": "claude-sonnet-4-5",
+      "provider": "anthropic",
+      "generation": {
+        "success": true,
+        "data": {
+          "status": "success",
+          "files_count": 4
+        }
+      },
+      "evaluation": {
+        "success": true,
+        "data": {
+          "model": "claude-sonnet-4-5",
+          "sample": "task5_migration_048",
+          "timestamp": "2025-11-24T12:10:53.942520",
+          "success": true,
+          "overall_score": "98.0%",
+          "metrics": {}
+        }
+      }
+    },
+    {
+      "sample": "task5_migration_049",
+      "model": "claude-sonnet-4-5",
+      "provider": "anthropic",
+      "generation": {
+        "success": true,
+        "data": {
+          "status": "success",
+          "files_count": 3
+        }
+      },
+      "evaluation": {
+        "success": true,
+        "data": {
+          "model": "claude-sonnet-4-5",
+          "sample": "task5_migration_049",
+          "timestamp": "2025-11-24T12:10:57.795527",
+          "success": true,
+          "overall_score": "98.0%",
+          "metrics": {}
+        }
+      }
+    },
+    {
+      "sample": "task4_complete_045",
+      "model": "claude-sonnet-4-5",
+      "provider": "anthropic",
+      "generation": {
+        "success": true,
+        "data": {
+          "status": "success",
+          "files_count": 5
+        }
+      },
+      "evaluation": {
+        "success": true,
+        "data": {
+          "model": "claude-sonnet-4-5",
+          "sample": "task4_complete_045",
+          "timestamp": "2025-11-24T12:10:58.682184",
+          "success": true,
+          "overall_score": "75.2%",
+          "metrics": {}
+        }
+      }
+    },
+    {
+      "sample": "task4_complete_043",
+      "model": "claude-sonnet-4-5",
+      "provider": "anthropic",
+      "generation": {
+        "success": true,
+        "data": {
+          "status": "success",
+          "files_count": 5
+        }
+      },
+      "evaluation": {
+        "success": true,
+        "data": {
+          "model": "claude-sonnet-4-5",
+          "sample": "task4_complete_043",
+          "timestamp": "2025-11-24T12:10:59.591302",
+          "success": true,
+          "overall_score": "78.3%",
+          "metrics": {}
+        }
+      }
+    },
+    {
+      "sample": "task4_complete_044",
+      "model": "claude-sonnet-4-5",
+      "provider": "anthropic",
+      "generation": {
+        "success": true,
+        "data": {
+          "status": "success",
+          "files_count": 5
+        }
+      },
+      "evaluation": {
+        "success": true,
+        "data": {
+          "model": "claude-sonnet-4-5",
+          "sample": "task4_complete_044",
+          "timestamp": "2025-11-24T12:11:01.302726",
+          "success": true,
+          "overall_score": "78.3%",
+          "metrics": {}
+        }
+      }
+    },
+    {
+      "sample": "task5_migration_050",
+      "model": "claude-sonnet-4-5",
+      "provider": "anthropic",
+      "generation": {
+        "success": true,
+        "data": {
+          "status": "success",
+          "files_count": 5
+        }
+      },
+      "evaluation": {
+        "success": true,
+        "data": {
+          "model": "claude-sonnet-4-5",
+          "sample": "task5_migration_050",
+          "timestamp": "2025-11-24T12:11:04.162750",
+          "success": true,
+          "overall_score": "99.0%",
+          "metrics": {}
+        }
+      }
+    },
+    {
+      "sample": "task4_complete_046",
+      "model": "claude-sonnet-4-5",
+      "provider": "anthropic",
+      "generation": {
+        "success": true,
+        "data": {
+          "status": "success",
+          "files_count": 5
+        }
+      },
+      "evaluation": {
+        "success": true,
+        "data": {
+          "model": "claude-sonnet-4-5",
+          "sample": "task4_complete_046",
+          "timestamp": "2025-11-24T12:11:09.170860",
+          "success": true,
+          "overall_score": "73.3%",
+          "metrics": {}
+        }
+      }
+    },
+    {
+      "sample": "task4_complete_047",
+      "model": "claude-sonnet-4-5",
+      "provider": "anthropic",
+      "generation": {
+        "success": true,
+        "data": {
+          "status": "success",
+          "files_count": 5
+        }
+      },
+      "evaluation": {
+        "success": true,
+        "data": {
+          "model": "claude-sonnet-4-5",
+          "sample": "task4_complete_047",
+          "timestamp": "2025-11-24T12:11:11.143988",
+          "success": true,
+          "overall_score": "78.3%",
+          "metrics": {}
+        }
+      }
+    }
+  ]
+}

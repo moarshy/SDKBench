@@ -61,4 +61,4 @@ htmlcov/
 node_modules/
 package-lock.json
 temp_solutions/
-results/
+results/llm_solutions/
