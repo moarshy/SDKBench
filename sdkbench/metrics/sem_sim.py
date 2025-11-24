@@ -42,10 +42,18 @@ class SemSimEvaluator:
         pattern_score = self._check_pattern_matching()
         approach_score = self._check_approach_alignment()
 
+        # Calculate overall similarity score (weighted average)
+        overall_similarity = (
+            (structure_score * 0.30) +  # 30% weight
+            (pattern_score * 0.40) +    # 40% weight
+            (approach_score * 0.30)      # 30% weight
+        )
+
+        # Convert to 0-100 scale and create result with correct field names
         return SemSimResult(
-            structure_similarity=structure_score,
-            pattern_matching=pattern_score,
-            approach_alignment=approach_score,
+            similarity_score=overall_similarity * 100,
+            pattern_match=pattern_score > 0.5,
+            approach_match=approach_score > 0.5,
         )
 
     def _check_structure_similarity(self) -> float:
@@ -419,28 +427,39 @@ class SemSimEvaluator:
         Returns:
             Dict with detailed component results
         """
+        # Calculate component scores
+        structure_score = self._check_structure_similarity()
+        pattern_score = self._check_pattern_matching()
+        approach_score = self._check_approach_alignment()
+
+        # Get result object
         result = self.evaluate()
 
         return {
             "overall_score": result.score,
-            "structure_similarity": result.structure_similarity,
-            "pattern_matching": result.pattern_matching,
-            "approach_alignment": result.approach_alignment,
+            "similarity_score": result.similarity_score,
+            "pattern_match": result.pattern_match,
+            "approach_match": result.approach_match,
+            "component_scores": {
+                "structure_similarity": structure_score,
+                "pattern_matching": pattern_score,
+                "approach_alignment": approach_score,
+            },
             "breakdown": {
                 "structure": {
-                    "score": result.structure_similarity,
+                    "score": structure_score,
                     "weight": 0.30,
-                    "contribution": result.structure_similarity * 0.30,
+                    "contribution": structure_score * 0.30,
                 },
                 "patterns": {
-                    "score": result.pattern_matching,
+                    "score": pattern_score,
                     "weight": 0.40,
-                    "contribution": result.pattern_matching * 0.40,
+                    "contribution": pattern_score * 0.40,
                 },
                 "approach": {
-                    "score": result.approach_alignment,
+                    "score": approach_score,
                     "weight": 0.30,
-                    "contribution": result.approach_alignment * 0.30,
+                    "contribution": approach_score * 0.30,
                 },
             },
         }
