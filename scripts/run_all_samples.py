@@ -94,10 +94,8 @@ class AllSamplesEvaluator:
 
         # Check if solution already exists
         if solution_dir.exists() and any(solution_dir.iterdir()):
-            print(f"  ⏭️  Solution already exists: {solution_dir}")
+            # Silently skip existing solutions
             return True, None
-
-        print(f"  🤖 Generating with {model}...")
 
         # Run llm_evaluate.py
         cmd = [
@@ -119,8 +117,8 @@ class AllSamplesEvaluator:
             )
 
             if result.returncode != 0:
-                print(f"    ❌ Generation failed: {result.stderr[:200]}")
-                return False, None
+                # Return failure without printing (will be handled by progress bar)
+                return False, {"error": result.stderr[:200]}
 
             # Parse cost if available
             cost_info = None
@@ -134,15 +132,12 @@ class AllSamplesEvaluator:
                 except:
                     pass
 
-            print(f"    ✅ Generated successfully")
             return True, cost_info
 
         except subprocess.TimeoutExpired:
-            print(f"    ⏱️ Generation timed out")
-            return False, None
+            return False, {"error": "Timeout"}
         except Exception as e:
-            print(f"    ❌ Error: {e}")
-            return False, None
+            return False, {"error": str(e)}
 
     def run_evaluation(
         self,
@@ -152,10 +147,7 @@ class AllSamplesEvaluator:
     ) -> Tuple[bool, Optional[Dict]]:
         """Evaluate a generated solution."""
         if not solution_dir.exists():
-            print(f"    ⚠️  No solution to evaluate")
             return False, None
-
-        print(f"  📊 Evaluating solution...")
 
         # Run evaluate.py
         cmd = [
@@ -163,8 +155,8 @@ class AllSamplesEvaluator:
             str(self.scripts_dir / "evaluation" / "evaluate.py"),
             str(solution_dir),
             "--metadata", str(metadata_path),
-            "--output", str(output_dir),
-            "--no-build"  # Skip build for faster evaluation
+            "--output", str(output_dir)
+            # Don't add --build flag, it's off by default
         ]
 
         try:
@@ -177,8 +169,7 @@ class AllSamplesEvaluator:
             )
 
             if result.returncode != 0:
-                print(f"    ❌ Evaluation failed: {result.stderr[:200]}")
-                return False, None
+                return False, {"error": result.stderr[:200]}
 
             # Parse scores from output
             scores = None
@@ -192,15 +183,12 @@ class AllSamplesEvaluator:
                 except:
                     pass
 
-            print(f"    ✅ Evaluated successfully")
             return True, scores
 
         except subprocess.TimeoutExpired:
-            print(f"    ⏱️ Evaluation timed out")
-            return False, None
+            return False, {"error": "Timeout"}
         except Exception as e:
-            print(f"    ❌ Error: {e}")
-            return False, None
+            return False, {"error": str(e)}
 
     def process_single_sample(
         self,
@@ -281,11 +269,15 @@ class AllSamplesEvaluator:
         print(f"{'='*80}")
         print(f"Samples: {len(samples)}")
         print(f"Models: {', '.join(models)}")
+        print(f"Workers: {n_workers}")
         print(f"Output: {self.results_dir}")
         print(f"{'='*80}\n")
 
         start_time = time.time()
         all_results = []
+
+        # Thread-safe counter for stats
+        stats_lock = threading.Lock()
 
         # Process each model
         for model in models:
@@ -293,59 +285,52 @@ class AllSamplesEvaluator:
 
             print(f"\n{'='*60}")
             print(f"MODEL: {model} (Provider: {provider})")
-            print(f"{'='*60}")
+            print(f"Workers: {n_workers}")
+            print(f"{'='*60}\n")
 
             self.stats["models_evaluated"].append(model)
             model_results = []
 
-            # Process each sample
-            for i, sample_path in enumerate(tqdm(samples, desc=f"Processing {model}")):
-                sample_name = sample_path.name
-                print(f"\n[{i+1}/{len(samples)}] {sample_name}")
+            # Create progress bar
+            progress_bar = tqdm(total=len(samples), desc=f"Processing {model}")
 
-                result = {
-                    "sample": sample_name,
-                    "model": model,
-                    "provider": provider,
-                    "timestamp": datetime.now().isoformat()
+            # Process samples concurrently
+            with ThreadPoolExecutor(max_workers=n_workers) as executor:
+                # Submit all tasks
+                future_to_sample = {
+                    executor.submit(
+                        self.process_single_sample,
+                        sample_path,
+                        model,
+                        provider,
+                        skip_generation,
+                        skip_evaluation,
+                        progress_bar
+                    ): sample_path
+                    for sample_path in samples
                 }
 
-                # Generate LLM solution
-                if not skip_generation:
-                    solutions_dir = self.results_dir / "llm_solutions"
-                    success, cost_info = self.run_llm_generation(
-                        sample_path, provider, model, solutions_dir
-                    )
+                # Collect results as they complete
+                for future in as_completed(future_to_sample):
+                    sample_path = future_to_sample[future]
+                    try:
+                        result = future.result()
+                        model_results.append(result)
+                        all_results.append(result)
+                    except Exception as e:
+                        print(f"\n❌ Error processing {sample_path.name}: {e}")
+                        model_results.append({
+                            "sample": sample_path.name,
+                            "model": model,
+                            "provider": provider,
+                            "error": str(e),
+                            "timestamp": datetime.now().isoformat()
+                        })
 
-                    result["generation"] = {
-                        "success": success,
-                        "cost": cost_info
-                    }
-
-                    if success:
-                        self.stats["processed_samples"] += 1
-                    else:
-                        self.stats["failed_samples"] += 1
-
-                # Evaluate solution
-                if not skip_evaluation:
-                    model_safe = model.replace(".", "-").replace("/", "-")
-                    solution_dir = self.results_dir / "llm_solutions" / sample_name / model_safe
-                    metadata_path = sample_path / "expected" / "metadata.json"
-
-                    success, scores = self.run_evaluation(
-                        solution_dir, metadata_path, self.results_dir
-                    )
-
-                    result["evaluation"] = {
-                        "success": success,
-                        "scores": scores
-                    }
-
-                model_results.append(result)
-                all_results.append(result)
+            progress_bar.close()
 
             # Save intermediate results for this model
+            model_safe = model.replace(".", "-").replace("/", "-")
             model_results_file = self.results_dir / f"results_{model_safe}.json"
             with open(model_results_file, 'w') as f:
                 json.dump(model_results, f, indent=2)
@@ -521,6 +506,13 @@ def main():
     )
 
     parser.add_argument(
+        "--n-workers",
+        type=int,
+        default=5,
+        help="Number of concurrent workers for LLM generation (default: 1)"
+    )
+
+    parser.add_argument(
         "--base-dir",
         type=Path,
         default=Path(__file__).parent.parent,
@@ -562,7 +554,8 @@ def main():
         models=models,
         limit=args.limit,
         skip_generation=args.skip_generation,
-        skip_evaluation=args.skip_evaluation
+        skip_evaluation=args.skip_evaluation,
+        n_workers=args.n_workers
     )
 
     # Generate summary if we have results

@@ -263,7 +263,7 @@ def output_text_results(result, detailed, evaluator, quiet):
     if result.cq:
         print(f"  CQ     (Code Quality):       {result.cq.score:6.1f}%")
     if result.sem_sim:
-        print(f"  SEM-SIM (Similarity):        {result.sem_sim.score*100:6.1f}%")
+        print(f"  SEM-SIM (Similarity):        {result.sem_sim.score:6.1f}%")
 
     if detailed:
         print("\n" + "=" * 60)

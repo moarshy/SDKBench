@@ -120,7 +120,7 @@ class Evaluator:
     def evaluate_quick(self) -> EvaluationResult:
         """Quick evaluation without running build/tests.
 
-        Uses static analysis only for F-CORR.
+        Skips F-CORR entirely since it requires runtime environment.
 
         Returns:
             EvaluationResult with quick evaluation
@@ -128,7 +128,8 @@ class Evaluator:
         i_acc = self.i_acc_evaluator.evaluate()
         c_comp = self.c_comp_evaluator.evaluate()
         ipa = self.ipa_evaluator.evaluate()
-        f_corr = self.f_corr_evaluator.evaluate_without_execution()
+        # F-CORR disabled - requires full Node.js environment
+        f_corr = None  # Was: self.f_corr_evaluator.evaluate_without_execution()
         cq = self.cq_evaluator.evaluate()
         sem_sim = self.sem_sim_evaluator.evaluate()
 
@@ -171,7 +172,7 @@ class Evaluator:
                     "details": self.c_comp_evaluator.get_details(),
                 },
                 "ipa": {
-                    "score": result.ipa.f1_score if result.ipa else None,
+                    "score": result.ipa.f1 if result.ipa else None,
                     "details": self.ipa_evaluator.get_details(),
                 },
                 "f_corr": {
@@ -206,7 +207,7 @@ class Evaluator:
             "scores": {
                 "i_acc": result.i_acc.score if result.i_acc else None,
                 "c_comp": result.c_comp.score if result.c_comp else None,
-                "ipa": result.ipa.f1_score if result.ipa else None,
+                "ipa": result.ipa.f1 if result.ipa else None,
                 "f_corr": result.f_corr.score if result.f_corr else None,
                 "cq": result.cq.score if result.cq else None,
                 "sem_sim": result.sem_sim.score if result.sem_sim else None,

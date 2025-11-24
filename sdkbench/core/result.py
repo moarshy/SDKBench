@@ -69,9 +69,9 @@ class IPAResult(MetricResult):
     false_negatives: List[str] = Field(default_factory=list)
 
     def model_post_init(self, __context: Any) -> None:
-        """Use F1 score as the main score."""
+        """Use F1 score as the main score (converted to 0-100 scale)."""
         if self.score == 0:  # Only calculate if not already set
-            self.score = self.f1
+            self.score = self.f1 * 100  # Convert from 0-1 to 0-100
 
 
 class FCorrResult(MetricResult):
