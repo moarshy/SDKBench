@@ -1,0 +1,41 @@
+import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
+
+// Define public routes that don't require authentication
+const isPublicRoute = createRouteMatcher([
+  '/',
+  '/sign-in(.*)',
+  '/sign-up(.*)',
+  '/api/public(.*)',
+  '/api/webhooks(.*)',
+])
+
+// Define routes that should be completely public (no auth check at all)
+const isIgnoredRoute = createRouteMatcher([
+  '/api/webhooks(.*)',
+  '/_next(.*)',
+  '/favicon.ico',
+  '/public(.*)',
+])
+
+export default clerkMiddleware((auth, req) => {
+  // Skip auth check for ignored routes
+  if (isIgnoredRoute(req)) {
+    return
+  }
+
+  // Protect all routes that are not public
+  if (!isPublicRoute(req)) {
+    auth().protect()
+  }
+})
+
+export const config = {
+  matcher: [
+    // Skip Next.js internals and all static files, unless found in search params
+    '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
+    // Always run for API routes
+    '/(api|trpc)(.*)',
+  ],
+}
+
+### 2. Update Dashboard Page (Protected Route)

@@ -165,9 +165,20 @@ class SolutionGenerator:
         """
         lines = code.split('\n')
 
-        # Check first few lines for filename hints
+        # Check first few lines for explicit filepath comments
         for line in lines[:5]:
-            # Check for filename in comments
+            line_stripped = line.strip()
+
+            # Check for "# filepath: xxx" or "// filepath: xxx" format
+            filepath_match = re.search(r'(?:#|//)\s*filepath:\s*(.+)', line_stripped, re.IGNORECASE)
+            if filepath_match:
+                potential_path = filepath_match.group(1).strip()
+                # Clean up any trailing comments or noise
+                potential_path = potential_path.split()[0] if potential_path else ""
+                if potential_path and self._is_valid_path(potential_path):
+                    return potential_path
+
+            # Check for filename in comments (legacy patterns)
             if '//' in line or '#' in line or '/*' in line:
                 # Look for paths
                 path_match = re.search(r'([a-zA-Z0-9_\-/.]+\.\w+)', line)
@@ -239,7 +250,8 @@ class SolutionGenerator:
         ext = path.split('.')[-1]
         valid_extensions = [
             'js', 'jsx', 'ts', 'tsx', 'json', 'md', 'env', 'local',
-            'css', 'scss', 'html', 'yml', 'yaml', 'toml', 'txt', 'sh'
+            'css', 'scss', 'html', 'yml', 'yaml', 'toml', 'txt', 'sh',
+            'py', 'pyc', 'pyx', 'pyi',  # Python
         ]
 
         return ext.lower() in valid_extensions

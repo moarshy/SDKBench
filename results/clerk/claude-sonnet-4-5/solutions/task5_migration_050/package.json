@@ -1,0 +1,12 @@
+{
+  "dependencies": {
+    "@clerk/nextjs": "^5.0.0",
+    "next": "^14.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  }
+}
+
+## Additional Server-Side Helper Examples
+
+### Example: Using auth() in Server Components

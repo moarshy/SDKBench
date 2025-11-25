@@ -223,9 +223,22 @@ Your responses should:
 4. Follow the framework's conventions
 5. Be production-ready
 
-When providing code, always specify the file path as a comment at the top of each code block.
-Format: // filepath: path/to/file.ext (for JS/TS)
-Format: # filepath: path/to/file.py (for Python)
+IMPORTANT: You MUST output files with the EXACT same filenames as provided in the input.
+- If the input has "app.py", your output must also be named "app.py"
+- If the input has "middleware.ts", your output must also be named "middleware.ts"
+- Do NOT create new filenames - modify the existing files
+
+When providing code, ALWAYS specify the file path as a comment on the FIRST LINE inside each code block:
+- For Python: # filepath: app.py
+- For JavaScript/TypeScript: // filepath: middleware.ts
+- For other files: # filepath: requirements.txt
+
+Example format:
+```python
+# filepath: app.py
+import lancedb
+# rest of code...
+```
 """
 
     def _build_user_prompt(
@@ -257,9 +270,17 @@ Current project files:
         if additional_context:
             prompt += f"\nAdditional Context:\n{additional_context}\n"
 
-        prompt += """
-Please provide the complete solution with all necessary files and configurations.
-Mark each file clearly with its path using the format: // filepath: path/to/file.ext
+        # List the files that need to be output
+        file_list = ", ".join(input_files.keys()) if input_files else "the required files"
+
+        prompt += f"""
+Please provide the complete solution by modifying the input files above.
+Files to output: {file_list}
+
+CRITICAL: Each code block MUST start with a filepath comment on the first line:
+- Python: # filepath: filename.py
+- JavaScript/TypeScript: // filepath: filename.ts
+- Other: # filepath: filename.ext
 """
 
         return prompt

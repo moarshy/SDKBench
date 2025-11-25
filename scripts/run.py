@@ -170,6 +170,17 @@ class EvaluationPipeline:
                     "files_generated": list(files.keys()) if files else ["solution.txt"],
                 }, f, indent=2)
 
+            # Save full prompt for debugging
+            with open(output_dir / "prompt.md", "w") as f:
+                f.write("# System Prompt\n\n")
+                f.write(system_prompt)
+                f.write("\n\n---\n\n# User Prompt\n\n")
+                f.write(user_prompt)
+
+            # Save raw LLM response for debugging
+            with open(output_dir / "llm_response.md", "w") as f:
+                f.write(response.content)
+
             return {"success": True, "files": len(files), "tokens": response.tokens_used}
 
         except Exception as e:
@@ -198,12 +209,15 @@ class EvaluationPipeline:
             evaluator = Evaluator(solution_path, metadata_path)
             result = evaluator.evaluate_quick()
 
+            # IPA returns 0-1 scale, convert to 0-100 for consistency
+            ipa_score = (result.ipa.f1 * 100) if result.ipa else 0
+
             eval_result = {
                 "success": True,
                 "metrics": {
                     "i_acc": result.i_acc.score if result.i_acc else 0,
                     "c_comp": result.c_comp.score if result.c_comp else 0,
-                    "ipa": result.ipa.f1 if result.ipa else 0,
+                    "ipa": ipa_score,
                     "cq": result.cq.score if result.cq else 0,
                     "sem_sim": result.sem_sim.score if result.sem_sim else 0,
                 },

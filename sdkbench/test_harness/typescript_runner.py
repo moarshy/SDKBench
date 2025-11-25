@@ -83,12 +83,27 @@ class TypeScriptTestRunner(BaseTestRunner):
         except json.JSONDecodeError:
             pass
 
-        # Check for test files
+        # Check for test files and infer framework from imports
         test_patterns = ["*.test.ts", "*.test.tsx", "*.test.js", "*.spec.ts", "*.spec.tsx"]
         for pattern in test_patterns:
             test_files = list(self.working_dir.rglob(pattern))
             if test_files:
                 markers_found.append(f"{pattern} ({len(test_files)} files)")
+                # If framework not detected yet, check test file imports
+                if not self._detected_framework:
+                    for test_file in test_files[:3]:  # Check first few files
+                        try:
+                            content = test_file.read_text()
+                            if "@jest/globals" in content or "from 'jest'" in content:
+                                self._detected_framework = TestFramework.JEST
+                                markers_found.append("jest imports in test files")
+                                break
+                            elif "vitest" in content:
+                                self._detected_framework = TestFramework.VITEST
+                                markers_found.append("vitest imports in test files")
+                                break
+                        except Exception:
+                            pass
 
         # Check for tsconfig.json
         if (self.working_dir / "tsconfig.json").exists():
@@ -106,11 +121,35 @@ class TypeScriptTestRunner(BaseTestRunner):
         )
 
     def install_dependencies(self) -> DependencyInstallResult:
-        """Install dependencies using npm."""
-        start_time = time.time()
+        """Install dependencies using npm.
 
-        # Check if node_modules already exists
-        if (self.working_dir / "node_modules").exists():
+        Also auto-installs Jest/ts-jest if tests use Jest imports but
+        Jest isn't in package.json dependencies.
+        """
+        start_time = time.time()
+        output_parts = []
+
+        # Run detection to get framework info
+        detection = self.detect()
+
+        # Check if we need to install Jest
+        needs_jest_install = False
+        package_json = self.working_dir / "package.json"
+        if package_json.exists() and self._detected_framework == TestFramework.JEST:
+            try:
+                pkg = json.loads(package_json.read_text())
+                deps = {**pkg.get("dependencies", {}), **pkg.get("devDependencies", {})}
+                scripts = pkg.get("scripts", {})
+                # If Jest detected from imports but not in dependencies
+                if "jest" not in deps and "@jest/core" not in deps:
+                    needs_jest_install = True
+            except json.JSONDecodeError:
+                pass
+
+        # Check if node_modules already exists (skip main install but still may need jest)
+        skip_main_install = (self.working_dir / "node_modules").exists()
+
+        if skip_main_install and not needs_jest_install:
             return DependencyInstallResult(
                 success=True,
                 duration=0.0,
@@ -118,20 +157,64 @@ class TypeScriptTestRunner(BaseTestRunner):
             )
 
         try:
-            result = subprocess.run(
-                ["npm", "install"],
-                cwd=self.working_dir,
-                capture_output=True,
-                text=True,
-                timeout=600,  # npm can be slow
-            )
-            duration = time.time() - start_time
+            # Install main dependencies
+            if not skip_main_install:
+                result = subprocess.run(
+                    ["npm", "install"],
+                    cwd=self.working_dir,
+                    capture_output=True,
+                    text=True,
+                    timeout=600,
+                )
+                output_parts.append(result.stdout + result.stderr)
+                if result.returncode != 0:
+                    return DependencyInstallResult(
+                        success=False,
+                        duration=time.time() - start_time,
+                        output="\n".join(output_parts),
+                        error=result.stderr,
+                    )
 
+            # Install Jest if needed
+            if needs_jest_install:
+                # Install jest, ts-jest, and @jest/globals for TypeScript tests
+                jest_result = subprocess.run(
+                    ["npm", "install", "--save-dev", "jest", "ts-jest", "@jest/globals", "@types/jest"],
+                    cwd=self.working_dir,
+                    capture_output=True,
+                    text=True,
+                    timeout=300,
+                )
+                output_parts.append(f"Auto-installing Jest: {jest_result.stdout + jest_result.stderr}")
+
+                if jest_result.returncode != 0:
+                    return DependencyInstallResult(
+                        success=False,
+                        duration=time.time() - start_time,
+                        output="\n".join(output_parts),
+                        error=f"Failed to install Jest: {jest_result.stderr}",
+                    )
+
+                # Create jest.config.js if it doesn't exist
+                jest_config = self.working_dir / "jest.config.js"
+                if not jest_config.exists():
+                    jest_config.write_text("""module.exports = {
+  preset: 'ts-jest',
+  testEnvironment: 'node',
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json'],
+  testMatch: ['**/*.test.ts', '**/*.test.tsx', '**/*.spec.ts'],
+  transform: {
+    '^.+\\.tsx?$': ['ts-jest', { useESM: true }]
+  },
+};
+""")
+                    output_parts.append("Created jest.config.js")
+
+            duration = time.time() - start_time
             return DependencyInstallResult(
-                success=result.returncode == 0,
+                success=True,
                 duration=duration,
-                output=result.stdout + result.stderr,
-                error=result.stderr if result.returncode != 0 else None,
+                output="\n".join(output_parts),
             )
         except subprocess.TimeoutExpired:
             return DependencyInstallResult(

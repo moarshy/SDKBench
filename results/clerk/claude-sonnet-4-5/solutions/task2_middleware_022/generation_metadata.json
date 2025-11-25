@@ -1,0 +1,19 @@
+{
+  "sample_id": "task2_middleware_022",
+  "model": "claude-sonnet-4-5",
+  "provider": "anthropic",
+  "generated_at": "2025-11-25T14:09:25.022032",
+  "tokens_used": 3253,
+  "cost": 0.0,
+  "files_generated": [
+    "middleware.ts",
+    "app/dashboard/page.tsx",
+    "app/api/protected/route.ts",
+    "app/api/public/route.ts",
+    "app/page.tsx",
+    "app/sign-in/[[...sign-in]]/page.tsx",
+    "app/sign-up/[[...sign-up]]/page.tsx",
+    "app/layout.tsx",
+    "lib/clerk-utils.ts"
+  ]
+}

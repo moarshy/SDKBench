@@ -1,0 +1,923 @@
+{
+  "sdk": "clerk",
+  "model": "claude-sonnet-4-5",
+  "timestamp": "2025-11-25T14:11:09.094849",
+  "total_samples": 50,
+  "generation": {
+    "success": 50,
+    "failed": 0
+  },
+  "evaluation": {
+    "success": 50,
+    "failed": 0
+  },
+  "average_metrics": {
+    "i_acc": 100.0,
+    "c_comp": 78.0,
+    "ipa": 0.6555324675324675,
+    "cq": 100.0,
+    "sem_sim": 73.9004761904762
+  },
+  "samples": [
+    {
+      "sample_id": "task1_init_001",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 50.0,
+        "ipa": 1.0,
+        "cq": 100,
+        "sem_sim": 70.0
+      }
+    },
+    {
+      "sample_id": "task1_init_007",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 50.0,
+        "ipa": 1.0,
+        "cq": 100,
+        "sem_sim": 70.0
+      }
+    },
+    {
+      "sample_id": "task1_init_004",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 50.0,
+        "ipa": 1.0,
+        "cq": 100,
+        "sem_sim": 70.0
+      }
+    },
+    {
+      "sample_id": "task1_init_006",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 50.0,
+        "ipa": 1.0,
+        "cq": 100,
+        "sem_sim": 70.0
+      }
+    },
+    {
+      "sample_id": "task1_init_008",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 50.0,
+        "ipa": 1.0,
+        "cq": 100,
+        "sem_sim": 70.0
+      }
+    },
+    {
+      "sample_id": "task1_init_009",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 50.0,
+        "ipa": 1.0,
+        "cq": 100,
+        "sem_sim": 70.0
+      }
+    },
+    {
+      "sample_id": "task1_init_002",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 50.0,
+        "ipa": 1.0,
+        "cq": 100,
+        "sem_sim": 70.0
+      }
+    },
+    {
+      "sample_id": "task1_init_003",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 50.0,
+        "ipa": 1.0,
+        "cq": 100,
+        "sem_sim": 70.0
+      }
+    },
+    {
+      "sample_id": "task1_init_005",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 50.0,
+        "ipa": 1.0,
+        "cq": 100,
+        "sem_sim": 67.5
+      }
+    },
+    {
+      "sample_id": "task1_init_010",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 50.0,
+        "ipa": 1.0,
+        "cq": 100,
+        "sem_sim": 67.5
+      }
+    },
+    {
+      "sample_id": "task1_init_014",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 50.0,
+        "ipa": 1.0,
+        "cq": 100,
+        "sem_sim": 70.0
+      }
+    },
+    {
+      "sample_id": "task1_init_011",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 50.0,
+        "ipa": 1.0,
+        "cq": 100,
+        "sem_sim": 70.0
+      }
+    },
+    {
+      "sample_id": "task1_init_012",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 50.0,
+        "ipa": 1.0,
+        "cq": 100,
+        "sem_sim": 70.0
+      }
+    },
+    {
+      "sample_id": "task2_middleware_017",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 100.0,
+        "ipa": 0.4,
+        "cq": 100,
+        "sem_sim": 80.0
+      }
+    },
+    {
+      "sample_id": "task1_init_013",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 50.0,
+        "ipa": 1.0,
+        "cq": 100,
+        "sem_sim": 70.0
+      }
+    },
+    {
+      "sample_id": "task2_middleware_016",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 100.0,
+        "ipa": 0.2857142857142857,
+        "cq": 100,
+        "sem_sim": 78.88888888888889
+      }
+    },
+    {
+      "sample_id": "task2_middleware_018",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 100.0,
+        "ipa": 0.33333333333333337,
+        "cq": 100,
+        "sem_sim": 79.33333333333333
+      }
+    },
+    {
+      "sample_id": "task1_init_015",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 50.0,
+        "ipa": 1.0,
+        "cq": 100,
+        "sem_sim": 67.5
+      }
+    },
+    {
+      "sample_id": "task2_middleware_019",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 100.0,
+        "ipa": 0.4,
+        "cq": 100,
+        "sem_sim": 80.0
+      }
+    },
+    {
+      "sample_id": "task2_middleware_020",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 100.0,
+        "ipa": 0.4,
+        "cq": 100,
+        "sem_sim": 80.0
+      }
+    },
+    {
+      "sample_id": "task2_middleware_021",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 100.0,
+        "ipa": 0.4,
+        "cq": 100,
+        "sem_sim": 80.0
+      }
+    },
+    {
+      "sample_id": "task2_middleware_022",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 100.0,
+        "ipa": 0.33333333333333337,
+        "cq": 100,
+        "sem_sim": 79.33333333333333
+      }
+    },
+    {
+      "sample_id": "task2_middleware_023",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 100.0,
+        "ipa": 0.33333333333333337,
+        "cq": 100,
+        "sem_sim": 79.33333333333333
+      }
+    },
+    {
+      "sample_id": "task2_middleware_026",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 100.0,
+        "ipa": 0.5,
+        "cq": 100,
+        "sem_sim": 81.11111111111111
+      }
+    },
+    {
+      "sample_id": "task2_middleware_024",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 100.0,
+        "ipa": 0.33333333333333337,
+        "cq": 100,
+        "sem_sim": 79.33333333333333
+      }
+    },
+    {
+      "sample_id": "task2_middleware_025",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 100.0,
+        "ipa": 0.33333333333333337,
+        "cq": 100,
+        "sem_sim": 79.33333333333333
+      }
+    },
+    {
+      "sample_id": "task2_middleware_027",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 100.0,
+        "ipa": 0.4,
+        "cq": 100,
+        "sem_sim": 80.0
+      }
+    },
+    {
+      "sample_id": "task2_middleware_029",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 100.0,
+        "ipa": 0.4,
+        "cq": 100,
+        "sem_sim": 80.0
+      }
+    },
+    {
+      "sample_id": "task2_middleware_028",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 100.0,
+        "ipa": 0.4,
+        "cq": 100,
+        "sem_sim": 80.0
+      }
+    },
+    {
+      "sample_id": "task2_middleware_030",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 100.0,
+        "ipa": 0.4,
+        "cq": 100,
+        "sem_sim": 80.0
+      }
+    },
+    {
+      "sample_id": "task3_hooks_032",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 100.0,
+        "ipa": 0.5,
+        "cq": 100,
+        "sem_sim": 68.33333333333333
+      }
+    },
+    {
+      "sample_id": "task3_hooks_031",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 100.0,
+        "ipa": 0.5,
+        "cq": 100,
+        "sem_sim": 68.33333333333333
+      }
+    },
+    {
+      "sample_id": "task3_hooks_034",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 100.0,
+        "ipa": 0.5,
+        "cq": 100,
+        "sem_sim": 68.33333333333333
+      }
+    },
+    {
+      "sample_id": "task3_hooks_035",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 100.0,
+        "ipa": 0.5,
+        "cq": 100,
+        "sem_sim": 68.33333333333333
+      }
+    },
+    {
+      "sample_id": "task3_hooks_033",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 100.0,
+        "ipa": 0.5,
+        "cq": 100,
+        "sem_sim": 63.33333333333333
+      }
+    },
+    {
+      "sample_id": "task3_hooks_036",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 100.0,
+        "ipa": 0.4,
+        "cq": 100,
+        "sem_sim": 65.0
+      }
+    },
+    {
+      "sample_id": "task3_hooks_037",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 100.0,
+        "ipa": 0.4,
+        "cq": 100,
+        "sem_sim": 65.0
+      }
+    },
+    {
+      "sample_id": "task3_hooks_038",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 100.0,
+        "ipa": 0.5,
+        "cq": 100,
+        "sem_sim": 68.33333333333333
+      }
+    },
+    {
+      "sample_id": "task3_hooks_040",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 100.0,
+        "ipa": 0.5,
+        "cq": 100,
+        "sem_sim": 68.33333333333333
+      }
+    },
+    {
+      "sample_id": "task3_hooks_039",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 100.0,
+        "ipa": 0.33333333333333337,
+        "cq": 100,
+        "sem_sim": 57.99999999999999
+      }
+    },
+    {
+      "sample_id": "task4_complete_041",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 50.0,
+        "ipa": 0.6,
+        "cq": 100,
+        "sem_sim": 74.04761904761905
+      }
+    },
+    {
+      "sample_id": "task4_complete_042",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 50.0,
+        "ipa": 0.5454545454545454,
+        "cq": 100,
+        "sem_sim": 73.33333333333334
+      }
+    },
+    {
+      "sample_id": "task5_migration_048",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 100.0,
+        "ipa": 1.0,
+        "cq": 100,
+        "sem_sim": 89.99999999999999
+      }
+    },
+    {
+      "sample_id": "task4_complete_044",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 50.0,
+        "ipa": 0.6,
+        "cq": 100,
+        "sem_sim": 74.04761904761905
+      }
+    },
+    {
+      "sample_id": "task4_complete_043",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 50.0,
+        "ipa": 0.6,
+        "cq": 100,
+        "sem_sim": 74.04761904761905
+      }
+    },
+    {
+      "sample_id": "task4_complete_045",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 50.0,
+        "ipa": 0.5454545454545454,
+        "cq": 100,
+        "sem_sim": 73.33333333333334
+      }
+    },
+    {
+      "sample_id": "task4_complete_046",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 50.0,
+        "ipa": 1.0,
+        "cq": 100,
+        "sem_sim": 76.66666666666666
+      }
+    },
+    {
+      "sample_id": "task4_complete_047",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 50.0,
+        "ipa": 0.6,
+        "cq": 100,
+        "sem_sim": 74.04761904761905
+      }
+    },
+    {
+      "sample_id": "task5_migration_049",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 100.0,
+        "ipa": 1.0,
+        "cq": 100,
+        "sem_sim": 89.99999999999999
+      }
+    },
+    {
+      "sample_id": "task5_migration_050",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 100.0,
+        "ipa": 1.0,
+        "cq": 100,
+        "sem_sim": 95.0
+      }
+    }
+  ]
+}

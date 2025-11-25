@@ -1,0 +1,41 @@
+{
+  "sdk": "lancedb",
+  "model": "claude-sonnet-4-5",
+  "timestamp": "2025-11-25T14:29:05.646163",
+  "total_samples": 1,
+  "generation": {
+    "success": 1,
+    "failed": 0
+  },
+  "evaluation": {
+    "success": 1,
+    "failed": 0
+  },
+  "average_metrics": {
+    "i_acc": 100.0,
+    "c_comp": 100.0,
+    "ipa": 100.0,
+    "cq": 100.0,
+    "sem_sim": 86.99999999999999
+  },
+  "samples": [
+    {
+      "sample_id": "lancedb_task1_init_001",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 100.0,
+        "ipa": 100.0,
+        "cq": 100,
+        "sem_sim": 86.99999999999999
+      }
+    }
+  ]
+}

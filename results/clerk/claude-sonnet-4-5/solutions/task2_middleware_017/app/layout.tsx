@@ -1,0 +1,23 @@
+import { ClerkProvider } from '@clerk/nextjs'
+import './globals.css'
+
+export const metadata = {
+  title: 'My App',
+  description: 'Protected by Clerk',
+}
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  return (
+    <ClerkProvider>
+      <html lang="en">
+        <body>{children}</body>
+      </html>
+    </ClerkProvider>
+  )
+}
+
+### 7. Create Sign-In Page
