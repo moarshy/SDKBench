@@ -1,0 +1,18 @@
+{
+  "sample_id": "task1_init_005",
+  "model": "claude-sonnet-4-5",
+  "provider": "anthropic",
+  "generated_at": "2025-11-25T15:25:57.930660",
+  "tokens_used": 4233,
+  "cost": 0.0,
+  "files_generated": [
+    "app.js",
+    "package.json",
+    "server/app.js",
+    "client/src/main.tsx",
+    "client/src/App.tsx",
+    "client/src/vite-env.d.ts",
+    "client/package.json",
+    "client/src/index.css"
+  ]
+}

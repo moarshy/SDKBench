@@ -1,0 +1,15 @@
+{
+  "sample_id": "task1_init_015",
+  "model": "claude-sonnet-4-5",
+  "provider": "anthropic",
+  "generated_at": "2025-11-25T15:27:30.404738",
+  "tokens_used": 4703,
+  "cost": 0.0,
+  "files_generated": [
+    "server.js",
+    "package.json",
+    "client/src/index.js",
+    "client/src/App.js",
+    "client/package.json"
+  ]
+}

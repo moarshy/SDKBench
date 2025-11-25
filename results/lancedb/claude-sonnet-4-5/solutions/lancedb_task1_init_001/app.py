@@ -19,16 +19,16 @@ def get_database(db_path: str = "./my_lancedb"):
         Exception: If connection fails
     """
     try:
-        # Create parent directory if it doesn't exist
-        Path(db_path).parent.mkdir(parents=True, exist_ok=True)
+        # Create the directory if it doesn't exist
+        Path(db_path).mkdir(parents=True, exist_ok=True)
         
         # Connect to LanceDB (creates database if it doesn't exist)
         db = lancedb.connect(db_path)
         
-        print(f"Successfully connected to LanceDB at: {db_path}")
+        print(f"Successfully connected to LanceDB at: {os.path.abspath(db_path)}")
         return db
     except Exception as e:
-        print(f"Error connecting to LanceDB: {e}")
+        print(f"Error connecting to database: {e}")
         raise
 
 

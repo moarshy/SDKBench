@@ -1,0 +1,23 @@
+{
+  "sample_id": "lancedb_task1_init_008",
+  "timestamp": "2025-11-25T15:30:17.872761",
+  "overall_score": 100.0,
+  "grade": "A",
+  "f_corr_enabled": true,
+  "metrics": {
+    "i_acc": 100.0,
+    "c_comp": 100.0,
+    "ipa": 100.0,
+    "cq": 100,
+    "sem_sim": 100.0,
+    "f_corr": 100.0
+  },
+  "weights_used": {
+    "i_acc": 0.15,
+    "c_comp": 0.15,
+    "ipa": 0.15,
+    "f_corr": 0.25,
+    "cq": 0.15,
+    "sem_sim": 0.15
+  }
+}

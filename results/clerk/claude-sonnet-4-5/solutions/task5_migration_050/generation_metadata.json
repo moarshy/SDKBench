@@ -1,0 +1,11 @@
+{
+  "sample_id": "task5_migration_050",
+  "model": "claude-sonnet-4-5",
+  "provider": "anthropic",
+  "generated_at": "2025-11-25T15:29:27.451793",
+  "tokens_used": 1160,
+  "cost": 0.0,
+  "files_generated": [
+    "app/profile/page.tsx"
+  ]
+}

@@ -38,6 +38,12 @@ python scripts/run.py --sdk clerk,lancedb --model claude-sonnet-4-5 --workers 5
 
 # Run specific SDK with sample limit
 python scripts/run.py --sdk lancedb --model gpt-4o --limit 10
+
+# Run with F-CORR (functional correctness testing)
+python scripts/run.py --sdk lancedb --model claude-sonnet-4-5 --run-fcorr
+
+# Quick evaluation without F-CORR (faster, static analysis only)
+python scripts/run.py --sdk clerk --model claude-sonnet-4-5
 ```
 
 ### Available Models
@@ -105,22 +111,56 @@ SDKBench/
 │   └── core/               # Core utilities
 ├── results/                # Evaluation outputs
 │   ├── {sdk}/{model}/
-│   │   ├── solutions/      # Generated solutions
+│   │   ├── solutions/      # Generated solutions with metrics/
 │   │   └── *_summary.json  # Metrics summary
 │   └── overall_report_*.json
-└── docs/                   # Documentation
+└── docs/
+    └── revised-metrics.md  # Detailed metrics documentation
 ```
 
 ## Evaluation Metrics
 
-| Metric | Description |
-|--------|-------------|
-| **I-ACC** | Instrumentation Accuracy - correct SDK usage patterns |
-| **C-COMP** | Configuration Completeness - required config present |
-| **IPA** | Integration Point Accuracy - correct integration points |
-| **F-CORR** | Functional Correctness - code executes correctly |
-| **CQ** | Code Quality - follows best practices |
-| **SEM-SIM** | Semantic Similarity - matches expected output |
+| Metric | Description | Weight |
+|--------|-------------|--------|
+| **I-ACC** | Instrumentation Accuracy - correct SDK usage patterns | 20% (15% with F-CORR) |
+| **C-COMP** | Configuration Completeness - required config present | 20% (15% with F-CORR) |
+| **IPA** | Integration Point Accuracy - correct integration points | 20% (15% with F-CORR) |
+| **F-CORR** | Functional Correctness - code executes correctly | 25% (when enabled) |
+| **CQ** | Code Quality - follows best practices | 20% (15% with F-CORR) |
+| **SEM-SIM** | Semantic Similarity - matches expected output | 20% (15% with F-CORR) |
+| **OVERALL** | Weighted average of all metrics | 100% |
+
+### Overall Score & Grading
+
+The overall score is a weighted average of individual metrics. When F-CORR is enabled, it receives 25% weight (emphasizing functional correctness), with other metrics at 15% each.
+
+| Grade | Score Range |
+|-------|-------------|
+| A | >= 90 |
+| B | >= 80 |
+| C | >= 70 |
+| D | >= 60 |
+| F | < 60 |
+
+### Per-Sample Metrics
+
+Each evaluated solution includes a `metrics/` folder with detailed breakdowns:
+
+```
+results/{sdk}/{model}/solutions/{sample_id}/
+├── app.py                    # Generated solution
+├── generation_metadata.json
+└── metrics/
+    ├── i_acc.json            # Initialization accuracy details
+    ├── c_comp.json           # Configuration completeness details
+    ├── ipa.json              # Integration point accuracy (precision/recall/F1)
+    ├── cq.json               # Code quality metrics
+    ├── sem_sim.json          # Semantic similarity details
+    ├── f_corr.json           # F-CORR results (if --run-fcorr)
+    └── summary.json          # Overall score, grade, weights used
+```
+
+See [docs/revised-metrics.md](docs/revised-metrics.md) for detailed metric schemas.
 
 ## Task Types
 
@@ -143,19 +183,22 @@ Model: claude-sonnet-4-5
  Evaluation     50/50
  I_ACC       100.000
  C_COMP       85.000
- IPA           0.950
+ IPA          95.000
  CQ          100.000
  SEM_SIM      72.500
+ OVERALL      90.500   # Grade: A
 
-SDK: LANCEDB (50 samples)
+SDK: LANCEDB (50 samples) [with --run-fcorr]
 Model: claude-sonnet-4-5
  Generation     50/50
  Evaluation     50/50
  I_ACC       100.000
  C_COMP      100.000
- IPA           1.000
+ IPA         100.000
  CQ          100.000
  SEM_SIM      87.000
+ F_CORR       80.000
+ OVERALL      92.050   # Grade: A
 ```
 
 ## Development

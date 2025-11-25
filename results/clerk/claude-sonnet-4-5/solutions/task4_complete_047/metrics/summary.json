@@ -1,0 +1,23 @@
+{
+  "sample_id": "task4_complete_047",
+  "timestamp": "2025-11-25T15:29:35.434144",
+  "overall_score": 64.0,
+  "grade": "D",
+  "f_corr_enabled": true,
+  "metrics": {
+    "i_acc": 100.0,
+    "c_comp": 50.0,
+    "ipa": 100.0,
+    "cq": 100,
+    "sem_sim": 76.66666666666666,
+    "f_corr": 0
+  },
+  "weights_used": {
+    "i_acc": 0.15,
+    "c_comp": 0.15,
+    "ipa": 0.15,
+    "f_corr": 0.25,
+    "cq": 0.15,
+    "sem_sim": 0.15
+  }
+}
