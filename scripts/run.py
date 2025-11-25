@@ -60,6 +60,33 @@ AVAILABLE_MODELS = {
 class EvaluationPipeline:
     """Multi-SDK evaluation pipeline."""
 
+    # Metric weights for overall score calculation
+    WEIGHTS_WITHOUT_FCORR = {
+        "i_acc": 0.20,
+        "c_comp": 0.20,
+        "ipa": 0.20,
+        "cq": 0.20,
+        "sem_sim": 0.20,
+    }
+
+    WEIGHTS_WITH_FCORR = {
+        "i_acc": 0.15,
+        "c_comp": 0.15,
+        "ipa": 0.15,
+        "f_corr": 0.25,
+        "cq": 0.15,
+        "sem_sim": 0.15,
+    }
+
+    # Grade thresholds
+    GRADE_THRESHOLDS = [
+        (90, "A"),
+        (80, "B"),
+        (70, "C"),
+        (60, "D"),
+        (0, "F"),
+    ]
+
     def __init__(self):
         self.base_dir = Path(__file__).parent.parent
         self.samples_dir = self.base_dir / "samples"
@@ -69,6 +96,65 @@ class EvaluationPipeline:
 
         self.prompt_builder = PromptBuilder()
         self.solution_generator = SolutionGenerator()
+
+    def _calculate_overall_score(self, metrics: Dict, include_fcorr: bool = False) -> float:
+        """Calculate weighted overall score from individual metrics.
+
+        Args:
+            metrics: Dictionary of metric scores
+            include_fcorr: Whether F-CORR is enabled for this run
+
+        Returns:
+            Weighted overall score (0-100)
+        """
+        if include_fcorr and "f_corr" in metrics:
+            weights = self.WEIGHTS_WITH_FCORR
+        else:
+            weights = self.WEIGHTS_WITHOUT_FCORR
+
+        score = 0.0
+        total_weight = 0.0
+
+        for metric, weight in weights.items():
+            if metric in metrics and metrics[metric] is not None:
+                value = metrics[metric]
+                # Normalize IPA if it's in 0-1 scale
+                if metric == "ipa" and value <= 1.0:
+                    value = value * 100
+                score += value * weight
+                total_weight += weight
+
+        # Handle case where some metrics are missing
+        if total_weight > 0 and total_weight < 1.0:
+            score = score / total_weight
+
+        return round(score, 2)
+
+    def _calculate_grade(self, score: float) -> str:
+        """Convert overall score to letter grade.
+
+        Args:
+            score: Overall score (0-100)
+
+        Returns:
+            Letter grade (A, B, C, D, or F)
+        """
+        for threshold, grade in self.GRADE_THRESHOLDS:
+            if score >= threshold:
+                return grade
+        return "F"
+
+    def _save_metric_details(self, metrics_dir: Path, metric_name: str, data: Dict):
+        """Save detailed metric data to JSON file.
+
+        Args:
+            metrics_dir: Directory to save metrics
+            metric_name: Name of the metric (e.g., 'i_acc')
+            data: Metric data to save
+        """
+        metric_file = metrics_dir / f"{metric_name}.json"
+        with open(metric_file, "w") as f:
+            json.dump(data, f, indent=2, default=str)
 
     def get_sdk_samples(self, sdk: str, limit: Optional[int] = None) -> List[Path]:
         """Get samples for a specific SDK."""
@@ -221,7 +307,6 @@ class EvaluationPipeline:
                     "cq": result.cq.score if result.cq else 0,
                     "sem_sim": result.sem_sim.score if result.sem_sim else 0,
                 },
-                "overall": result.overall_score,
             }
 
             # Run F-CORR if enabled
@@ -229,6 +314,104 @@ class EvaluationPipeline:
                 fcorr_result = self._run_fcorr(sample_path, solution_path)
                 eval_result["metrics"]["f_corr"] = fcorr_result.get("score", 0)
                 eval_result["f_corr_details"] = fcorr_result
+
+            # Calculate overall score with proper weighting
+            overall_score = self._calculate_overall_score(eval_result["metrics"], include_fcorr=run_fcorr)
+            grade = self._calculate_grade(overall_score)
+            eval_result["overall_score"] = overall_score
+            eval_result["grade"] = grade
+
+            # Create metrics directory and save detailed breakdowns
+            metrics_dir = solution_path / "metrics"
+            metrics_dir.mkdir(exist_ok=True)
+
+            # Save individual metric details
+            if result.i_acc:
+                self._save_metric_details(metrics_dir, "i_acc", {
+                    "score": result.i_acc.score,
+                    "file_location_correct": result.i_acc.file_location_correct,
+                    "imports_correct": result.i_acc.imports_correct,
+                    "pattern_correct": result.i_acc.pattern_correct,
+                    "placement_correct": result.i_acc.placement_correct,
+                    "details": result.i_acc.details if hasattr(result.i_acc, 'details') else {},
+                })
+
+            if result.c_comp:
+                self._save_metric_details(metrics_dir, "c_comp", {
+                    "score": result.c_comp.score,
+                    "env_vars_score": result.c_comp.env_vars_score,
+                    "provider_props_score": result.c_comp.provider_props_score,
+                    "middleware_config_score": result.c_comp.middleware_config_score,
+                    "details": {
+                        "missing_env_vars": result.c_comp.missing_env_vars,
+                        "missing_provider_props": result.c_comp.missing_provider_props,
+                        "missing_middleware_config": result.c_comp.missing_middleware_config,
+                    },
+                })
+
+            if result.ipa:
+                self._save_metric_details(metrics_dir, "ipa", {
+                    "score": ipa_score,
+                    "precision": result.ipa.precision,
+                    "recall": result.ipa.recall,
+                    "f1": result.ipa.f1,
+                    "details": {
+                        "true_positives": result.ipa.true_positives,
+                        "false_positives": result.ipa.false_positives,
+                        "false_negatives": result.ipa.false_negatives,
+                    },
+                })
+
+            if result.cq:
+                self._save_metric_details(metrics_dir, "cq", {
+                    "score": result.cq.score,
+                    "type_errors": result.cq.type_errors,
+                    "eslint_errors": result.cq.eslint_errors,
+                    "security_issues": result.cq.security_issues,
+                    "details": {
+                        "type_error_list": result.cq.type_error_list if hasattr(result.cq, 'type_error_list') else [],
+                        "eslint_error_list": result.cq.eslint_error_list if hasattr(result.cq, 'eslint_error_list') else [],
+                        "security_issue_list": result.cq.security_issue_list if hasattr(result.cq, 'security_issue_list') else [],
+                    },
+                })
+
+            if result.sem_sim:
+                self._save_metric_details(metrics_dir, "sem_sim", {
+                    "score": result.sem_sim.score,
+                    "pattern_match": result.sem_sim.pattern_match,
+                    "approach_match": result.sem_sim.approach_match,
+                    "details": {
+                        "matched_patterns": result.sem_sim.matched_patterns,
+                        "missing_patterns": result.sem_sim.missing_patterns,
+                    },
+                })
+
+            # Save F-CORR details if enabled
+            if run_fcorr and "f_corr_details" in eval_result:
+                fcorr = eval_result["f_corr_details"]
+                self._save_metric_details(metrics_dir, "f_corr", {
+                    "score": fcorr.get("score", 0),
+                    "tests_passed": fcorr.get("passed", 0),
+                    "tests_failed": fcorr.get("failed", 0),
+                    "tests_total": fcorr.get("total", 0),
+                    "tests_skipped": fcorr.get("skipped", 0),
+                    "duration": fcorr.get("duration", 0),
+                    "error": fcorr.get("error"),
+                })
+
+            # Save summary with overall score
+            weights_used = self.WEIGHTS_WITH_FCORR if run_fcorr else self.WEIGHTS_WITHOUT_FCORR
+            summary_data = {
+                "sample_id": sample_path.name,
+                "timestamp": datetime.now().isoformat(),
+                "overall_score": overall_score,
+                "grade": grade,
+                "f_corr_enabled": run_fcorr,
+                "metrics": eval_result["metrics"],
+                "weights_used": weights_used,
+            }
+            with open(metrics_dir / "summary.json", "w") as f:
+                json.dump(summary_data, f, indent=2)
 
             return eval_result
 
@@ -359,15 +542,22 @@ class EvaluationPipeline:
 
         return result
 
-    def save_summary(self, sdk: str, model: str, results: List[Dict]):
+    def save_summary(self, sdk: str, model: str, results: List[Dict], run_fcorr: bool = False):
         """Save summary for a specific SDK-model combination."""
         successful_gen = sum(1 for r in results if r.get("generation", {}).get("success"))
         successful_eval = sum(1 for r in results if r.get("evaluation", {}).get("success"))
+
+        # Check if any results have F-CORR enabled
+        has_fcorr = any(
+            "f_corr" in r.get("evaluation", {}).get("metrics", {})
+            for r in results if r.get("evaluation", {}).get("success")
+        )
 
         summary = {
             "sdk": sdk,
             "model": model,
             "timestamp": datetime.now().isoformat(),
+            "f_corr_enabled": has_fcorr,
             "total_samples": len(results),
             "generation": {"success": successful_gen, "failed": len(results) - successful_gen},
             "evaluation": {"success": successful_eval, "failed": len(results) - successful_eval},
@@ -381,7 +571,14 @@ class EvaluationPipeline:
             for key in ["i_acc", "c_comp", "ipa", "cq", "sem_sim", "f_corr"]:
                 values = [m.get(key, 0) for m in metrics_data if key in m]
                 if values:
-                    avg_metrics[key] = sum(values) / len(values)
+                    avg_metrics[key] = round(sum(values) / len(values), 2)
+
+            # Calculate average overall score
+            overall_scores = [r.get("evaluation", {}).get("overall_score", 0) for r in results
+                             if r.get("evaluation", {}).get("success") and r.get("evaluation", {}).get("overall_score") is not None]
+            if overall_scores:
+                avg_metrics["overall"] = round(sum(overall_scores) / len(overall_scores), 2)
+
             summary["average_metrics"] = avg_metrics
 
         # Add per-sample results
@@ -398,9 +595,11 @@ class EvaluationPipeline:
                     "error": r.get("evaluation", {}).get("error"),
                 }
             }
-            # Add metrics if evaluation succeeded
+            # Add metrics and overall score if evaluation succeeded
             if r.get("evaluation", {}).get("success"):
                 sample_result["metrics"] = r.get("evaluation", {}).get("metrics", {})
+                sample_result["overall_score"] = r.get("evaluation", {}).get("overall_score", 0)
+                sample_result["grade"] = r.get("evaluation", {}).get("grade", "F")
             summary["samples"].append(sample_result)
 
         output_file = self.results_dir / sdk / f"{model}_summary.json"
@@ -480,7 +679,7 @@ class EvaluationPipeline:
                 self._print_summary(summary)
 
         elapsed = time.time() - start_time
-        self._save_overall_report(all_results, elapsed, models, sdks)
+        self._save_overall_report(all_results, elapsed, models, sdks, run_fcorr=run_fcorr)
 
         return {"results": all_results, "elapsed": elapsed}
 
@@ -502,7 +701,7 @@ class EvaluationPipeline:
 
         console.print(table)
 
-    def _save_overall_report(self, results: List[Dict], elapsed: float, models: List[str], sdks: List[str]):
+    def _save_overall_report(self, results: List[Dict], elapsed: float, models: List[str], sdks: List[str], run_fcorr: bool = False):
         """Save overall evaluation report with metrics."""
 
         def calc_avg_metrics(result_list: List[Dict]) -> Dict:
@@ -516,11 +715,25 @@ class EvaluationPipeline:
                 values = [m.get(key, 0) for m in metrics_data if key in m]
                 if values:
                     avg[key] = round(sum(values) / len(values), 2)
+
+            # Calculate average overall score
+            overall_scores = [r.get("evaluation", {}).get("overall_score", 0) for r in result_list
+                             if r.get("evaluation", {}).get("success") and r.get("evaluation", {}).get("overall_score") is not None]
+            if overall_scores:
+                avg["overall"] = round(sum(overall_scores) / len(overall_scores), 2)
+
             return avg
+
+        # Check if any results have F-CORR enabled
+        has_fcorr = any(
+            "f_corr" in r.get("evaluation", {}).get("metrics", {})
+            for r in results if r.get("evaluation", {}).get("success")
+        )
 
         report = {
             "timestamp": datetime.now().isoformat(),
             "elapsed_seconds": elapsed,
+            "f_corr_enabled": has_fcorr,
             "models": models,
             "sdks": sdks,
             "total_evaluations": len(results),

@@ -1,1 +1,0 @@
-LANCEDB_PATH=/custom/path python app.py

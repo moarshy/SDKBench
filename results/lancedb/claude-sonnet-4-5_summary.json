@@ -1,14 +1,15 @@
 {
   "sdk": "lancedb",
   "model": "claude-sonnet-4-5",
-  "timestamp": "2025-11-25T14:46:49.083483",
-  "total_samples": 10,
+  "timestamp": "2025-11-25T15:07:03.505698",
+  "f_corr_enabled": true,
+  "total_samples": 1,
   "generation": {
-    "success": 10,
+    "success": 1,
     "failed": 0
   },
   "evaluation": {
-    "success": 10,
+    "success": 1,
     "failed": 0
   },
   "average_metrics": {
@@ -16,27 +17,11 @@
     "c_comp": 100.0,
     "ipa": 100.0,
     "cq": 100.0,
-    "sem_sim": 100.0
+    "sem_sim": 100.0,
+    "f_corr": 0.0,
+    "overall": 75.0
   },
   "samples": [
-    {
-      "sample_id": "lancedb_task1_init_004",
-      "generation": {
-        "success": true,
-        "error": null
-      },
-      "evaluation": {
-        "success": true,
-        "error": null
-      },
-      "metrics": {
-        "i_acc": 100.0,
-        "c_comp": 100.0,
-        "ipa": 100.0,
-        "cq": 100,
-        "sem_sim": 100.0
-      }
-    },
     {
       "sample_id": "lancedb_task1_init_001",
       "generation": {
@@ -52,152 +37,11 @@
         "c_comp": 100.0,
         "ipa": 100.0,
         "cq": 100,
-        "sem_sim": 100.0
-      }
-    },
-    {
-      "sample_id": "lancedb_task1_init_007",
-      "generation": {
-        "success": true,
-        "error": null
+        "sem_sim": 100.0,
+        "f_corr": 0.0
       },
-      "evaluation": {
-        "success": true,
-        "error": null
-      },
-      "metrics": {
-        "i_acc": 100.0,
-        "c_comp": 100.0,
-        "ipa": 100.0,
-        "cq": 100,
-        "sem_sim": 100.0
-      }
-    },
-    {
-      "sample_id": "lancedb_task1_init_003",
-      "generation": {
-        "success": true,
-        "error": null
-      },
-      "evaluation": {
-        "success": true,
-        "error": null
-      },
-      "metrics": {
-        "i_acc": 100.0,
-        "c_comp": 100.0,
-        "ipa": 100.0,
-        "cq": 100,
-        "sem_sim": 100.0
-      }
-    },
-    {
-      "sample_id": "lancedb_task1_init_002",
-      "generation": {
-        "success": true,
-        "error": null
-      },
-      "evaluation": {
-        "success": true,
-        "error": null
-      },
-      "metrics": {
-        "i_acc": 100.0,
-        "c_comp": 100.0,
-        "ipa": 100.0,
-        "cq": 100,
-        "sem_sim": 100.0
-      }
-    },
-    {
-      "sample_id": "lancedb_task1_init_010",
-      "generation": {
-        "success": true,
-        "error": null
-      },
-      "evaluation": {
-        "success": true,
-        "error": null
-      },
-      "metrics": {
-        "i_acc": 100.0,
-        "c_comp": 100.0,
-        "ipa": 100.0,
-        "cq": 100,
-        "sem_sim": 100.0
-      }
-    },
-    {
-      "sample_id": "lancedb_task1_init_005",
-      "generation": {
-        "success": true,
-        "error": null
-      },
-      "evaluation": {
-        "success": true,
-        "error": null
-      },
-      "metrics": {
-        "i_acc": 100.0,
-        "c_comp": 100.0,
-        "ipa": 100.0,
-        "cq": 100,
-        "sem_sim": 100.0
-      }
-    },
-    {
-      "sample_id": "lancedb_task1_init_009",
-      "generation": {
-        "success": true,
-        "error": null
-      },
-      "evaluation": {
-        "success": true,
-        "error": null
-      },
-      "metrics": {
-        "i_acc": 100.0,
-        "c_comp": 100.0,
-        "ipa": 100.0,
-        "cq": 100,
-        "sem_sim": 100.0
-      }
-    },
-    {
-      "sample_id": "lancedb_task1_init_008",
-      "generation": {
-        "success": true,
-        "error": null
-      },
-      "evaluation": {
-        "success": true,
-        "error": null
-      },
-      "metrics": {
-        "i_acc": 100.0,
-        "c_comp": 100.0,
-        "ipa": 100.0,
-        "cq": 100,
-        "sem_sim": 100.0
-      }
-    },
-    {
-      "sample_id": "lancedb_task1_init_006",
-      "generation": {
-        "success": true,
-        "error": null
-      },
-      "evaluation": {
-        "success": true,
-        "error": null
-      },
-      "metrics": {
-        "i_acc": 100.0,
-        "c_comp": 100.0,
-        "ipa": 100.0,
-        "cq": 100,
-        "sem_sim": 100.0
-      }
+      "overall_score": 75.0,
+      "grade": "C"
     }
   ]
 }
