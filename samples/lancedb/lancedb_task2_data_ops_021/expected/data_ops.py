@@ -1,48 +1,31 @@
-"""Data management for vector database."""
+"""token_limit data operations."""
 
-import pandas as pd
-import numpy as np
 import lancedb
 from lancedb.pydantic import LanceModel, Vector
+import numpy as np
 
-# Connect to database
 db = lancedb.connect("./my_lancedb")
 
 class Document(LanceModel):
-    """Document schema with vector."""
-    id: int
     text: str
-    category: str
-    vector: Vector(384)  # 384-dimensional vector
+    vector: Vector(384)
 
-def create_sample_data():
-    """Create sample data for testing."""
-    data = [
-        {"id": 1, "text": "Hello world", "category": "greeting"},
-        {"id": 2, "text": "Python programming", "category": "tech"},
-        {"id": 3, "text": "Machine learning", "category": "tech"}
+def create_data():
+    """Create sample data."""
+    return [
+        Document(text=f"Document {i}", vector=np.random.randn(384).tolist())
+        for i in range(10)
     ]
-    return pd.DataFrame(data)
 
-def store_data(df):
-    """Store data in vector database."""
-    # Add random vectors for demo (in production, use real embeddings)
-    df["vector"] = [np.random.randn(384).tolist() for _ in range(len(df))]
-
-    # Create or open table
-    table = db.create_table(
-        "documents",
-        data=df,
-        mode="overwrite"
-    )
-
+def store_data(data):
+    """Store data in database."""
+    table = db.create_table("documents", data, mode="overwrite")
     return table
 
 def main():
-    """Main function."""
-    df = create_sample_data()
-    table = store_data(df)
-    print(f"Stored {len(df)} records in '{table.name}' table")
+    data = create_data()
+    table = store_data(data)
+    print(f"Data operations complete: {len(table.to_pandas())} records")
 
 if __name__ == "__main__":
     main()

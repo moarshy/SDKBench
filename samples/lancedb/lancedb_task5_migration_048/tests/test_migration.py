@@ -1,4 +1,4 @@
-"""Tests for schema migration."""
+"""Tests for schema migration: Add new field with defaults."""
 
 import pytest
 import sys

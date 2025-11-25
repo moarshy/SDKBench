@@ -1,32 +1,34 @@
-"""Vector similarity search implementation."""
+"""HYDE - Hypothetical Document Embeddings."""
 
 import lancedb
-import numpy as np
 from sentence_transformers import SentenceTransformer
 
-# Initialize
 db = lancedb.connect("./my_lancedb")
 model = SentenceTransformer("all-MiniLM-L6-v2")
 
-def search_similar(query_text, k=5):
-    """Search for similar documents."""
-    # Open table
+def generate_hypothetical_answer(query: str) -> str:
+    """Generate hypothetical answer using LLM (mock)."""
+    # In production, use actual LLM
+    # Here we simulate with a template
+    return f"The answer to '{query}' involves understanding the key concepts and their relationships in the domain."
+
+def hyde_search(query: str, k: int = 10):
+    """Search using HYDE pattern."""
     table = db.open_table("documents")
 
-    # Generate query embedding
-    query_vector = model.encode(query_text).tolist()
+    # Generate hypothetical answer
+    hypothetical_answer = generate_hypothetical_answer(query)
 
-    # Perform vector search
-    results = table.search(query_vector).limit(k).to_pandas()
+    # Embed the hypothetical answer (not the query!)
+    hyde_vector = model.encode(hypothetical_answer).tolist()
 
+    # Search using hypothetical answer embedding
+    results = table.search(hyde_vector).limit(k).to_pandas()
     return results
 
 def main():
-    """Test search functionality."""
-    results = search_similar("machine learning", k=5)
-    print(f"Found {len(results)} similar documents")
-    for idx, row in results.iterrows():
-        print(f"  - {row['text'][:50]}... (score: {row['_distance']:.3f})")
+    results = hyde_search("What is machine learning?", k=10)
+    print(f"HYDE search found {len(results)} results")
 
 if __name__ == "__main__":
     main()

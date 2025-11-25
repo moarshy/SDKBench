@@ -4,25 +4,30 @@
   "task_name": "initialization",
   "sdk": "lancedb",
   "lancedb_version": "0.5.0",
-  "framework": "python",
+  "framework": "fastapi",
   "difficulty": "medium",
-  "estimated_lines": 15,
-  "description": "Multi-tenant database setup",
-  "scenario": "multi_tenant",
-  "use_case": "SaaS application",
+  "estimated_lines": 40,
+  "description": "FastAPI lifespan context manager",
+  "scenario": "fastapi_lifespan",
   "ground_truth": {
     "ingredients": {
       "initialization": {
         "location": "app.py",
         "pattern": "lancedb.connect",
         "imports": [
-          "lancedb"
+          "lancedb",
+          "fastapi"
         ]
       },
       "configuration": {
-        "db_path": "./tenants/{tenant_id}/db",
+        "db_path": "./api_db",
         "connection_method": "lancedb.connect"
-      }
+      },
+      "production_patterns": [
+        "fastapi",
+        "lifespan",
+        "contextmanager"
+      ]
     }
   },
   "evaluation_targets": {
@@ -30,7 +35,8 @@
       "correct_file": "app.py",
       "correct_pattern": "lancedb.connect",
       "correct_imports": [
-        "import lancedb"
+        "import lancedb",
+        "import fastapi"
       ]
     },
     "c_comp": {

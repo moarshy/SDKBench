@@ -1,30 +1,37 @@
-"""Data management for vector database."""
+"""Async batch embedding with rate limiting."""
 
-import pandas as pd
-import numpy as np
+import asyncio
+from typing import List
 
-# TODO: Connect to database
+# TODO: Import lancedb
 
-def create_sample_data():
-    """Create sample data for testing."""
-    data = [
-        {"id": 1, "text": "Hello world", "category": "greeting"},
-        {"id": 2, "text": "Python programming", "category": "tech"},
-        {"id": 3, "text": "Machine learning", "category": "tech"}
-    ]
-    return pd.DataFrame(data)
+RATE_LIMIT = 10  # requests per second
+BATCH_SIZE = 50
 
-def store_data(df):
-    """Store data in vector database."""
-    # TODO: Create table and add data
+async def embed_batch_async(texts: List[str], semaphore: asyncio.Semaphore):
+    """Embed batch of texts with rate limiting.
+
+    TODO:
+        1. Acquire semaphore
+        2. Call embedding API
+        3. Return vectors
+    """
     pass
 
-def main():
-    """Main function."""
-    df = create_sample_data()
-    # TODO: Add vector column
-    store_data(df)
-    print(f"Stored {len(df)} records")
+async def ingest_async(db, table_name: str, documents: List[dict]):
+    """Async batch ingestion with rate limiting.
+
+    TODO:
+        1. Create semaphore for rate limiting
+        2. Process batches concurrently with asyncio.gather()
+        3. Insert results into table
+    """
+    pass
+
+async def main():
+    # TODO: Create large document set
+    # TODO: Ingest with async batching
+    print("Async batch complete")
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())

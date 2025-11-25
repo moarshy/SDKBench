@@ -4,25 +4,28 @@
   "task_name": "initialization",
   "sdk": "lancedb",
   "lancedb_version": "0.5.0",
-  "framework": "python",
-  "difficulty": "medium",
-  "estimated_lines": 15,
-  "description": "Initialize LanceDB in Streamlit app",
-  "scenario": "streamlit_app",
-  "use_case": "streamlit dashboard",
+  "framework": "streamlit",
+  "difficulty": "easy",
+  "estimated_lines": 20,
+  "description": "Streamlit cached connection",
+  "scenario": "streamlit_cache",
   "ground_truth": {
     "ingredients": {
       "initialization": {
         "location": "app.py",
         "pattern": "lancedb.connect",
         "imports": [
-          "lancedb"
+          "lancedb",
+          "streamlit"
         ]
       },
       "configuration": {
-        "db_path": "./streamlit_data/vectors",
+        "db_path": "./streamlit_db",
         "connection_method": "lancedb.connect"
-      }
+      },
+      "production_patterns": [
+        "st.cache_resource"
+      ]
     }
   },
   "evaluation_targets": {
@@ -30,7 +33,8 @@
       "correct_file": "app.py",
       "correct_pattern": "lancedb.connect",
       "correct_imports": [
-        "import lancedb"
+        "import lancedb",
+        "import streamlit"
       ]
     },
     "c_comp": {

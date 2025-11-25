@@ -1,48 +1,39 @@
-"""Data management for vector database."""
+"""Auto-embedding with SourceField pattern."""
 
-import pandas as pd
-import numpy as np
 import lancedb
+from lancedb.embeddings import EmbeddingFunctionRegistry
 from lancedb.pydantic import LanceModel, Vector
+
+# Initialize embedding model via registry
+registry = EmbeddingFunctionRegistry.get_instance()
+model = registry.get("sentence-transformers").create(name="all-MiniLM-L6-v2")
+
+# Define schema with auto-embedding
+class Document(LanceModel):
+    text: str = model.SourceField()  # Auto-embed this field
+    vector: Vector(model.ndims()) = model.VectorField()  # Generated
 
 # Connect to database
 db = lancedb.connect("./my_lancedb")
 
-class Document(LanceModel):
-    """Document schema with vector."""
-    id: int
-    text: str
-    category: str
-    vector: Vector(384)  # 384-dimensional vector
-
-def create_sample_data():
-    """Create sample data for testing."""
-    data = [
-        {"id": 1, "text": "Hello world", "category": "greeting"},
-        {"id": 2, "text": "Python programming", "category": "tech"},
-        {"id": 3, "text": "Machine learning", "category": "tech"}
-    ]
-    return pd.DataFrame(data)
-
-def store_data(df):
-    """Store data in vector database."""
-    # Add random vectors for demo (in production, use real embeddings)
-    df["vector"] = [np.random.randn(384).tolist() for _ in range(len(df))]
-
-    # Create or open table
-    table = db.create_table(
-        "items",
-        data=df,
-        mode="overwrite"
-    )
-
+def ingest_documents(documents: list):
+    """Ingest documents with automatic embedding."""
+    # Create Document instances - vectors are auto-generated!
+    docs = [Document(text=d["text"]) for d in documents]
+    table = db.create_table("documents", docs, mode="overwrite")
     return table
 
 def main():
-    """Main function."""
-    df = create_sample_data()
-    table = store_data(df)
-    print(f"Stored {len(df)} records in '{table.name}' table")
+    # Create documents WITHOUT vectors - they're auto-generated!
+    documents = [
+        {"text": "LanceDB is a vector database"},
+        {"text": "Embeddings are generated automatically"},
+        {"text": "No need to compute vectors manually"},
+    ]
+    table = ingest_documents(documents)
+    df = table.to_pandas()
+    print(f"Auto-embedding complete: {len(df)} records")
+    print(f"Vector dimension: {len(df['vector'].iloc[0])}")
 
 if __name__ == "__main__":
     main()

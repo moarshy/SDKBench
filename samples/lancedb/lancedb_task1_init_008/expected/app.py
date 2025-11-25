@@ -1,31 +1,35 @@
-"""Multi-tenant LanceDB setup."""
+"""FastAPI with LanceDB using lifespan context manager."""
 
-import os
+from contextlib import asynccontextmanager
+from fastapi import FastAPI, Depends, Request
 import lancedb
-from pathlib import Path
 
-BASE_PATH = "./tenants"
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """Lifespan context manager for startup/shutdown."""
+    # Startup: Initialize database
+    app.state.db = lancedb.connect("./api_db")
+    print("Database initialized")
+    yield
+    # Shutdown: Cleanup if needed
+    print("Shutting down")
 
-def get_tenant_db(tenant_id: str):
-    """Get database for specific tenant."""
-    tenant_path = f"{BASE_PATH}/{tenant_id}/db"
-    Path(tenant_path).parent.mkdir(parents=True, exist_ok=True)
-    return lancedb.connect(tenant_path)
+# Create FastAPI app with lifespan
+app = FastAPI(title="Vector Search API", lifespan=lifespan)
 
-def create_tenant(tenant_id: str):
-    """Create new tenant database."""
-    db = get_tenant_db(tenant_id)
-    # Initialize with default table
-    data = [{"text": "welcome", "vector": [0.0] * 384}]
-    db.create_table("documents", data, mode="overwrite")
-    return db
+def get_db(request: Request):
+    """Dependency to get database from app state."""
+    return request.app.state.db
+
+@app.get("/health")
+def health_check(db=Depends(get_db)):
+    """Health check endpoint."""
+    tables = db.table_names()
+    return {"status": "healthy", "tables": len(tables)}
 
 def main():
-    """Multi-tenant main."""
-    # Example: create tenant
-    tenant_db = create_tenant("tenant_001")
-    print(f"Tenant database ready with {len(tenant_db.table_names())} tables")
-    print("Multi-tenant system ready")
+    print("FastAPI service ready")
 
 if __name__ == "__main__":
-    main()
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8000)

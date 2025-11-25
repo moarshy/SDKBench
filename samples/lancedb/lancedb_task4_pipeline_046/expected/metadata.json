@@ -6,9 +6,9 @@
   "lancedb_version": "0.5.0",
   "framework": "python",
   "difficulty": "hard",
-  "estimated_lines": 100,
-  "description": "Build a complete Hybrid Search using LanceDB",
-  "pipeline_type": "hybrid",
+  "estimated_lines": 70,
+  "description": "HYDE-enhanced RAG pipeline",
+  "scenario": "hyde_rag",
   "ground_truth": {
     "ingredients": {
       "database_operations": [
@@ -24,6 +24,11 @@
         "search",
         "generate_response",
         "run_pipeline"
+      ],
+      "production_patterns": [
+        "hyde",
+        "llm_expansion",
+        "rag"
       ]
     }
   },
@@ -37,14 +42,15 @@
       ]
     },
     "c_comp": {
-      "required_components": 6,
+      "required_components": 7,
       "components": [
         "imports",
         "schema",
         "connection",
         "ingestion",
         "search",
-        "pipeline"
+        "pipeline",
+        "hyde_expansion"
       ]
     }
   }

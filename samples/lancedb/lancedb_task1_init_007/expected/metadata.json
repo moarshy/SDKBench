@@ -6,10 +6,9 @@
   "lancedb_version": "0.5.0",
   "framework": "python",
   "difficulty": "medium",
-  "estimated_lines": 15,
-  "description": "Async initialization pattern",
-  "scenario": "async_init",
-  "use_case": "async application",
+  "estimated_lines": 40,
+  "description": "S3 cloud storage connection",
+  "scenario": "cloud_s3",
   "ground_truth": {
     "ingredients": {
       "initialization": {
@@ -20,9 +19,12 @@
         ]
       },
       "configuration": {
-        "db_path": "./async_db",
+        "db_path": "s3://bucket/lancedb",
         "connection_method": "lancedb.connect"
-      }
+      },
+      "production_patterns": [
+        "s3_storage"
+      ]
     }
   },
   "evaluation_targets": {

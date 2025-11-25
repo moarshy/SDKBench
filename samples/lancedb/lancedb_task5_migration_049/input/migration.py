@@ -1,4 +1,4 @@
-"""Schema Migration: Change vector dimension.
+"""Schema Migration: Migrate/rebuild vector index.
 
 Migrate existing LanceDB table to new schema while preserving data.
 """

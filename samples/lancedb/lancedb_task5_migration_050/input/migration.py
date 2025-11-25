@@ -1,4 +1,4 @@
-"""Schema Migration: Rename table with data preservation.
+"""Schema Migration: Upgrade embedding model.
 
 Migrate existing LanceDB table to new schema while preserving data.
 """

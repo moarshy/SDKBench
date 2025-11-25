@@ -7,38 +7,36 @@
   "framework": "python",
   "difficulty": "medium",
   "estimated_lines": 40,
-  "description": "Create table schema and store data with vectors in LanceDB",
+  "description": "Rich metadata fields",
+  "scenario": "metadata_rich",
   "ground_truth": {
     "ingredients": {
       "table_operations": {
-        "table_name": "vectors",
         "operations": [
           "create_table",
           "add"
         ],
-        "schema": "LanceModel"
+        "schema": "dict"
       },
-      "vector_config": {
-        "dimension": 384,
-        "field_name": "vector"
-      }
+      "production_patterns": [
+        "metadata",
+        "timestamps",
+        "tags"
+      ]
     }
   },
   "evaluation_targets": {
     "i_acc": {
       "correct_pattern": "create_table",
       "correct_imports": [
-        "import lancedb",
-        "from lancedb.pydantic"
+        "import lancedb"
       ]
     },
     "c_comp": {
-      "required_components": 4,
+      "required_components": 2,
       "components": [
-        "schema",
         "connection",
-        "table_creation",
-        "vectors"
+        "table_creation"
       ]
     }
   }

@@ -1,35 +1,31 @@
-"""Configurable vector database application."""
-
-import os
+"""LanceDB with Sentence Transformers via EmbeddingFunctionRegistry."""
 
 # TODO: Import lancedb
+# TODO: Import EmbeddingFunctionRegistry from lancedb.embeddings
+# TODO: Import LanceModel, Vector from lancedb.pydantic
 
-# TODO: Read configuration from environment
+# TODO: Get registry instance and create sentence-transformers model
+# registry = EmbeddingFunctionRegistry.get_instance()
+# model = registry.get("sentence-transformers").create(name="all-MiniLM-L6-v2")
 
-def get_db_path():
-    """Get database path from configuration.
+# TODO: Define Document schema with auto-embedding
+# class Document(LanceModel):
+#     text: str = model.SourceField()
+#     vector: Vector(model.ndims()) = model.VectorField()
+
+def get_database():
+    """Initialize database with sentence transformer embeddings.
 
     TODO:
-        1. Read LANCEDB_PATH from environment
-        2. Provide default fallback
-        3. Return configured path
-    """
-    pass
-
-def initialize_database():
-    """Initialize database with configuration.
-
-    TODO:
-        1. Get path from config
-        2. Connect to LanceDB
-        3. Return connection
+        1. Connect to LanceDB
+        2. Return db connection
     """
     pass
 
 def main():
-    """Main entry point."""
-    # TODO: Initialize with config
-    print("Configurable app started")
+    # TODO: Initialize database
+    # TODO: Test embedding generation
+    print("Sentence transformer pipeline ready")
 
 if __name__ == "__main__":
     main()

@@ -6,10 +6,9 @@
   "lancedb_version": "0.5.0",
   "framework": "python",
   "difficulty": "medium",
-  "estimated_lines": 15,
-  "description": "Initialize for Jupyter notebook",
-  "scenario": "jupyter_notebook",
-  "use_case": "data analysis",
+  "estimated_lines": 40,
+  "description": "Connection with index creation",
+  "scenario": "with_index",
   "ground_truth": {
     "ingredients": {
       "initialization": {
@@ -20,9 +19,13 @@
         ]
       },
       "configuration": {
-        "db_path": "./notebook_data",
+        "db_path": "./indexed_db",
         "connection_method": "lancedb.connect"
-      }
+      },
+      "production_patterns": [
+        "create_index",
+        "IVF_PQ"
+      ]
     }
   },
   "evaluation_targets": {
@@ -34,16 +37,18 @@
       ]
     },
     "c_comp": {
-      "required_components": 2,
+      "required_components": 3,
       "components": [
         "import",
-        "connection"
+        "connection",
+        "index_creation"
       ]
     },
     "ipa": {
       "integration_points": [
         "lancedb.connect",
-        "table_names"
+        "table_names",
+        "table.create_index"
       ]
     },
     "f_corr": {

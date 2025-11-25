@@ -1,16 +1,28 @@
-"""Vector similarity search implementation."""
+"""Tuned search with nprobes and refine_factor."""
 
-# TODO: Import necessary libraries
+# TODO: Import lancedb
 
-def search_similar(query_text, k=5):
-    """Search for similar documents."""
-    # TODO: Implement vector search
+def search_tuned(query_vector, k: int = 10, nprobes: int = 20, refine: int = 50):
+    """Search with tuned parameters.
+
+    TODO:
+        1. Use .nprobes(nprobes) for index search breadth
+        2. Use .refine_factor(refine) for re-ranking precision
+        3. Higher values = more accurate, slower
+        4. Return results
+
+    Example:
+        table.search(query_vector)
+             .nprobes(20)
+             .refine_factor(50)
+             .limit(k)
+             .to_pandas()
+    """
     pass
 
 def main():
-    """Test search functionality."""
-    results = search_similar("machine learning", k=10)
-    print(f"Found results")
+    # TODO: Search with tuned parameters
+    print("Tuned search complete")
 
 if __name__ == "__main__":
     main()

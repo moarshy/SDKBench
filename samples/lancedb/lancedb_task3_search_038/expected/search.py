@@ -1,32 +1,32 @@
-"""Vector similarity search implementation."""
+"""Hybrid search with RRF reranking."""
 
 import lancedb
-import numpy as np
+from lancedb.rerankers import RRFReranker
 from sentence_transformers import SentenceTransformer
 
-# Initialize
 db = lancedb.connect("./my_lancedb")
 model = SentenceTransformer("all-MiniLM-L6-v2")
 
-def search_similar(query_text, k=10):
-    """Search for similar documents."""
-    # Open table
+def search_with_rrf(query_text: str, k: int = 10):
+    """Hybrid search with Reciprocal Rank Fusion."""
     table = db.open_table("documents")
-
-    # Generate query embedding
     query_vector = model.encode(query_text).tolist()
 
-    # Perform vector search
-    results = table.search(query_vector).limit(k).to_pandas()
-
+    # RRF combines rankings from multiple retrievers
+    reranker = RRFReranker()
+    results = (
+        table.search(query_type="hybrid")
+        .vector(query_vector)
+        .text(query_text)
+        .rerank(reranker)
+        .limit(k)
+        .to_pandas()
+    )
     return results
 
 def main():
-    """Test search functionality."""
-    results = search_similar("machine learning", k=10)
-    print(f"Found {len(results)} similar documents")
-    for idx, row in results.iterrows():
-        print(f"  - {row['text'][:50]}... (score: {row['_distance']:.3f})")
+    results = search_with_rrf("deep learning neural networks", k=10)
+    print(f"RRF search found {len(results)} results")
 
 if __name__ == "__main__":
     main()

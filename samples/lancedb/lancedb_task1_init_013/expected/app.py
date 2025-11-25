@@ -1,24 +1,36 @@
-"""Initialize in Flask application - web application."""
+"""LanceDB with dynamic vector dimension from embedding model."""
 
 import lancedb
+from lancedb.embeddings import EmbeddingFunctionRegistry
+from lancedb.pydantic import LanceModel, Vector
 
-def initialize():
-    """Initialize database connection."""
-    return lancedb.connect("./flask_data/vectors")
+def create_model_and_schema(model_name: str):
+    """Create embedding model and schema with dynamic dimension."""
+    registry = EmbeddingFunctionRegistry.get_instance()
+    model = registry.get("sentence-transformers").create(name=model_name)
 
-def verify_connection(db):
-    """Verify database is accessible."""
-    tables = db.table_names()
-    return len(tables) >= 0
+    # Vector dimension is dynamically determined from model
+    class Document(LanceModel):
+        text: str = model.SourceField()
+        vector: Vector(model.ndims()) = model.VectorField()
+
+    return model, Document
+
+# Create with specific model
+model, Document = create_model_and_schema("all-MiniLM-L6-v2")
 
 # Initialize database
-db = initialize()
+db = lancedb.connect("./dynamic_db")
 
 def main():
-    """Main entry point."""
-    if verify_connection(db):
-        print(f"Connected to {db_path}")
-    print("web application ready")
+    print(f"Model: all-MiniLM-L6-v2")
+    print(f"Dynamic vector dimension: {model.ndims()}")
+
+    # Test with different model
+    model2, Doc2 = create_model_and_schema("all-mpnet-base-v2")
+    print(f"all-mpnet-base-v2 dimension: {model2.ndims()}")
+
+    print("Dynamic vector dimension ready")
 
 if __name__ == "__main__":
     main()

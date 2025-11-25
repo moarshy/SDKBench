@@ -1,16 +1,34 @@
-"""Vector similarity search implementation."""
+"""Search with IVF-PQ index."""
 
-# TODO: Import necessary libraries
+# TODO: Import lancedb
 
-def search_similar(query_text, k=5):
-    """Search for similar documents."""
-    # TODO: Implement vector search
+def create_ivf_pq_index(table):
+    """Create IVF-PQ index for fast search.
+
+    TODO:
+        1. Call table.create_index(
+               metric="cosine",
+               num_partitions=256,
+               num_sub_vectors=96
+           )
+        2. num_partitions controls coarse quantization
+        3. num_sub_vectors controls fine quantization
+    """
+    pass
+
+def search_indexed(table, query_vector, k: int = 10):
+    """Search using IVF-PQ index.
+
+    TODO:
+        1. Perform normal search - index is used automatically
+        2. Use .nprobes() to control search breadth
+        3. Return results
+    """
     pass
 
 def main():
-    """Test search functionality."""
-    results = search_similar("machine learning", k=10)
-    print(f"Found results")
+    # TODO: Create index and search
+    print("Indexed search complete")
 
 if __name__ == "__main__":
     main()

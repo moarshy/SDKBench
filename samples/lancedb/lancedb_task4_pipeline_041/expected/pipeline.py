@@ -1,6 +1,6 @@
-"""Document Q&A Pipeline.
+"""Streamlit RAG with caching.
 
-Complete document q&a system using LanceDB for vector storage.
+Complete pipeline using LanceDB for vector storage.
 """
 
 import lancedb

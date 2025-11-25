@@ -5,19 +5,22 @@ import os
 import sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-def test_lancedb_connection():
-    """Test that LanceDB connection is established."""
+
+import asyncio
+
+def test_async_class_exists():
+    """Test AsyncLanceDB class exists."""
+    from expected import app
+    assert hasattr(app, "AsyncLanceDB")
+
+def test_async_connect():
+    """Test async connection works."""
     from expected import app
 
-    # Check that db is initialized
-    assert app.db is not None
+    async def test():
+        adb = app.AsyncLanceDB("./test_async_db")
+        await adb.connect()
+        return adb
 
-    # Check connection method was called
-    assert hasattr(app.db, 'table_names')
-
-def test_main_function():
-    """Test main function runs without errors."""
-    from expected import app
-
-    # Should run without raising exceptions
-    app.main()
+    adb = asyncio.run(test())
+    assert adb._db is not None

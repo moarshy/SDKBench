@@ -1,38 +1,33 @@
-"""CLI tool with LanceDB backend."""
+"""Multi-tenant LanceDB with tenant isolation."""
 
-import argparse
-import os
 from pathlib import Path
 import lancedb
 
-def get_default_db_path():
-    """Get default database path in user home."""
-    home = Path.home()
-    db_dir = home / ".lancedb" / "data"
-    db_dir.mkdir(parents=True, exist_ok=True)
-    return str(db_dir)
+BASE_PATH = "./tenants"
 
-def init_cli_database(path: str = None):
-    """Initialize database for CLI."""
-    db_path = path or get_default_db_path()
-    return lancedb.connect(db_path)
+def get_tenant_db(tenant_id: str):
+    """Get isolated database for tenant."""
+    tenant_path = Path(BASE_PATH) / tenant_id / "db"
+    tenant_path.parent.mkdir(parents=True, exist_ok=True)
+    return lancedb.connect(str(tenant_path))
 
-# Initialize database
-db = init_cli_database()
+def list_tenants():
+    """List all tenant databases."""
+    base = Path(BASE_PATH)
+    if not base.exists():
+        return []
+    return [d.name for d in base.iterdir() if d.is_dir()]
 
 def main():
-    """CLI main entry point."""
-    parser = argparse.ArgumentParser(description="Vector DB CLI")
-    parser.add_argument("--path", help="Database path")
-    args = parser.parse_args()
+    # Create tenant databases
+    tenant_a = get_tenant_db("tenant_a")
+    tenant_b = get_tenant_db("tenant_b")
 
-    if args.path:
-        global db
-        db = init_cli_database(args.path)
-
-    tables = db.table_names()
-    print(f"CLI connected, {len(tables)} tables available")
-    print("CLI tool ready")
+    # Verify isolation
+    print(f"Tenant A tables: {tenant_a.table_names()}")
+    print(f"Tenant B tables: {tenant_b.table_names()}")
+    print(f"All tenants: {list_tenants()}")
+    print("Multi-tenant system ready")
 
 if __name__ == "__main__":
     main()

@@ -1,26 +1,27 @@
-"""LanceDB with predefined schema."""
+"""Flask application with LanceDB."""
 
-# TODO: Import lancedb and pydantic
+# TODO: Import Flask
+# TODO: Import lancedb
 
-# TODO: Define document schema class
+# TODO: Create Flask app
+# app = Flask(__name__)
 
-# TODO: Initialize database with schema
+# TODO: Initialize database in app context or config
 
-def create_typed_table(db, table_name: str):
-    """Create table with predefined schema.
+def get_db():
+    """Get database connection.
 
     TODO:
-        1. Define schema using LanceModel
-        2. Create table with schema
-        3. Return table reference
+        1. Check if db in app config
+        2. Initialize if needed
+        3. Return connection
     """
     pass
 
+# TODO: Create routes
+
 def main():
-    """Schema-based main."""
-    # TODO: Initialize database
-    # TODO: Create typed table
-    print("Schema-based app ready")
+    print("Flask app ready")
 
 if __name__ == "__main__":
     main()

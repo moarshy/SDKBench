@@ -1,6 +1,6 @@
-"""Document Q&A Pipeline.
+"""Streamlit RAG with caching.
 
-Build a complete document q&a system using LanceDB for vector storage.
+Build a complete pipeline using LanceDB for vector storage.
 """
 
 # TODO: Import required libraries (lancedb, sentence_transformers, etc.)

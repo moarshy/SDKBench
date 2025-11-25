@@ -1,6 +1,6 @@
-"""Search with Reranking Pipeline.
+"""Full hybrid search RAG pipeline.
 
-Build a complete search with reranking system using LanceDB for vector storage.
+Build a complete pipeline using LanceDB for vector storage.
 """
 
 # TODO: Import required libraries (lancedb, sentence_transformers, etc.)

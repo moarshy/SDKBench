@@ -1,26 +1,26 @@
-"""Streamlit dashboard with vector search."""
+"""Streamlit app with cached LanceDB connection."""
 
-# TODO: Import streamlit and lancedb
+import streamlit as st
 
-# TODO: Use st.cache_resource for database connection
+# TODO: Import lancedb
+
+# TODO: Use @st.cache_resource decorator for database connection
 
 def get_database():
     """Get cached database connection.
 
     TODO:
-        1. Use Streamlit caching
+        1. Apply @st.cache_resource decorator
         2. Connect to LanceDB
         3. Return cached connection
     """
     pass
 
 def main():
-    """Streamlit app main."""
-    # TODO: Set up page config
-    # TODO: Initialize database
-    # TODO: Display connection status
-
-    print("Streamlit app ready")
+    st.title("Vector Search App")
+    # TODO: Get cached database
+    # TODO: Display table count
+    st.write("App ready")
 
 if __name__ == "__main__":
     main()

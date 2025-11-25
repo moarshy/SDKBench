@@ -1,36 +1,34 @@
-"""Multi-tenant LanceDB setup."""
+"""FastAPI with LanceDB using lifespan context manager."""
 
+from contextlib import asynccontextmanager
+
+# TODO: Import FastAPI
 # TODO: Import lancedb
 
-# TODO: Create tenant-specific database paths
+# TODO: Define lifespan context manager
+# @asynccontextmanager
+# async def lifespan(app):
+#     # Startup: Initialize database
+#     app.state.db = lancedb.connect("./api_db")
+#     yield
+#     # Shutdown: Cleanup if needed
 
-def get_tenant_db(tenant_id: str):
-    """Get database for specific tenant.
+# TODO: Create FastAPI app with lifespan
+# app = FastAPI(lifespan=lifespan)
 
-    Args:
-        tenant_id: Unique tenant identifier
+def get_db():
+    """Dependency to get database from app state.
 
     TODO:
-        1. Build tenant-specific path
-        2. Connect to tenant database
-        3. Return connection
+        1. Access app.state.db
+        2. Return database connection
     """
     pass
 
-def create_tenant(tenant_id: str):
-    """Create new tenant database.
-
-    TODO:
-        1. Create tenant directory
-        2. Initialize database
-        3. Set up default tables
-    """
-    pass
+# TODO: Create health check endpoint
 
 def main():
-    """Multi-tenant main."""
-    # TODO: Initialize for tenant
-    print("Multi-tenant system ready")
+    print("FastAPI service ready")
 
 if __name__ == "__main__":
     main()

@@ -1,32 +1,38 @@
-"""Vector similarity search implementation."""
+"""Search with IVF-PQ index."""
 
 import lancedb
-import numpy as np
+from lancedb.pydantic import LanceModel, Vector
 from sentence_transformers import SentenceTransformer
+import numpy as np
 
-# Initialize
 db = lancedb.connect("./my_lancedb")
 model = SentenceTransformer("all-MiniLM-L6-v2")
 
-def search_similar(query_text, k=20):
-    """Search for similar documents."""
-    # Open table
-    table = db.open_table("documents")
+def create_ivf_pq_index(table):
+    """Create IVF-PQ index for fast search."""
+    table.create_index(
+        metric="cosine",
+        num_partitions=256,
+        num_sub_vectors=96
+    )
 
-    # Generate query embedding
+def search_indexed(query_text: str, k: int = 10, nprobes: int = 20):
+    """Search using IVF-PQ index."""
+    table = db.open_table("documents")
     query_vector = model.encode(query_text).tolist()
 
-    # Perform vector search
-    results = table.search(query_vector).limit(k).to_pandas()
-
+    # Index is used automatically, nprobes controls search breadth
+    results = (
+        table.search(query_vector)
+        .nprobes(nprobes)
+        .limit(k)
+        .to_pandas()
+    )
     return results
 
 def main():
-    """Test search functionality."""
-    results = search_similar("machine learning", k=20)
-    print(f"Found {len(results)} similar documents")
-    for idx, row in results.iterrows():
-        print(f"  - {row['text'][:50]}... (score: {row['_distance']:.3f})")
+    results = search_indexed("machine learning", k=10)
+    print(f"Indexed search found {len(results)} results")
 
 if __name__ == "__main__":
     main()

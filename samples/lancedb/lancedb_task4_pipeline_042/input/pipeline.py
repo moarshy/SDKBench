@@ -1,6 +1,6 @@
-"""Semantic Search API Pipeline.
+"""Multimodal CLIP search.
 
-Build a complete semantic search api system using LanceDB for vector storage.
+Build a complete pipeline using LanceDB for vector storage.
 """
 
 # TODO: Import required libraries (lancedb, sentence_transformers, etc.)

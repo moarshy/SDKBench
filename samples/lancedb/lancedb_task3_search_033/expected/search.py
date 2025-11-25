@@ -1,32 +1,28 @@
-"""Vector similarity search implementation."""
+"""Search with prefiltering (more efficient)."""
 
 import lancedb
-import numpy as np
 from sentence_transformers import SentenceTransformer
 
-# Initialize
 db = lancedb.connect("./my_lancedb")
 model = SentenceTransformer("all-MiniLM-L6-v2")
 
-def search_similar(query_text, k=20):
-    """Search for similar documents."""
-    # Open table
+def search_with_prefilter(query_text: str, category: str, k: int = 10):
+    """Search with prefiltering for efficiency."""
     table = db.open_table("documents")
-
-    # Generate query embedding
     query_vector = model.encode(query_text).tolist()
 
-    # Perform vector search
-    results = table.search(query_vector).limit(k).to_pandas()
-
+    # Prefilter=True filters BEFORE computing distances (faster!)
+    results = (
+        table.search(query_vector)
+        .where(f"category = '{category}'", prefilter=True)
+        .limit(k)
+        .to_pandas()
+    )
     return results
 
 def main():
-    """Test search functionality."""
-    results = search_similar("machine learning", k=20)
-    print(f"Found {len(results)} similar documents")
-    for idx, row in results.iterrows():
-        print(f"  - {row['text'][:50]}... (score: {row['_distance']:.3f})")
+    results = search_with_prefilter("machine learning", "tech", k=5)
+    print(f"Found {len(results)} results in 'tech' category")
 
 if __name__ == "__main__":
     main()

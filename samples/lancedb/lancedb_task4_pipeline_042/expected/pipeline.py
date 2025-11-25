@@ -1,6 +1,6 @@
-"""Semantic Search API Pipeline.
+"""Multimodal CLIP search.
 
-Complete semantic search api system using LanceDB for vector storage.
+Complete pipeline using LanceDB for vector storage.
 """
 
 import lancedb

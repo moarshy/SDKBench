@@ -1,6 +1,6 @@
-"""Hybrid Search Pipeline.
+"""HYDE-enhanced RAG pipeline.
 
-Build a complete hybrid search system using LanceDB for vector storage.
+Build a complete pipeline using LanceDB for vector storage.
 """
 
 # TODO: Import required libraries (lancedb, sentence_transformers, etc.)

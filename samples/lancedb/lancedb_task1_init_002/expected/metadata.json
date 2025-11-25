@@ -5,11 +5,10 @@
   "sdk": "lancedb",
   "lancedb_version": "0.5.0",
   "framework": "python",
-  "difficulty": "medium",
-  "estimated_lines": 15,
-  "description": "Connect to cloud-based LanceDB",
-  "scenario": "cloud_storage",
-  "use_case": "cloud deployment",
+  "difficulty": "easy",
+  "estimated_lines": 20,
+  "description": "In-memory database for testing",
+  "scenario": "memory_mode",
   "ground_truth": {
     "ingredients": {
       "initialization": {
@@ -20,9 +19,10 @@
         ]
       },
       "configuration": {
-        "db_path": "s3://my-bucket/lancedb",
+        "db_path": ":memory:",
         "connection_method": "lancedb.connect"
-      }
+      },
+      "production_patterns": []
     }
   },
   "evaluation_targets": {

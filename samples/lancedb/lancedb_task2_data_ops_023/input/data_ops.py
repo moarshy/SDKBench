@@ -1,30 +1,34 @@
-"""Data management for vector database."""
+"""Rich metadata fields with timestamps and tags."""
 
-import pandas as pd
-import numpy as np
+from datetime import datetime
+from typing import Optional, List
 
-# TODO: Connect to database
+# TODO: Import lancedb
+# TODO: Import LanceModel, Vector from lancedb.pydantic
 
-def create_sample_data():
-    """Create sample data for testing."""
-    data = [
-        {"id": 1, "text": "Hello world", "category": "greeting"},
-        {"id": 2, "text": "Python programming", "category": "tech"},
-        {"id": 3, "text": "Machine learning", "category": "tech"}
-    ]
-    return pd.DataFrame(data)
+# TODO: Define schema with rich metadata
+# class Document(LanceModel):
+#     text: str
+#     vector: Vector(384)
+#     created_at: str
+#     updated_at: Optional[str] = None
+#     tags: Optional[str] = None  # JSON string
+#     source: Optional[str] = None
 
-def store_data(df):
-    """Store data in vector database."""
-    # TODO: Create table and add data
+def add_with_metadata(table, text: str, vector, tags: list = None):
+    """Add document with rich metadata.
+
+    TODO:
+        1. Create document with current timestamp
+        2. Serialize tags to JSON
+        3. Add to table
+    """
     pass
 
 def main():
-    """Main function."""
-    df = create_sample_data()
-    # TODO: Add vector column
-    store_data(df)
-    print(f"Stored {len(df)} records")
+    # TODO: Create documents with metadata
+    # TODO: Verify metadata stored
+    print("Rich metadata complete")
 
 if __name__ == "__main__":
     main()

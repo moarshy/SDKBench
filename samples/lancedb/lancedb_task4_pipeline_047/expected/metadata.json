@@ -6,9 +6,9 @@
   "lancedb_version": "0.5.0",
   "framework": "python",
   "difficulty": "hard",
-  "estimated_lines": 100,
-  "description": "Build a complete Search with Reranking using LanceDB",
-  "pipeline_type": "reranking",
+  "estimated_lines": 70,
+  "description": "Full hybrid search RAG pipeline",
+  "scenario": "hybrid_pipeline",
   "ground_truth": {
     "ingredients": {
       "database_operations": [
@@ -24,6 +24,11 @@
         "search",
         "generate_response",
         "run_pipeline"
+      ],
+      "production_patterns": [
+        "hybrid_search",
+        "RRFReranker",
+        "full_pipeline"
       ]
     }
   },
@@ -37,14 +42,16 @@
       ]
     },
     "c_comp": {
-      "required_components": 6,
+      "required_components": 8,
       "components": [
         "imports",
         "schema",
         "connection",
         "ingestion",
         "search",
-        "pipeline"
+        "pipeline",
+        "hybrid_search",
+        "reranking"
       ]
     }
   }

@@ -1,0 +1,296 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "SDKBench Sample Metadata",
+  "description": "Schema for expected/metadata.json in each sample",
+  "type": "object",
+  "required": [
+    "sample_id",
+    "task_type",
+    "task_name",
+    "sdk",
+    "framework",
+    "difficulty",
+    "ground_truth",
+    "evaluation_targets"
+  ],
+  "properties": {
+    "sample_id": {
+      "type": "string",
+      "description": "Unique sample identifier, must match directory name",
+      "pattern": "^[a-z]+_task[1-5]_[a-z_]+_\\d{3}$",
+      "examples": ["lancedb_task1_init_001", "clerk_task3_hooks_031"]
+    },
+    "task_type": {
+      "type": "integer",
+      "description": "Task type number (1-5)",
+      "minimum": 1,
+      "maximum": 5
+    },
+    "task_name": {
+      "type": "string",
+      "description": "Human-readable task name",
+      "examples": ["initialization", "data_operations", "middleware", "hooks", "complete_integration", "migration"]
+    },
+    "sdk": {
+      "type": "string",
+      "description": "SDK identifier (lowercase)",
+      "examples": ["clerk", "lancedb", "stripe", "supabase"]
+    },
+    "framework": {
+      "type": "string",
+      "description": "Target framework",
+      "examples": ["nextjs", "react", "express", "fastapi", "flask", "streamlit"]
+    },
+    "difficulty": {
+      "type": "string",
+      "description": "Sample difficulty level",
+      "enum": ["easy", "medium", "hard"]
+    },
+    "estimated_lines": {
+      "type": "integer",
+      "description": "Estimated lines of code to add/modify",
+      "minimum": 1
+    },
+    "description": {
+      "type": "string",
+      "description": "Human-readable description of what the sample tests"
+    },
+    "scenario": {
+      "type": "string",
+      "description": "Specific scenario being tested (optional)",
+      "examples": ["basic_connection", "with_auth", "streaming"]
+    },
+    "ground_truth": {
+      "type": "object",
+      "description": "Expected patterns and configurations",
+      "required": ["ingredients"],
+      "properties": {
+        "ingredients": {
+          "type": "object",
+          "description": "SDK integration components",
+          "properties": {
+            "initialization": {
+              "type": "object",
+              "description": "SDK initialization details",
+              "properties": {
+                "location": {
+                  "type": "string",
+                  "description": "File where initialization should occur",
+                  "examples": ["app/layout.tsx", "main.py", "src/index.tsx"]
+                },
+                "pattern": {
+                  "type": "string",
+                  "description": "Pattern name or description",
+                  "examples": ["ClerkProvider wrapper", "lancedb.connect"]
+                },
+                "imports": {
+                  "type": "array",
+                  "description": "Required import packages",
+                  "items": { "type": "string" },
+                  "examples": [["@clerk/nextjs"], ["lancedb"]]
+                }
+              }
+            },
+            "configuration": {
+              "type": "object",
+              "description": "Configuration requirements",
+              "properties": {
+                "env_vars": {
+                  "type": "array",
+                  "description": "Required environment variables",
+                  "items": { "type": "string" },
+                  "examples": [["NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY", "CLERK_SECRET_KEY"]]
+                },
+                "required_config": {
+                  "type": "array",
+                  "description": "Required configuration options",
+                  "items": { "type": "string" }
+                },
+                "optional_config": {
+                  "type": "array",
+                  "description": "Optional configuration options",
+                  "items": { "type": "string" }
+                }
+              }
+            },
+            "integration_points": {
+              "type": "array",
+              "description": "Points where SDK integrates with the app",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "location": {
+                    "type": "string",
+                    "description": "File location"
+                  },
+                  "type": {
+                    "type": "string",
+                    "description": "Integration type",
+                    "examples": ["hook_usage", "middleware", "api_protection", "data_operation"]
+                  },
+                  "function": {
+                    "type": "string",
+                    "description": "Function or method name"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "evaluation_targets": {
+      "type": "object",
+      "description": "Targets for each evaluation metric",
+      "properties": {
+        "i_acc": {
+          "type": "object",
+          "description": "Initialization Accuracy targets",
+          "properties": {
+            "correct_file": {
+              "type": "string",
+              "description": "File that should contain initialization"
+            },
+            "correct_pattern": {
+              "type": "string",
+              "description": "Pattern that should be present"
+            },
+            "correct_imports": {
+              "type": "array",
+              "description": "Imports that should be present",
+              "items": { "type": "string" }
+            }
+          }
+        },
+        "c_comp": {
+          "type": "object",
+          "description": "Configuration Completeness targets",
+          "properties": {
+            "required_env_vars": {
+              "type": "integer",
+              "description": "Number of required env vars"
+            },
+            "optional_env_vars": {
+              "type": "integer",
+              "description": "Number of optional env vars"
+            }
+          }
+        },
+        "ipa": {
+          "type": "object",
+          "description": "Integration Points Analysis targets",
+          "properties": {
+            "expected_integration_points": {
+              "type": "array",
+              "description": "Expected integration points",
+              "items": { "type": "string" }
+            },
+            "expected_hooks": {
+              "type": "array",
+              "description": "Expected hooks to use",
+              "items": { "type": "string" }
+            }
+          }
+        },
+        "f_corr": {
+          "type": "object",
+          "description": "Functional Correctness targets",
+          "properties": {
+            "test_command": {
+              "type": "string",
+              "description": "Command to run tests",
+              "examples": ["npm test -- init.test.ts", "pytest test_init.py"]
+            },
+            "expected_pass": {
+              "type": "boolean",
+              "description": "Whether tests should pass"
+            }
+          }
+        }
+      }
+    }
+  },
+  "additionalProperties": true,
+  "examples": [
+    {
+      "sample_id": "lancedb_task1_init_001",
+      "task_type": 1,
+      "task_name": "initialization",
+      "sdk": "lancedb",
+      "lancedb_version": "0.5.0",
+      "framework": "python",
+      "difficulty": "easy",
+      "estimated_lines": 15,
+      "scenario": "basic_connection",
+      "description": "Initialize LanceDB connection in a Python application",
+      "ground_truth": {
+        "ingredients": {
+          "initialization": {
+            "location": "app.py",
+            "pattern": "lancedb.connect",
+            "imports": ["lancedb"]
+          },
+          "configuration": {
+            "db_path": "./my_lancedb",
+            "connection_method": "lancedb.connect"
+          }
+        }
+      },
+      "evaluation_targets": {
+        "i_acc": {
+          "correct_file": "app.py",
+          "correct_pattern": "lancedb.connect",
+          "correct_imports": ["import lancedb"]
+        },
+        "c_comp": {
+          "required_env_vars": 0,
+          "optional_env_vars": 1
+        },
+        "f_corr": {
+          "test_command": "pytest test_init.py",
+          "expected_pass": true
+        }
+      }
+    },
+    {
+      "sample_id": "clerk_task1_init_001",
+      "task_type": 1,
+      "task_name": "initialization",
+      "sdk": "clerk",
+      "clerk_version": "5.0.0",
+      "framework": "nextjs",
+      "difficulty": "easy",
+      "estimated_lines": 10,
+      "description": "Initialize Clerk authentication in a Next.js application",
+      "ground_truth": {
+        "ingredients": {
+          "initialization": {
+            "location": "app/layout.tsx",
+            "pattern": "ClerkProvider wrapper",
+            "imports": ["@clerk/nextjs"]
+          },
+          "configuration": {
+            "env_vars": ["NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY", "CLERK_SECRET_KEY"],
+            "provider_props": [],
+            "optional_config": []
+          }
+        }
+      },
+      "evaluation_targets": {
+        "i_acc": {
+          "correct_file": "app/layout.tsx",
+          "correct_pattern": "ClerkProvider",
+          "correct_imports": ["ClerkProvider from @clerk/nextjs"]
+        },
+        "c_comp": {
+          "required_env_vars": 2,
+          "optional_env_vars": 0
+        },
+        "f_corr": {
+          "test_command": "npm test -- init.test.ts",
+          "expected_pass": true
+        }
+      }
+    }
+  ]
+}

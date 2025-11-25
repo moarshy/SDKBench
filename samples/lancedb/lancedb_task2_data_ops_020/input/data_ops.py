@@ -1,30 +1,33 @@
-"""Data management for vector database."""
+"""Handle bad/mismatched vectors gracefully."""
 
-import pandas as pd
 import numpy as np
 
-# TODO: Connect to database
+# TODO: Import lancedb
 
-def create_sample_data():
-    """Create sample data for testing."""
-    data = [
-        {"id": 1, "text": "Hello world", "category": "greeting"},
-        {"id": 2, "text": "Python programming", "category": "tech"},
-        {"id": 3, "text": "Machine learning", "category": "tech"}
-    ]
-    return pd.DataFrame(data)
+def validate_vector(vector, expected_dim: int):
+    """Validate vector dimension.
 
-def store_data(df):
-    """Store data in vector database."""
-    # TODO: Create table and add data
+    TODO:
+        1. Check vector is list/array
+        2. Check dimension matches expected
+        3. Return True/False
+    """
+    pass
+
+def safe_insert(table, data: list, vector_dim: int):
+    """Insert data with vector validation.
+
+    TODO:
+        1. Validate each vector in data
+        2. Skip/fix bad vectors
+        3. Insert valid records
+    """
     pass
 
 def main():
-    """Main function."""
-    df = create_sample_data()
-    # TODO: Add vector column
-    store_data(df)
-    print(f"Stored {len(df)} records")
+    # TODO: Create data with some bad vectors
+    # TODO: Safely insert
+    print("Bad vector handling complete")
 
 if __name__ == "__main__":
     main()

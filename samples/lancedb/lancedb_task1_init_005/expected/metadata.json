@@ -6,23 +6,27 @@
   "lancedb_version": "0.5.0",
   "framework": "python",
   "difficulty": "medium",
-  "estimated_lines": 15,
-  "description": "Initialize from environment config",
-  "scenario": "config_based",
-  "use_case": "configurable deployment",
+  "estimated_lines": 40,
+  "description": "Sentence transformer via registry",
+  "scenario": "registry_sentence_transformer",
   "ground_truth": {
     "ingredients": {
       "initialization": {
         "location": "app.py",
         "pattern": "lancedb.connect",
         "imports": [
-          "lancedb"
+          "lancedb",
+          "lancedb.embeddings.EmbeddingFunctionRegistry"
         ]
       },
       "configuration": {
-        "db_path": "${LANCEDB_PATH}",
+        "db_path": "./st_db",
         "connection_method": "lancedb.connect"
-      }
+      },
+      "production_patterns": [
+        "EmbeddingFunctionRegistry",
+        "sentence-transformers"
+      ]
     }
   },
   "evaluation_targets": {
@@ -30,20 +34,26 @@
       "correct_file": "app.py",
       "correct_pattern": "lancedb.connect",
       "correct_imports": [
+        "import lancedb",
         "import lancedb"
       ]
     },
     "c_comp": {
-      "required_components": 2,
+      "required_components": 4,
       "components": [
         "import",
-        "connection"
+        "connection",
+        "registry",
+        "embedding_model"
       ]
     },
     "ipa": {
       "integration_points": [
         "lancedb.connect",
-        "table_names"
+        "table_names",
+        "EmbeddingFunctionRegistry.get_instance",
+        "registry.get",
+        "model.ndims"
       ]
     },
     "f_corr": {

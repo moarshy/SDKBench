@@ -1,32 +1,33 @@
-"""Vector similarity search implementation."""
+"""Hybrid search with Full-Text Search."""
 
 import lancedb
-import numpy as np
 from sentence_transformers import SentenceTransformer
 
-# Initialize
 db = lancedb.connect("./my_lancedb")
 model = SentenceTransformer("all-MiniLM-L6-v2")
 
-def search_similar(query_text, k=5):
-    """Search for similar documents."""
-    # Open table
-    table = db.open_table("documents")
+def setup_fts_index(table):
+    """Create FTS index on table."""
+    table.create_fts_index("text")
 
-    # Generate query embedding
+def hybrid_search(query_text: str, k: int = 10):
+    """Perform hybrid vector + text search."""
+    table = db.open_table("documents")
     query_vector = model.encode(query_text).tolist()
 
-    # Perform vector search
-    results = table.search(query_vector).limit(k).to_pandas()
-
+    # Hybrid search combines BM25 + vector similarity
+    results = (
+        table.search(query_type="hybrid")
+        .vector(query_vector)
+        .text(query_text)
+        .limit(k)
+        .to_pandas()
+    )
     return results
 
 def main():
-    """Test search functionality."""
-    results = search_similar("machine learning", k=5)
-    print(f"Found {len(results)} similar documents")
-    for idx, row in results.iterrows():
-        print(f"  - {row['text'][:50]}... (score: {row['_distance']:.3f})")
+    results = hybrid_search("machine learning algorithms", k=10)
+    print(f"Hybrid search found {len(results)} results")
 
 if __name__ == "__main__":
     main()

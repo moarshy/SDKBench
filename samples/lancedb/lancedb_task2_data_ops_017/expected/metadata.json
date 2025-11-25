@@ -5,40 +5,38 @@
   "sdk": "lancedb",
   "lancedb_version": "0.5.0",
   "framework": "python",
-  "difficulty": "medium",
-  "estimated_lines": 40,
-  "description": "Create table schema and store data with vectors in LanceDB",
+  "difficulty": "easy",
+  "estimated_lines": 20,
+  "description": "Create table with LanceModel schema",
+  "scenario": "lance_model",
   "ground_truth": {
     "ingredients": {
       "table_operations": {
-        "table_name": "embeddings",
         "operations": [
           "create_table",
           "add"
         ],
         "schema": "LanceModel"
       },
-      "vector_config": {
-        "dimension": 384,
-        "field_name": "vector"
-      }
+      "production_patterns": [
+        "LanceModel",
+        "Vector"
+      ]
     }
   },
   "evaluation_targets": {
     "i_acc": {
       "correct_pattern": "create_table",
       "correct_imports": [
-        "import lancedb",
-        "from lancedb.pydantic"
+        "import lancedb"
       ]
     },
     "c_comp": {
-      "required_components": 4,
+      "required_components": 3,
       "components": [
-        "schema",
         "connection",
         "table_creation",
-        "vectors"
+        "schema"
       ]
     }
   }

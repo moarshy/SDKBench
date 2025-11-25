@@ -4,11 +4,11 @@
   "task_name": "complete_pipeline",
   "sdk": "lancedb",
   "lancedb_version": "0.5.0",
-  "framework": "python",
-  "difficulty": "hard",
-  "estimated_lines": 100,
-  "description": "Build a complete Document Q&A using LanceDB",
-  "pipeline_type": "document_qa",
+  "framework": "streamlit",
+  "difficulty": "medium",
+  "estimated_lines": 40,
+  "description": "Streamlit RAG with caching",
+  "scenario": "streamlit_cached_rag",
   "ground_truth": {
     "ingredients": {
       "database_operations": [
@@ -24,6 +24,10 @@
         "search",
         "generate_response",
         "run_pipeline"
+      ],
+      "production_patterns": [
+        "st.cache_resource",
+        "rag"
       ]
     }
   },

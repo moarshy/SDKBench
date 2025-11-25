@@ -1,26 +1,24 @@
-"""Cloud-based vector storage application."""
+"""In-memory LanceDB for testing."""
 
 import lancedb
-import os
 
-# Configure cloud storage credentials
-# AWS credentials should be set via environment variables:
-# AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY
+def create_test_db():
+    """Create in-memory database for testing."""
+    return lancedb.connect(":memory:")
 
-def get_cloud_db():
-    """Get connection to cloud-hosted LanceDB."""
-    db = lancedb.connect("s3://my-bucket/lancedb")
-    return db
+def setup_test_data(db):
+    """Set up test data in database."""
+    data = [{"text": "test document", "vector": [0.1] * 384}]
+    db.create_table("test_table", data, mode="overwrite")
 
-# Initialize cloud database
-db = get_cloud_db()
+# Initialize test database
+db = create_test_db()
 
 def main():
-    """Main entry point for cloud app."""
+    """Test database setup."""
+    setup_test_data(db)
     tables = db.table_names()
-    print(f"Connected to cloud LanceDB: s3://my-bucket/lancedb")
-    print(f"Tables: {tables}")
-    print("Cloud app started")
+    print(f"Test database ready with {len(tables)} tables")
 
 if __name__ == "__main__":
     main()

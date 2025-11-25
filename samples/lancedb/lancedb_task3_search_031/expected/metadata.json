@@ -3,14 +3,41 @@
   "task_type": 3,
   "task_name": "vector_search",
   "sdk": "lancedb",
-  "description": "Implement vector similarity search using LanceDB",
+  "lancedb_version": "0.5.0",
+  "framework": "python",
+  "difficulty": "easy",
+  "estimated_lines": 20,
+  "description": "Basic vector similarity search",
+  "scenario": "basic_vector",
   "ground_truth": {
     "ingredients": {
       "search_operations": {
         "method": "table.search",
-        "limit": 5,
-        "embedding_model": "all-MiniLM-L6-v2"
-      }
+        "patterns": [
+          "table.search",
+          "limit"
+        ]
+      },
+      "production_patterns": [
+        "table.search",
+        "limit"
+      ]
+    }
+  },
+  "evaluation_targets": {
+    "i_acc": {
+      "correct_pattern": "table.search",
+      "correct_imports": [
+        "import lancedb"
+      ]
+    },
+    "c_comp": {
+      "required_components": 3,
+      "components": [
+        "connection",
+        "query_embedding",
+        "vector_search"
+      ]
     }
   }
 }

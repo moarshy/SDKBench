@@ -1,33 +1,29 @@
-"""Initialize for Jupyter notebook - data analysis."""
+"""LanceDB with IVF-PQ index creation."""
 
-# TODO: Import lancedb and required libraries
+# TODO: Import lancedb
+# TODO: Import LanceModel, Vector from lancedb.pydantic
 
-# TODO: Set up database configuration
+# TODO: Define document schema
 
-def initialize():
-    """Initialize database connection.
-
-    TODO:
-        1. Configure database path
-        2. Connect to LanceDB
-        3. Return connection instance
-    """
-    pass
-
-def verify_connection(db):
-    """Verify database is accessible.
+def create_indexed_table(db, table_name: str, data):
+    """Create table and build IVF-PQ index.
 
     TODO:
-        1. List tables
-        2. Check connection health
+        1. Create table with data
+        2. Create IVF-PQ index:
+           table.create_index(
+               metric="cosine",
+               num_partitions=4,
+               num_sub_vectors=32
+           )
+        3. Return table
     """
     pass
 
 def main():
-    """Main entry point."""
-    # TODO: Initialize database
-    # TODO: Verify connection
-    print("data analysis ready")
+    # TODO: Connect to database
+    # TODO: Create indexed table
+    print("Indexed database ready")
 
 if __name__ == "__main__":
     main()

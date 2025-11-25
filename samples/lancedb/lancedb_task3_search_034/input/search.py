@@ -1,16 +1,22 @@
-"""Vector similarity search implementation."""
+"""Search with LinearCombinationReranker."""
 
-# TODO: Import necessary libraries
+# TODO: Import lancedb
+# TODO: Import LinearCombinationReranker from lancedb.rerankers
 
-def search_similar(query_text, k=5):
-    """Search for similar documents."""
-    # TODO: Implement vector search
+def search_with_rerank(query_text: str, query_vector, k: int = 10):
+    """Search with linear combination reranking.
+
+    TODO:
+        1. Create LinearCombinationReranker(weight=0.7)
+        2. Perform hybrid search with .rerank(reranker)
+        3. Weight balances vector vs text scores
+        4. Return reranked results
+    """
     pass
 
 def main():
-    """Test search functionality."""
-    results = search_similar("machine learning", k=10)
-    print(f"Found results")
+    # TODO: Search with linear reranking
+    print("Reranked search complete")
 
 if __name__ == "__main__":
     main()

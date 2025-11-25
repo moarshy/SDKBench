@@ -1,48 +1,59 @@
-"""Data management for vector database."""
+"""Async batch embedding with rate limiting."""
 
-import pandas as pd
-import numpy as np
+import asyncio
+from typing import List
 import lancedb
 from lancedb.pydantic import LanceModel, Vector
+from sentence_transformers import SentenceTransformer
 
-# Connect to database
+# Initialize
 db = lancedb.connect("./my_lancedb")
+model = SentenceTransformer("all-MiniLM-L6-v2")
 
 class Document(LanceModel):
-    """Document schema with vector."""
-    id: int
     text: str
-    category: str
-    vector: Vector(384)  # 384-dimensional vector
+    vector: Vector(384)
 
-def create_sample_data():
-    """Create sample data for testing."""
-    data = [
-        {"id": 1, "text": "Hello world", "category": "greeting"},
-        {"id": 2, "text": "Python programming", "category": "tech"},
-        {"id": 3, "text": "Machine learning", "category": "tech"}
-    ]
-    return pd.DataFrame(data)
+RATE_LIMIT = 10
+BATCH_SIZE = 50
 
-def store_data(df):
-    """Store data in vector database."""
-    # Add random vectors for demo (in production, use real embeddings)
-    df["vector"] = [np.random.randn(384).tolist() for _ in range(len(df))]
+async def embed_batch_async(texts: List[str], semaphore: asyncio.Semaphore):
+    """Embed batch of texts with rate limiting."""
+    async with semaphore:
+        # Run embedding in executor to not block
+        loop = asyncio.get_event_loop()
+        vectors = await loop.run_in_executor(None, model.encode, texts)
+        return vectors.tolist()
 
-    # Create or open table
-    table = db.create_table(
-        "vectors",
-        data=df,
-        mode="overwrite"
-    )
+async def ingest_async(table_name: str, texts: List[str]):
+    """Async batch ingestion with rate limiting."""
+    semaphore = asyncio.Semaphore(RATE_LIMIT)
 
+    # Process batches concurrently
+    tasks = []
+    for i in range(0, len(texts), BATCH_SIZE):
+        batch = texts[i:i + BATCH_SIZE]
+        tasks.append(embed_batch_async(batch, semaphore))
+
+    # Gather all embeddings
+    all_vectors = await asyncio.gather(*tasks)
+
+    # Flatten and create documents
+    documents = []
+    vec_idx = 0
+    for batch_vectors in all_vectors:
+        for vec in batch_vectors:
+            documents.append(Document(text=texts[vec_idx], vector=vec))
+            vec_idx += 1
+
+    # Insert into table
+    table = db.create_table(table_name, documents, mode="overwrite")
     return table
 
-def main():
-    """Main function."""
-    df = create_sample_data()
-    table = store_data(df)
-    print(f"Stored {len(df)} records in '{table.name}' table")
+async def main():
+    texts = [f"Document number {i}" for i in range(200)]
+    table = await ingest_async("documents", texts)
+    print(f"Async batch complete: {len(table.to_pandas())} records")
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())

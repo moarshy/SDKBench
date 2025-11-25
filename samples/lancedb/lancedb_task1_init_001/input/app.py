@@ -1,14 +1,18 @@
-"""Vector data application - simple app."""
+"""Basic LanceDB connection pattern."""
 
-# TODO: Import lancedb library
+# TODO: Import lancedb
 
-# TODO: Initialize database connection
+def get_database():
+    """Get database connection.
+
+    TODO: Connect to LanceDB at ./my_lancedb
+    """
+    pass
 
 def main():
     """Main entry point."""
-    # TODO: Connect to vector database
-    # TODO: List available tables
-
+    # TODO: Initialize database
+    # TODO: List tables
     print("Application started")
 
 if __name__ == "__main__":

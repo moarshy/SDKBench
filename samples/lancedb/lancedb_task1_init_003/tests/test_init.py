@@ -5,19 +5,14 @@ import os
 import sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-def test_lancedb_connection():
-    """Test that LanceDB connection is established."""
-    from expected import app
 
-    # Check that db is initialized
+def test_streamlit_cache_decorator():
+    """Test that @st.cache_resource is used."""
+    from expected import app
+    # Check get_database has cache decorator
+    assert hasattr(app.get_database, "__wrapped__") or "cache" in str(app.get_database)
+
+def test_database_connection():
+    """Test database is connected."""
+    from expected import app
     assert app.db is not None
-
-    # Check connection method was called
-    assert hasattr(app.db, 'table_names')
-
-def test_main_function():
-    """Test main function runs without errors."""
-    from expected import app
-
-    # Should run without raising exceptions
-    app.main()

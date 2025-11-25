@@ -6,10 +6,9 @@
   "lancedb_version": "0.5.0",
   "framework": "python",
   "difficulty": "medium",
-  "estimated_lines": 15,
-  "description": "Initialize in CLI application",
-  "scenario": "cli_tool",
-  "use_case": "command line tool",
+  "estimated_lines": 40,
+  "description": "Multi-tenant database isolation",
+  "scenario": "multi_tenant",
   "ground_truth": {
     "ingredients": {
       "initialization": {
@@ -20,9 +19,13 @@
         ]
       },
       "configuration": {
-        "db_path": "~/.lancedb/data",
+        "db_path": "./tenants/{tenant_id}/db",
         "connection_method": "lancedb.connect"
-      }
+      },
+      "production_patterns": [
+        "tenant_isolation",
+        "path_factory"
+      ]
     }
   },
   "evaluation_targets": {

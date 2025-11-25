@@ -1,30 +1,30 @@
-"""Data management for vector database."""
+"""Handle null/optional fields in LanceDB."""
 
-import pandas as pd
-import numpy as np
+from typing import Optional
 
-# TODO: Connect to database
+# TODO: Import lancedb
+# TODO: Import LanceModel, Vector from lancedb.pydantic
 
-def create_sample_data():
-    """Create sample data for testing."""
-    data = [
-        {"id": 1, "text": "Hello world", "category": "greeting"},
-        {"id": 2, "text": "Python programming", "category": "tech"},
-        {"id": 3, "text": "Machine learning", "category": "tech"}
-    ]
-    return pd.DataFrame(data)
+# TODO: Define schema with optional fields
+# class Document(LanceModel):
+#     text: str
+#     vector: Vector(384)
+#     category: Optional[str] = None
+#     tags: Optional[str] = None
 
-def store_data(df):
-    """Store data in vector database."""
-    # TODO: Create table and add data
+def insert_with_nulls(table, data):
+    """Insert data with optional null fields.
+
+    TODO:
+        1. Handle missing fields gracefully
+        2. Insert data
+    """
     pass
 
 def main():
-    """Main function."""
-    df = create_sample_data()
-    # TODO: Add vector column
-    store_data(df)
-    print(f"Stored {len(df)} records")
+    # TODO: Create data with some null fields
+    # TODO: Insert and verify
+    print("Null handling complete")
 
 if __name__ == "__main__":
     main()

@@ -1,6 +1,6 @@
-"""RAG Chatbot Pipeline.
+"""Flask RAG with Redis caching.
 
-Build a complete rag chatbot system using LanceDB for vector storage.
+Build a complete pipeline using LanceDB for vector storage.
 """
 
 # TODO: Import required libraries (lancedb, sentence_transformers, etc.)

@@ -7,38 +7,38 @@
   "framework": "python",
   "difficulty": "medium",
   "estimated_lines": 40,
-  "description": "Create table schema and store data with vectors in LanceDB",
+  "description": "Auto-embedding with SourceField",
+  "scenario": "source_field_auto_embed",
   "ground_truth": {
     "ingredients": {
       "table_operations": {
-        "table_name": "items",
         "operations": [
           "create_table",
           "add"
         ],
-        "schema": "LanceModel"
+        "schema": "dict"
       },
-      "vector_config": {
-        "dimension": 384,
-        "field_name": "vector"
-      }
+      "production_patterns": [
+        "SourceField",
+        "VectorField",
+        "auto_embedding"
+      ]
     }
   },
   "evaluation_targets": {
     "i_acc": {
       "correct_pattern": "create_table",
       "correct_imports": [
-        "import lancedb",
-        "from lancedb.pydantic"
+        "import lancedb"
       ]
     },
     "c_comp": {
       "required_components": 4,
       "components": [
-        "schema",
         "connection",
         "table_creation",
-        "vectors"
+        "auto_embedding",
+        "source_field"
       ]
     }
   }

@@ -1,30 +1,31 @@
-"""Data management for vector database."""
+"""Upsert/update existing data."""
 
-import pandas as pd
-import numpy as np
+# TODO: Import lancedb
 
-# TODO: Connect to database
+def upsert_documents(db, table_name: str, documents: list):
+    """Upsert documents (update if exists, insert if not).
 
-def create_sample_data():
-    """Create sample data for testing."""
-    data = [
-        {"id": 1, "text": "Hello world", "category": "greeting"},
-        {"id": 2, "text": "Python programming", "category": "tech"},
-        {"id": 3, "text": "Machine learning", "category": "tech"}
-    ]
-    return pd.DataFrame(data)
+    TODO:
+        1. Use mode="overwrite" for full replacement
+        2. Or use merge_insert for partial upsert
+        3. Handle conflicts
+    """
+    pass
 
-def store_data(df):
-    """Store data in vector database."""
-    # TODO: Create table and add data
+def update_document(table, doc_id: str, updates: dict):
+    """Update specific document.
+
+    TODO:
+        1. Find document by ID
+        2. Apply updates
+        3. Save changes
+    """
     pass
 
 def main():
-    """Main function."""
-    df = create_sample_data()
-    # TODO: Add vector column
-    store_data(df)
-    print(f"Stored {len(df)} records")
+    # TODO: Create initial data
+    # TODO: Upsert with changes
+    print("Upsert complete")
 
 if __name__ == "__main__":
     main()

@@ -1,27 +1,26 @@
-"""Async LanceDB initialization."""
+"""LanceDB with S3 cloud storage."""
 
-import asyncio
+import os
 
 # TODO: Import lancedb
 
-# TODO: Create async initialization function
+# TODO: Configure AWS credentials via environment variables
+# AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_REGION
 
-async def init_database():
-    """Async database initialization.
+def get_cloud_database():
+    """Connect to LanceDB on S3.
 
     TODO:
-        1. Connect to LanceDB
-        2. Initialize tables if needed
+        1. Build S3 URI: s3://bucket/path
+        2. Connect to LanceDB with S3 path
         3. Return connection
     """
     pass
 
-async def main():
-    """Async main entry point."""
-    # TODO: Initialize database asynchronously
-    # TODO: Run async operations
-
-    print("Async app started")
+def main():
+    # TODO: Initialize cloud database
+    # TODO: Verify connection
+    print("Cloud database ready")
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    main()

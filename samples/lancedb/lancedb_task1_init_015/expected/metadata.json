@@ -5,24 +5,32 @@
   "sdk": "lancedb",
   "lancedb_version": "0.5.0",
   "framework": "python",
-  "difficulty": "medium",
-  "estimated_lines": 15,
-  "description": "Initialize for microservice",
-  "scenario": "microservice",
-  "use_case": "containerized service",
+  "difficulty": "hard",
+  "estimated_lines": 70,
+  "description": "Full production setup with all patterns",
+  "scenario": "full_production",
   "ground_truth": {
     "ingredients": {
       "initialization": {
         "location": "app.py",
         "pattern": "lancedb.connect",
         "imports": [
-          "lancedb"
+          "lancedb",
+          "lancedb.embeddings.EmbeddingFunctionRegistry",
+          "lancedb.pydantic"
         ]
       },
       "configuration": {
-        "db_path": "/data/lancedb",
+        "db_path": "./prod_db",
         "connection_method": "lancedb.connect"
-      }
+      },
+      "production_patterns": [
+        "EmbeddingFunctionRegistry",
+        "SourceField",
+        "VectorField",
+        "error_handling",
+        "retry"
+      ]
     }
   },
   "evaluation_targets": {
@@ -30,20 +38,32 @@
       "correct_file": "app.py",
       "correct_pattern": "lancedb.connect",
       "correct_imports": [
+        "import lancedb",
+        "import lancedb",
         "import lancedb"
       ]
     },
     "c_comp": {
-      "required_components": 2,
+      "required_components": 7,
       "components": [
         "import",
-        "connection"
+        "connection",
+        "registry",
+        "embedding_model",
+        "schema",
+        "source_field",
+        "vector_field"
       ]
     },
     "ipa": {
       "integration_points": [
         "lancedb.connect",
-        "table_names"
+        "table_names",
+        "EmbeddingFunctionRegistry.get_instance",
+        "registry.get",
+        "model.ndims",
+        "model.SourceField",
+        "model.VectorField"
       ]
     },
     "f_corr": {

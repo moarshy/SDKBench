@@ -1,4 +1,4 @@
-"""Schema Migration: Change vector dimension.
+"""Schema Migration: Migrate/rebuild vector index.
 
 Migrate existing LanceDB table to new schema while preserving data.
 """
@@ -11,7 +11,7 @@ from typing import List, Dict, Any
 # New schema (after migration)
 class NewDocument(LanceModel):
     text: str
-    vector: Vector(768)  # Changed from 384
+    content: str  # Renamed from 'text'
 
 # Database connection
 db = lancedb.connect("./migration_db")
@@ -50,15 +50,10 @@ def migrate_data(old_data: pd.DataFrame) -> List[Dict[str, Any]]:
     transformed = []
 
     for _, record in old_data.iterrows():
-        # Pad or truncate vector to new dimension
-        old_vector = record["vector"]
-        if len(old_vector) < 768:
-            new_vector = old_vector + [0.0] * (768 - len(old_vector))
-        else:
-            new_vector = old_vector[:768]
+        # Rename text field to content
         transformed.append({
-            "text": record["text"],
-            "vector": new_vector
+            "content": record["text"],
+            "vector": record["vector"]
         })
 
     print(f"Transformed {len(transformed)} records")

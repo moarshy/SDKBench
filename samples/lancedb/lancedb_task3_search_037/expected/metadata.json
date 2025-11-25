@@ -3,14 +3,43 @@
   "task_type": 3,
   "task_name": "vector_search",
   "sdk": "lancedb",
-  "description": "Implement vector similarity search using LanceDB",
+  "lancedb_version": "0.5.0",
+  "framework": "python",
+  "difficulty": "hard",
+  "estimated_lines": 70,
+  "description": "Hybrid search with FTS",
+  "scenario": "hybrid_fts",
   "ground_truth": {
     "ingredients": {
       "search_operations": {
         "method": "table.search",
-        "limit": 5,
-        "embedding_model": "all-MiniLM-L6-v2"
-      }
+        "patterns": [
+          "create_fts_index",
+          "query_type=hybrid"
+        ]
+      },
+      "production_patterns": [
+        "create_fts_index",
+        "query_type=hybrid"
+      ]
+    }
+  },
+  "evaluation_targets": {
+    "i_acc": {
+      "correct_pattern": "table.search",
+      "correct_imports": [
+        "import lancedb"
+      ]
+    },
+    "c_comp": {
+      "required_components": 5,
+      "components": [
+        "connection",
+        "query_embedding",
+        "vector_search",
+        "fts_index",
+        "hybrid_search"
+      ]
     }
   }
 }

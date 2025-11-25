@@ -1,24 +1,40 @@
-"""Initialize for Jupyter notebook - data analysis."""
+"""LanceDB with IVF-PQ index creation."""
 
 import lancedb
+from lancedb.pydantic import LanceModel, Vector
+import numpy as np
 
-def initialize():
-    """Initialize database connection."""
-    return lancedb.connect("./notebook_data")
-
-def verify_connection(db):
-    """Verify database is accessible."""
-    tables = db.table_names()
-    return len(tables) >= 0
+class Document(LanceModel):
+    text: str
+    vector: Vector(384)
 
 # Initialize database
-db = initialize()
+db = lancedb.connect("./indexed_db")
+
+def create_indexed_table(table_name: str, data):
+    """Create table and build IVF-PQ index."""
+    # Create table with data
+    table = db.create_table(table_name, data, mode="overwrite")
+
+    # Create IVF-PQ index for faster search
+    table.create_index(
+        metric="cosine",
+        num_partitions=4,
+        num_sub_vectors=32
+    )
+
+    return table
 
 def main():
-    """Main entry point."""
-    if verify_connection(db):
-        print(f"Connected to {db_path}")
-    print("data analysis ready")
+    # Create sample data
+    data = [
+        Document(text=f"Document {i}", vector=np.random.randn(384).tolist())
+        for i in range(100)
+    ]
+
+    table = create_indexed_table("indexed_docs", data)
+    print(f"Created indexed table with {len(table.to_pandas())} records")
+    print("Indexed database ready")
 
 if __name__ == "__main__":
     main()

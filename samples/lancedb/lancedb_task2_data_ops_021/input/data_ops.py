@@ -1,30 +1,42 @@
-"""Data management for vector database."""
+"""Handle token limits with chunking."""
 
-import pandas as pd
-import numpy as np
+# TODO: Import tiktoken for token counting
+# TODO: Import lancedb
 
-# TODO: Connect to database
+MAX_TOKENS = 8192
 
-def create_sample_data():
-    """Create sample data for testing."""
-    data = [
-        {"id": 1, "text": "Hello world", "category": "greeting"},
-        {"id": 2, "text": "Python programming", "category": "tech"},
-        {"id": 3, "text": "Machine learning", "category": "tech"}
-    ]
-    return pd.DataFrame(data)
+def count_tokens(text: str, model: str = "cl100k_base"):
+    """Count tokens in text.
 
-def store_data(df):
-    """Store data in vector database."""
-    # TODO: Create table and add data
+    TODO:
+        1. Use tiktoken to encode
+        2. Return token count
+    """
+    pass
+
+def chunk_text(text: str, max_tokens: int = MAX_TOKENS):
+    """Chunk text to fit token limit.
+
+    TODO:
+        1. Split text at sentence boundaries
+        2. Ensure each chunk < max_tokens
+        3. Return list of chunks
+    """
+    pass
+
+def ingest_with_chunking(db, table_name: str, documents: list):
+    """Ingest documents with automatic chunking.
+
+    TODO:
+        1. Chunk oversized documents
+        2. Create table with chunks
+    """
     pass
 
 def main():
-    """Main function."""
-    df = create_sample_data()
-    # TODO: Add vector column
-    store_data(df)
-    print(f"Stored {len(df)} records")
+    # TODO: Create long document
+    # TODO: Ingest with chunking
+    print("Token-aware ingestion complete")
 
 if __name__ == "__main__":
     main()

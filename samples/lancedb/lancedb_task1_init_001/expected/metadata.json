@@ -6,10 +6,9 @@
   "lancedb_version": "0.5.0",
   "framework": "python",
   "difficulty": "easy",
-  "estimated_lines": 15,
-  "description": "Basic LanceDB connection",
+  "estimated_lines": 20,
+  "description": "Basic lancedb.connect() pattern",
   "scenario": "basic_connection",
-  "use_case": "simple app",
   "ground_truth": {
     "ingredients": {
       "initialization": {
@@ -22,7 +21,8 @@
       "configuration": {
         "db_path": "./my_lancedb",
         "connection_method": "lancedb.connect"
-      }
+      },
+      "production_patterns": []
     }
   },
   "evaluation_targets": {

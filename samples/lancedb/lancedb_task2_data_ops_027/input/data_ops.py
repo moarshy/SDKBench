@@ -1,30 +1,41 @@
-"""Data management for vector database."""
+"""Automatic timestamp handling."""
 
-import pandas as pd
-import numpy as np
+from datetime import datetime, timezone
+from typing import Optional
 
-# TODO: Connect to database
+# TODO: Import lancedb
+# TODO: Import LanceModel, Vector from lancedb.pydantic
 
-def create_sample_data():
-    """Create sample data for testing."""
-    data = [
-        {"id": 1, "text": "Hello world", "category": "greeting"},
-        {"id": 2, "text": "Python programming", "category": "tech"},
-        {"id": 3, "text": "Machine learning", "category": "tech"}
-    ]
-    return pd.DataFrame(data)
+# TODO: Define schema with timestamps
+# class Document(LanceModel):
+#     text: str
+#     vector: Vector(384)
+#     created_at: str
+#     updated_at: Optional[str] = None
 
-def store_data(df):
-    """Store data in vector database."""
-    # TODO: Create table and add data
+def create_document(text: str, vector):
+    """Create document with auto timestamp.
+
+    TODO:
+        1. Get current UTC time
+        2. Format as ISO string
+        3. Return document dict
+    """
+    pass
+
+def update_document(table, doc_id: str, updates: dict):
+    """Update document with updated_at timestamp.
+
+    TODO:
+        1. Set updated_at to current time
+        2. Apply updates
+    """
     pass
 
 def main():
-    """Main function."""
-    df = create_sample_data()
-    # TODO: Add vector column
-    store_data(df)
-    print(f"Stored {len(df)} records")
+    # TODO: Create documents with timestamps
+    # TODO: Update and verify timestamps
+    print("Timestamp handling complete")
 
 if __name__ == "__main__":
     main()

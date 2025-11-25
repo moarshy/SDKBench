@@ -5,19 +5,15 @@ import os
 import sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-def test_lancedb_connection():
-    """Test that LanceDB connection is established."""
+
+def test_flask_app_exists():
+    """Test Flask app is created."""
     from expected import app
+    assert hasattr(app, "app")
+    assert app.app is not None
 
-    # Check that db is initialized
-    assert app.db is not None
-
-    # Check connection method was called
-    assert hasattr(app.db, 'table_names')
-
-def test_main_function():
-    """Test main function runs without errors."""
+def test_get_db_function():
+    """Test get_db function exists."""
     from expected import app
-
-    # Should run without raising exceptions
-    app.main()
+    assert hasattr(app, "get_db")
+    assert callable(app.get_db)

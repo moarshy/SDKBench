@@ -1,4 +1,4 @@
-"""Streamlit dashboard with vector search."""
+"""Streamlit app with cached LanceDB connection."""
 
 import streamlit as st
 import lancedb
@@ -6,21 +6,16 @@ import lancedb
 @st.cache_resource
 def get_database():
     """Get cached database connection."""
-    return lancedb.connect("./streamlit_data/vectors")
+    return lancedb.connect("./streamlit_db")
 
 # Initialize cached database
 db = get_database()
 
 def main():
-    """Streamlit app main."""
-    st.set_page_config(page_title="Vector Search", layout="wide")
-    st.title("Vector Search Dashboard")
-
-    # Display connection status
+    st.title("Vector Search App")
     tables = db.table_names()
     st.success(f"Connected to LanceDB with {len(tables)} tables")
-
-    print("Streamlit app ready")
+    st.write("App ready")
 
 if __name__ == "__main__":
     main()

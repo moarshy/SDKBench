@@ -1,4 +1,4 @@
-"""Schema Migration: Rename table with data preservation.
+"""Schema Migration: Upgrade embedding model.
 
 Migrate existing LanceDB table to new schema while preserving data.
 """
@@ -10,7 +10,7 @@ from typing import List, Dict, Any
 
 # New schema (after migration)
 class NewDocument(LanceModel):
-    content: str
+    text: str
     content: str  # Renamed from 'text'
 
 # Database connection

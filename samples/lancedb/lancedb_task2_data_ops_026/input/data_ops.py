@@ -1,30 +1,41 @@
-"""Data management for vector database."""
+"""JSON metadata storage pattern."""
 
-import pandas as pd
-import numpy as np
+import json
+from typing import Optional
 
-# TODO: Connect to database
+# TODO: Import lancedb
+# TODO: Import LanceModel, Vector from lancedb.pydantic
 
-def create_sample_data():
-    """Create sample data for testing."""
-    data = [
-        {"id": 1, "text": "Hello world", "category": "greeting"},
-        {"id": 2, "text": "Python programming", "category": "tech"},
-        {"id": 3, "text": "Machine learning", "category": "tech"}
-    ]
-    return pd.DataFrame(data)
+# TODO: Define schema with JSON metadata field
+# class Document(LanceModel):
+#     text: str
+#     vector: Vector(384)
+#     metadata_json: Optional[str] = None  # Store as JSON string
 
-def store_data(df):
-    """Store data in vector database."""
-    # TODO: Create table and add data
+def add_with_json_metadata(table, text: str, vector, metadata: dict):
+    """Add document with JSON metadata.
+
+    TODO:
+        1. Serialize metadata to JSON string
+        2. Create document
+        3. Add to table
+    """
+    pass
+
+def get_metadata(row) -> dict:
+    """Parse JSON metadata from row.
+
+    TODO:
+        1. Get metadata_json field
+        2. Parse JSON
+        3. Return dict
+    """
     pass
 
 def main():
-    """Main function."""
-    df = create_sample_data()
-    # TODO: Add vector column
-    store_data(df)
-    print(f"Stored {len(df)} records")
+    # TODO: Add documents with nested metadata
+    # TODO: Query and parse metadata
+    print("JSON metadata complete")
 
 if __name__ == "__main__":
     main()

@@ -5,19 +5,20 @@ import os
 import sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-def test_lancedb_connection():
-    """Test that LanceDB connection is established."""
+
+def test_lancedb_import():
+    """Test that lancedb is imported."""
     from expected import app
+    import lancedb
+    assert lancedb is not None
 
-    # Check that db is initialized
+def test_database_connection():
+    """Test that database connection is established."""
+    from expected import app
     assert app.db is not None
+    assert hasattr(app.db, "table_names")
 
-    # Check connection method was called
-    assert hasattr(app.db, 'table_names')
-
-def test_main_function():
+def test_main_runs():
     """Test main function runs without errors."""
     from expected import app
-
-    # Should run without raising exceptions
     app.main()

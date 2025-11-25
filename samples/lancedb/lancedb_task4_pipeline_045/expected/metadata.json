@@ -6,9 +6,9 @@
   "lancedb_version": "0.5.0",
   "framework": "python",
   "difficulty": "hard",
-  "estimated_lines": 100,
-  "description": "Build a complete Streaming RAG using LanceDB",
-  "pipeline_type": "streaming",
+  "estimated_lines": 70,
+  "description": "Two-stage retrieval pipeline",
+  "scenario": "two_stage_retrieval",
   "ground_truth": {
     "ingredients": {
       "database_operations": [
@@ -24,6 +24,11 @@
         "search",
         "generate_response",
         "run_pipeline"
+      ],
+      "production_patterns": [
+        "coarse_retrieval",
+        "rerank",
+        "fine_retrieval"
       ]
     }
   },

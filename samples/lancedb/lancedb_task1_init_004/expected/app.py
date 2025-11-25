@@ -1,29 +1,31 @@
-"""FastAPI service with LanceDB backend."""
+"""LanceDB with OpenAI embeddings via EmbeddingFunctionRegistry."""
 
-from fastapi import FastAPI, Depends
+import os
 import lancedb
+from lancedb.embeddings import EmbeddingFunctionRegistry
+from lancedb.pydantic import LanceModel, Vector
 
-app = FastAPI(title="Vector Search API")
+# Get registry instance and create OpenAI embedding model
+registry = EmbeddingFunctionRegistry.get_instance()
+model = registry.get("openai").create(name="text-embedding-3-small")
 
-# Initialize database on startup
-db = None
+# Define Document schema with SourceField and VectorField
+class Document(LanceModel):
+    text: str = model.SourceField()
+    vector: Vector(model.ndims()) = model.VectorField()
 
-@app.on_event("startup")
-async def startup():
-    global db
-    db = lancedb.connect("./api_data/lancedb")
+# Initialize database
+db = lancedb.connect("./openai_db")
 
-def get_db():
-    """Dependency to get database connection."""
+def get_database():
+    """Initialize database with OpenAI embeddings."""
+    if not os.environ.get("OPENAI_API_KEY"):
+        raise ValueError("OPENAI_API_KEY environment variable required")
     return db
 
-@app.get("/health")
-def health_check(db = Depends(get_db)):
-    """Health check endpoint."""
-    tables = db.table_names()
-    return {"status": "healthy", "tables": len(tables)}
+def main():
+    print(f"OpenAI embedding dimension: {model.ndims()}")
+    print("OpenAI embedding pipeline ready")
 
 if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
-    print("FastAPI service ready")
+    main()

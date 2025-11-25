@@ -1,23 +1,26 @@
-"""Async LanceDB initialization."""
+"""LanceDB with S3 cloud storage."""
 
-import asyncio
+import os
 import lancedb
 
-async def init_database():
-    """Async database initialization."""
-    # LanceDB connect is sync, but we wrap for async context
-    db = lancedb.connect("./async_db")
-    return db
+# AWS credentials should be set via environment variables:
+# AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_REGION
 
-db = None
+def get_cloud_database():
+    """Connect to LanceDB on S3."""
+    bucket = os.environ.get("S3_BUCKET", "my-lancedb-bucket")
+    prefix = os.environ.get("S3_PREFIX", "lancedb")
+    s3_uri = f"s3://{bucket}/{prefix}"
+    return lancedb.connect(s3_uri)
 
-async def main():
-    """Async main entry point."""
-    global db
-    db = await init_database()
+# Initialize cloud database
+db = get_cloud_database()
+
+def main():
     tables = db.table_names()
-    print(f"Async connected with {len(tables)} tables")
-    print("Async app started")
+    print(f"Connected to cloud LanceDB")
+    print(f"Tables: {tables}")
+    print("Cloud database ready")
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    main()

@@ -4,25 +4,29 @@
   "task_name": "initialization",
   "sdk": "lancedb",
   "lancedb_version": "0.5.0",
-  "framework": "python",
+  "framework": "flask",
   "difficulty": "medium",
-  "estimated_lines": 15,
-  "description": "Initialize with predefined schema",
-  "scenario": "with_schema",
-  "use_case": "typed application",
+  "estimated_lines": 40,
+  "description": "Flask application context",
+  "scenario": "flask_connection",
   "ground_truth": {
     "ingredients": {
       "initialization": {
         "location": "app.py",
         "pattern": "lancedb.connect",
         "imports": [
-          "lancedb"
+          "lancedb",
+          "flask"
         ]
       },
       "configuration": {
-        "db_path": "./schema_db",
+        "db_path": "./flask_db",
         "connection_method": "lancedb.connect"
-      }
+      },
+      "production_patterns": [
+        "flask",
+        "app_context"
+      ]
     }
   },
   "evaluation_targets": {
@@ -30,7 +34,8 @@
       "correct_file": "app.py",
       "correct_pattern": "lancedb.connect",
       "correct_imports": [
-        "import lancedb"
+        "import lancedb",
+        "import flask"
       ]
     },
     "c_comp": {

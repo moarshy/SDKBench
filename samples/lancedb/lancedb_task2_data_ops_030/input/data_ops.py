@@ -1,30 +1,48 @@
-"""Data management for vector database."""
+"""Full data validation pipeline."""
 
-import pandas as pd
-import numpy as np
+from typing import Optional, List
+from pydantic import field_validator
 
-# TODO: Connect to database
+# TODO: Import lancedb
+# TODO: Import LanceModel, Vector from lancedb.pydantic
 
-def create_sample_data():
-    """Create sample data for testing."""
-    data = [
-        {"id": 1, "text": "Hello world", "category": "greeting"},
-        {"id": 2, "text": "Python programming", "category": "tech"},
-        {"id": 3, "text": "Machine learning", "category": "tech"}
-    ]
-    return pd.DataFrame(data)
+# TODO: Define schema with validators
+# class Document(LanceModel):
+#     text: str
+#     vector: Vector(384)
+#     category: str
+#
+#     @field_validator("text")
+#     @classmethod
+#     def text_not_empty(cls, v):
+#         if not v or not v.strip():
+#             raise ValueError("text cannot be empty")
+#         return v.strip()
+#
+#     @field_validator("category")
+#     @classmethod
+#     def valid_category(cls, v):
+#         allowed = ["tech", "science", "business"]
+#         if v not in allowed:
+#             raise ValueError(f"category must be one of {allowed}")
+#         return v
 
-def store_data(df):
-    """Store data in vector database."""
-    # TODO: Create table and add data
+def validate_and_insert(table, documents: List[dict]):
+    """Validate documents before insertion.
+
+    TODO:
+        1. Validate each document against schema
+        2. Collect validation errors
+        3. Insert valid documents
+        4. Return errors
+    """
     pass
 
 def main():
-    """Main function."""
-    df = create_sample_data()
-    # TODO: Add vector column
-    store_data(df)
-    print(f"Stored {len(df)} records")
+    # TODO: Create docs with some invalid data
+    # TODO: Validate and insert
+    # TODO: Report errors
+    print("Validation complete")
 
 if __name__ == "__main__":
     main()

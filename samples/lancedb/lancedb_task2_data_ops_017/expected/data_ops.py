@@ -1,48 +1,29 @@
-"""Data management for vector database."""
+"""Create table with LanceModel schema."""
 
-import pandas as pd
-import numpy as np
 import lancedb
 from lancedb.pydantic import LanceModel, Vector
+import numpy as np
 
 # Connect to database
 db = lancedb.connect("./my_lancedb")
 
 class Document(LanceModel):
-    """Document schema with vector."""
-    id: int
     text: str
+    vector: Vector(384)
     category: str
-    vector: Vector(384)  # 384-dimensional vector
 
-def create_sample_data():
-    """Create sample data for testing."""
-    data = [
-        {"id": 1, "text": "Hello world", "category": "greeting"},
-        {"id": 2, "text": "Python programming", "category": "tech"},
-        {"id": 3, "text": "Machine learning", "category": "tech"}
-    ]
-    return pd.DataFrame(data)
-
-def store_data(df):
-    """Store data in vector database."""
-    # Add random vectors for demo (in production, use real embeddings)
-    df["vector"] = [np.random.randn(384).tolist() for _ in range(len(df))]
-
-    # Create or open table
-    table = db.create_table(
-        "embeddings",
-        data=df,
-        mode="overwrite"
-    )
-
+def create_table_with_schema(db, table_name: str, data):
+    """Create table with LanceModel schema."""
+    table = db.create_table(table_name, data, mode="overwrite")
     return table
 
 def main():
-    """Main function."""
-    df = create_sample_data()
-    table = store_data(df)
-    print(f"Stored {len(df)} records in '{table.name}' table")
+    data = [
+        Document(text="Hello", vector=np.random.randn(384).tolist(), category="greeting"),
+        Document(text="Python", vector=np.random.randn(384).tolist(), category="tech"),
+    ]
+    table = create_table_with_schema(db, "documents", data)
+    print(f"Schema-based table created with {len(table.to_pandas())} records")
 
 if __name__ == "__main__":
     main()

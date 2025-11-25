@@ -1,31 +1,26 @@
-"""LanceDB with predefined schema."""
+"""Flask application with LanceDB."""
 
+from flask import Flask, g
 import lancedb
-from lancedb.pydantic import LanceModel, Vector
-from typing import Optional
 
-# Define document schema
-class Document(LanceModel):
-    text: str
-    vector: Vector(384)
-    category: Optional[str] = None
-    timestamp: Optional[str] = None
+app = Flask(__name__)
+app.config["LANCEDB_PATH"] = "./flask_db"
 
-# Initialize database
-db = lancedb.connect("./schema_db")
+def get_db():
+    """Get database connection."""
+    if "db" not in g:
+        g.db = lancedb.connect(app.config["LANCEDB_PATH"])
+    return g.db
 
-def create_typed_table(table_name: str):
-    """Create table with predefined schema."""
-    # Create empty table with schema
-    data = [Document(text="init", vector=[0.0] * 384)]
-    table = db.create_table(table_name, data, mode="overwrite")
-    return table
+@app.route("/health")
+def health():
+    """Health check endpoint."""
+    db = get_db()
+    tables = db.table_names()
+    return {"status": "healthy", "tables": len(tables)}
 
 def main():
-    """Schema-based main."""
-    table = create_typed_table("documents")
-    print(f"Created typed table with schema: {Document.__fields__.keys()}")
-    print("Schema-based app ready")
+    print("Flask app ready")
 
 if __name__ == "__main__":
-    main()
+    app.run(debug=True)

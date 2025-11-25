@@ -1,4 +1,4 @@
-"""Schema Migration: Add new field to schema.
+"""Schema Migration: Add new field with defaults.
 
 Migrate existing LanceDB table to new schema while preserving data.
 """

@@ -5,11 +5,10 @@
   "sdk": "lancedb",
   "lancedb_version": "0.5.0",
   "framework": "python",
-  "difficulty": "medium",
-  "estimated_lines": 15,
-  "description": "Initialize for background jobs",
-  "scenario": "background_worker",
-  "use_case": "job processor",
+  "difficulty": "hard",
+  "estimated_lines": 70,
+  "description": "Async connection pattern",
+  "scenario": "async_connection",
   "ground_truth": {
     "ingredients": {
       "initialization": {
@@ -20,9 +19,13 @@
         ]
       },
       "configuration": {
-        "db_path": "./worker_data/lancedb",
+        "db_path": "./async_db",
         "connection_method": "lancedb.connect"
-      }
+      },
+      "production_patterns": [
+        "asyncio",
+        "connection_pool"
+      ]
     }
   },
   "evaluation_targets": {

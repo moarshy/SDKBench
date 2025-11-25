@@ -5,10 +5,10 @@
   "sdk": "lancedb",
   "lancedb_version": "0.5.0",
   "framework": "python",
-  "difficulty": "hard",
-  "estimated_lines": 100,
-  "description": "Build a complete Semantic Search API using LanceDB",
-  "pipeline_type": "semantic_search",
+  "difficulty": "medium",
+  "estimated_lines": 40,
+  "description": "Multimodal CLIP search",
+  "scenario": "multimodal_clip",
   "ground_truth": {
     "ingredients": {
       "database_operations": [
@@ -24,6 +24,10 @@
         "search",
         "generate_response",
         "run_pipeline"
+      ],
+      "production_patterns": [
+        "CLIP",
+        "image_search"
       ]
     }
   },

@@ -1,4 +1,4 @@
-"""Tests for schema migration."""
+"""Tests for schema migration: Upgrade embedding model."""
 
 import pytest
 import sys

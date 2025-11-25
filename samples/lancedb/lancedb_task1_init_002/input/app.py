@@ -1,25 +1,19 @@
-"""Cloud-based vector storage application."""
+"""In-memory LanceDB for testing."""
 
-# TODO: Import lancedb and configure cloud storage
+# TODO: Import lancedb
 
-# TODO: Set up AWS credentials or use environment variables
+def create_test_db():
+    """Create in-memory database for testing.
 
-def get_cloud_db():
-    """Get connection to cloud-hosted LanceDB.
-
-    TODO:
-        1. Configure S3 credentials
-        2. Connect to cloud LanceDB
-        3. Return database connection
+    TODO: Use lancedb.connect(":memory:") for ephemeral storage
     """
     pass
 
 def main():
-    """Main entry point for cloud app."""
-    # TODO: Initialize cloud database connection
-    # TODO: Verify connection
-
-    print("Cloud app started")
+    """Test database setup."""
+    # TODO: Create in-memory database
+    # TODO: Verify it works
+    print("Test database ready")
 
 if __name__ == "__main__":
     main()

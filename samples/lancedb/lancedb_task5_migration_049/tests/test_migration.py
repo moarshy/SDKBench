@@ -1,4 +1,4 @@
-"""Tests for schema migration."""
+"""Tests for schema migration: Migrate/rebuild vector index."""
 
 import pytest
 import sys

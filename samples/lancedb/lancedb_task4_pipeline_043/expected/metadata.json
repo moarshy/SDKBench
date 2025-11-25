@@ -4,11 +4,11 @@
   "task_name": "complete_pipeline",
   "sdk": "lancedb",
   "lancedb_version": "0.5.0",
-  "framework": "python",
+  "framework": "flask",
   "difficulty": "hard",
-  "estimated_lines": 100,
-  "description": "Build a complete RAG Chatbot using LanceDB",
-  "pipeline_type": "chatbot",
+  "estimated_lines": 70,
+  "description": "Flask RAG with Redis caching",
+  "scenario": "flask_redis",
   "ground_truth": {
     "ingredients": {
       "database_operations": [
@@ -24,6 +24,11 @@
         "search",
         "generate_response",
         "run_pipeline"
+      ],
+      "production_patterns": [
+        "flask",
+        "redis_cache",
+        "session"
       ]
     }
   },

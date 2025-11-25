@@ -1,16 +1,21 @@
-"""Vector similarity search implementation."""
+"""Search with post-filtering."""
 
-# TODO: Import necessary libraries
+# TODO: Import lancedb
 
-def search_similar(query_text, k=5):
-    """Search for similar documents."""
-    # TODO: Implement vector search
+def search_with_filter(query_vector, category: str, k: int = 10):
+    """Search with post-filtering on category.
+
+    TODO:
+        1. Perform vector search
+        2. Apply .where(f"category = '{category}'") AFTER search
+        3. Note: post-filtering happens after k results selected
+        4. Return filtered results
+    """
     pass
 
 def main():
-    """Test search functionality."""
-    results = search_similar("machine learning", k=10)
-    print(f"Found results")
+    # TODO: Search and filter by category
+    print("Post-filter search complete")
 
 if __name__ == "__main__":
     main()

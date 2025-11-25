@@ -1,6 +1,6 @@
-"""Streaming RAG Pipeline.
+"""Two-stage retrieval pipeline.
 
-Complete streaming rag system using LanceDB for vector storage.
+Complete pipeline using LanceDB for vector storage.
 """
 
 import lancedb

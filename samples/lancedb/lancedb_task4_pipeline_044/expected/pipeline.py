@@ -1,6 +1,6 @@
-"""Multi-modal Search Pipeline.
+"""FastAPI production RAG service.
 
-Complete multi-modal search system using LanceDB for vector storage.
+Complete pipeline using LanceDB for vector storage.
 """
 
 import lancedb
