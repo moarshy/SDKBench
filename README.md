@@ -1,109 +1,162 @@
-# SDK-Bench: Clerk POC
+# SDK-Bench
 
-A benchmark for evaluating LLM capabilities in SDK instrumentation, starting with Clerk authentication SDK.
+A benchmark for evaluating LLM capabilities in SDK instrumentation tasks across multiple SDKs.
+
+## Supported SDKs
+
+| SDK | Samples | Description |
+|-----|---------|-------------|
+| **Clerk** | 50 | Authentication & user management for web apps |
+| **LanceDB** | 50 | Serverless vector database for AI applications |
+
+## Quick Start
+
+### Setup
+
+```bash
+# Install uv (fast Python package manager)
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# Create venv and install dependencies
+uv venv
+source .venv/bin/activate
+uv pip install -e ".[dev]"
+
+# Configure API keys
+cp .env.example .env
+# Edit .env and add your ANTHROPIC_API_KEY and/or OPENAI_API_KEY
+```
+
+### Run Evaluation
+
+```bash
+# Interactive mode - prompts for SDK, model, and options
+python scripts/run.py
+
+# Flag mode - for scripting/CI
+python scripts/run.py --sdk clerk,lancedb --model claude-sonnet-4-5 --workers 5
+
+# Run specific SDK with sample limit
+python scripts/run.py --sdk lancedb --model gpt-4o --limit 10
+```
+
+### Available Models
+
+| Model | Provider | ID |
+|-------|----------|-----|
+| `claude-sonnet-4-5` | Anthropic | Claude Sonnet 4.5 |
+| `claude-3-5-sonnet` | Anthropic | Claude 3.5 Sonnet |
+| `gpt-4o` | OpenAI | GPT-4o |
+| `gpt-4o-mini` | OpenAI | GPT-4o Mini |
+
+### CLI Options
+
+```
+--sdk           Comma-separated SDKs (clerk, lancedb, or 'all')
+--model         Comma-separated models to evaluate
+--workers       Number of parallel workers (default: 5)
+--limit         Limit samples per SDK (for testing)
+--skip-generation  Skip generation, evaluate existing solutions
+--skip-evaluation  Skip evaluation, generate only
+--run-fcorr     Run F-CORR functional correctness tests
+--no-confirm    Skip confirmation prompt (for CI/scripting)
+```
+
+### F-CORR (Functional Correctness) Testing
+
+F-CORR runs actual tests against generated solutions to verify functional correctness:
+
+```bash
+# Run evaluation with F-CORR enabled
+python scripts/run.py --sdk lancedb --model claude-sonnet-4-5 --run-fcorr
+
+# Run standalone F-CORR on a sample's expected solution
+python scripts/run_fcorr.py --sample samples/lancedb/lancedb_task1_init_001
+
+# Run F-CORR on all samples for an SDK
+python scripts/run_fcorr.py --sdk lancedb --verbose
+```
+
+F-CORR supports multiple languages via auto-detection:
+- **Python**: pytest (requires `requirements.txt` or `pyproject.toml`)
+- **TypeScript/JavaScript**: Jest, Vitest, Mocha (via `package.json`)
+
+Scoring is strict: any test failure results in F-CORR = 0%.
 
 ## Project Structure
 
 ```
 SDKBench/
-├── scripts/           # Data collection and mining scripts
-├── data/             # Collected repositories and patterns
-├── samples/          # Benchmark samples (50 total)
-├── evaluator/        # Evaluation pipeline
-├── results/          # Evaluation results
-├── reports/          # Analysis and visualizations
-├── docs/             # Documentation
-└── LogBench/         # Original LogBench dataset
+├── scripts/
+│   ├── run.py              # Main CLI for running evaluations
+│   ├── run_fcorr.py        # Standalone F-CORR evaluation
+│   ├── compare_sdk_results.py  # Cross-SDK comparison reports
+│   └── run_pipeline.py     # Data collection pipeline
+├── samples/
+│   ├── clerk/              # 50 Clerk SDK samples
+│   └── lancedb/            # 50 LanceDB samples
+├── sdkbench/
+│   ├── llm/                # LLM providers (Anthropic, OpenAI)
+│   ├── evaluator/          # Evaluation metrics
+│   ├── test_harness/       # Multi-language test runner framework
+│   │   ├── python_runner.py    # pytest support
+│   │   ├── typescript_runner.py # Jest/Vitest/Mocha support
+│   │   └── registry.py     # Auto-detection registry
+│   └── core/               # Core utilities
+├── results/                # Evaluation outputs
+│   ├── {sdk}/{model}/
+│   │   ├── solutions/      # Generated solutions
+│   │   └── *_summary.json  # Metrics summary
+│   └── overall_report_*.json
+└── docs/                   # Documentation
 ```
 
-## Setup
+## Evaluation Metrics
 
-This project uses [uv](https://github.com/astral-sh/uv) for fast Python package management.
+| Metric | Description |
+|--------|-------------|
+| **I-ACC** | Instrumentation Accuracy - correct SDK usage patterns |
+| **C-COMP** | Configuration Completeness - required config present |
+| **IPA** | Integration Point Accuracy - correct integration points |
+| **F-CORR** | Functional Correctness - code executes correctly |
+| **CQ** | Code Quality - follows best practices |
+| **SEM-SIM** | Semantic Similarity - matches expected output |
 
-### Install uv
+## Task Types
 
-```bash
-# macOS/Linux
-curl -LsSf https://astral.sh/uv/install.sh | sh
+Each SDK has 5 task types with varying complexity:
 
-# Or with pip
-pip install uv
+| Type | Clerk | LanceDB | Count |
+|------|-------|---------|-------|
+| 1 | Initialization | Initialization | 15 |
+| 2 | Middleware Config | Data Operations | 15 |
+| 3 | Hooks Integration | Search | 10 |
+| 4 | Complete Integration | Pipeline Integration | 7 |
+| 5 | Migration | Migration | 3 |
+
+## Example Results
+
 ```
+SDK: CLERK (50 samples)
+Model: claude-sonnet-4-5
+ Generation     50/50
+ Evaluation     50/50
+ I_ACC       100.000
+ C_COMP       85.000
+ IPA           0.950
+ CQ          100.000
+ SEM_SIM      72.500
 
-### Create virtual environment and install dependencies
-
-```bash
-# Create venv and install all dependencies
-uv venv
-source .venv/bin/activate  # On Windows: .venv\Scripts\activate
-uv pip install -e ".[dev]"
+SDK: LANCEDB (50 samples)
+Model: claude-sonnet-4-5
+ Generation     50/50
+ Evaluation     50/50
+ I_ACC       100.000
+ C_COMP      100.000
+ IPA           1.000
+ CQ          100.000
+ SEM_SIM      87.000
 ```
-
-### Configuration
-
-Copy the example environment file and add your API keys:
-
-```bash
-cp .env.example .env
-# Edit .env and add your tokens
-```
-
-## Week 1: Data Collection (Current Phase)
-
-Goal: Mine 50-100 Clerk repositories and extract integration patterns.
-
-### Usage
-
-```bash
-# 1. Search GitHub for Clerk repositories
-python -m scripts.search_repos --max-repos 100
-
-# 2. Clone and analyze repositories
-python -m scripts.mine_repos
-
-# 3. Extract Clerk patterns
-python -m scripts.extract_patterns
-```
-
-Or use the installed commands:
-
-```bash
-search-repos --max-repos 100
-mine-repos
-extract-patterns
-```
-
-## Progress Checklist
-
-### Week 1: Data Collection
-- [ ] Set up GitHub API access
-- [ ] Search and collect 50-100 Clerk repositories
-- [ ] Clone repositories locally
-- [ ] Extract Clerk integration patterns
-- [ ] Create `data/repositories.json` catalog
-- [ ] Document findings in `data/patterns.md`
-
-### Week 2: Dataset Construction
-- [ ] Create 15 Task Type 1 samples (Initialization)
-- [ ] Create 15 Task Type 2 samples (Middleware)
-- [ ] Create 10 Task Type 3 samples (Hooks)
-- [ ] Create 7 Task Type 4 samples (Complete Integration)
-- [ ] Create 3 Task Type 5 samples (Migration)
-
-### Week 3: Evaluation Pipeline
-- [ ] Implement I-ACC metric
-- [ ] Implement C-COMP metric
-- [ ] Implement IPA metric
-- [ ] Implement F-CORR metric
-- [ ] Implement CQ metric
-- [ ] Implement SEM-SIM metric
-
-### Week 4: Baseline Evaluation
-- [ ] Test Claude 3.5 Sonnet
-- [ ] Test GPT-4 Turbo
-- [ ] Test GPT-4o
-- [ ] Analyze results
-- [ ] Generate final report
 
 ## Development
 
@@ -121,11 +174,12 @@ ruff check .
 mypy scripts/
 ```
 
-## References
+## Adding New SDKs
 
-- [Clerk POC Plan](docs/clerk-poc-plan.md)
-- [SDK-Bench Methodology](docs/plan.md)
-- [Ingredients vs Tasks](docs/ingredients-vs-tasks.md)
+1. Create samples in `samples/{sdk_name}/`
+2. Add SDK context to `sdkbench/llm/prompt_builder.py`
+3. Add version field mapping to `sdkbench/core/ground_truth.py`
+4. Run evaluation: `python scripts/run.py --sdk {sdk_name}`
 
 ## License
 

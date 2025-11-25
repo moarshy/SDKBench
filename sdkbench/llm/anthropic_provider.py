@@ -24,11 +24,11 @@ class AnthropicProvider(LLMProvider):
         Args:
             config: LLM configuration
         """
-        super().__init__(config)
-
         # Use environment variable if API key not provided
         if not config.api_key:
             config.api_key = os.getenv("ANTHROPIC_API_KEY")
+
+        super().__init__(config)
 
         # Import Anthropic SDK
         try:
