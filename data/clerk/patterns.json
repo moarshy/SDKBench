@@ -1,0 +1,1083 @@
+{
+  "individual_patterns": [
+    {
+      "repo_id": "repo_001",
+      "repo_name": "clerk/clerk-playwright-nextjs",
+      "framework": "react",
+      "clerk_version": "^6.12.7",
+      "imports": [
+        "import { ClerkProvider } from \"@clerk/nextjs\"",
+        "import { clerkMiddleware, createRouteMatcher } from \"@clerk/nextjs/server\"",
+        "import { clerk, setupClerkTestingToken } from \"@clerk/testing/playwright\"",
+        "import { clerk, clerkSetup } from \"@clerk/testing/playwright\"",
+        "import { auth } from \"@clerk/nextjs/server\"",
+        "import { SignUp } from \"@clerk/nextjs\"",
+        "import { SignIn } from \"@clerk/nextjs\""
+      ],
+      "provider_patterns": [
+        {
+          "has_provider": true,
+          "props": ""
+        }
+      ],
+      "middleware_patterns": [],
+      "hook_usage": [],
+      "api_protection": [],
+      "env_vars": [
+        "NEXT_PUBLIC_CLERK_SIGN_UP_URL",
+        "NEXT_PUBLIC_CLERK_SIGN_IN_FORCE_REDIRECT_URL",
+        "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY",
+        "CLERK_SECRET_KEY",
+        "NEXT_PUBLIC_CLERK_SIGN_IN_URL",
+        "NEXT_PUBLIC_CLERK_SIGN_UP_FORCE_REDIRECT_URL"
+      ]
+    },
+    {
+      "repo_id": "repo_006",
+      "repo_name": "adrianhajdin/threads",
+      "framework": "nextjs",
+      "clerk_version": "^4.21.15",
+      "imports": [
+        "import { ClerkProvider } from \"@clerk/nextjs\"",
+        "import { dark } from \"@clerk/themes\"",
+        "import { ClerkProvider } from \"@clerk/nextjs\"",
+        "import { dark } from \"@clerk/themes\"",
+        "import { authMiddleware } from \"@clerk/nextjs\"",
+        "import { currentUser } from \"@clerk/nextjs\"",
+        "import { currentUser } from \"@clerk/nextjs\"",
+        "import { currentUser } from \"@clerk/nextjs\"",
+        "import { currentUser } from \"@clerk/nextjs\"",
+        "import { currentUser } from \"@clerk/nextjs\"",
+        "import { currentUser } from \"@clerk/nextjs\"",
+        "import { currentUser } from \"@clerk/nextjs\"",
+        "import { currentUser } from \"@clerk/nextjs\"",
+        "import { currentUser } from \"@clerk/nextjs\"",
+        "import { currentUser } from \"@clerk/nextjs\"",
+        "import { currentUser } from \"@clerk/nextjs\""
+      ],
+      "provider_patterns": [
+        {
+          "has_provider": true,
+          "props": "appearance={{\n        baseTheme: dark,\n      }}",
+          "has_appearance": true
+        },
+        {
+          "has_provider": true,
+          "props": "appearance={{\n        baseTheme: dark,\n      }}",
+          "has_appearance": true
+        }
+      ],
+      "middleware_patterns": [
+        {
+          "type": "authMiddleware",
+          "public_routes": [
+            "/api/webhook/clerk"
+          ],
+          "ignored_routes": [
+            "/api/webhook/clerk"
+          ]
+        }
+      ],
+      "hook_usage": [],
+      "api_protection": [
+        {
+          "uses_current_user": true
+        }
+      ],
+      "env_vars": []
+    },
+    {
+      "repo_id": "repo_004",
+      "repo_name": "nextify-limited/saasfly",
+      "framework": "nextjs",
+      "clerk_version": "^6.20.0",
+      "imports": [
+        "import { ClerkProvider } from \"@clerk/nextjs\"",
+        "import { auth } from '@clerk/nextjs/server'",
+        "import { auth } from \"@clerk/nextjs/server\"",
+        "import { clerkMiddleware, createRouteMatcher } from \"@clerk/nextjs/server\"",
+        "import { SignIn, useUser } from \"@clerk/nextjs\"",
+        "import { useClerk } from \"@clerk/nextjs\"",
+        "import { OAuthStrategy } from \"@clerk/types\"",
+        "import { useSignIn } from \"@clerk/nextjs\"",
+        "import {auth, currentUser, getAuth} from \"@clerk/nextjs/server\"",
+        "import {getAuth} from \"@clerk/nextjs/server\""
+      ],
+      "provider_patterns": [
+        {
+          "has_provider": true,
+          "props": ""
+        }
+      ],
+      "middleware_patterns": [],
+      "hook_usage": [
+        {
+          "useUser": true
+        },
+        {
+          "useClerk": true
+        },
+        {
+          "useSignIn": true
+        }
+      ],
+      "api_protection": [
+        {
+          "uses_get_auth": true
+        }
+      ],
+      "env_vars": [
+        "CLERK_SECRET_KEY",
+        "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY"
+      ]
+    },
+    {
+      "repo_id": "repo_001",
+      "repo_name": "vercel/next-forge",
+      "framework": "nextjs",
+      "clerk_version": "^6.34.0",
+      "imports": [
+        "import { ClerkProvider } from \"@clerk/nextjs\"",
+        "import { dark } from \"@clerk/themes\"",
+        "import { SignIn as ClerkSignIn } from \"@clerk/nextjs\"",
+        "import { SignUp as ClerkSignUp } from \"@clerk/nextjs\""
+      ],
+      "provider_patterns": [],
+      "middleware_patterns": [
+        {
+          "type": "authMiddleware"
+        }
+      ],
+      "hook_usage": [],
+      "api_protection": [],
+      "env_vars": [
+        "NEXT_PUBLIC_CLERK_SIGN_UP_URL",
+        "NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL",
+        "NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL",
+        "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY",
+        "CLERK_WEBHOOK_SECRET",
+        "CLERK_SECRET_KEY",
+        "NEXT_PUBLIC_CLERK_SIGN_IN_URL"
+      ]
+    },
+    {
+      "repo_id": "repo_010",
+      "repo_name": "chen-rn/CUA",
+      "framework": "nextjs",
+      "clerk_version": "^4.6.15",
+      "imports": [
+        "import { withClerkMiddleware } from '@clerk/nextjs/server'",
+        "import { OAuthStrategy } from \"@clerk/types\"",
+        "import {\n  OAuthStrategy,\n  SetSession,\n  SignUpResource,\n  SignInResource,\n} from \"@clerk/types\"",
+        "import {\n  OAuthStrategy,\n  SetSession,\n  SignUpResource,\n  SignInResource,\n} from \"@clerk/types\"",
+        "import {\n  SignedIn,\n  SignedOut,\n  useAuth,\n  useSignIn,\n  useSignUp,\n  useUser,\n} from \"@clerk/nextjs\"",
+        "import { useAuth } from '@clerk/clerk-expo'",
+        "import {\n  SignedIn,\n  SignedOut,\n  useAuth,\n  useSignIn,\n  useSignUp,\n  useUser,\n} from \"@clerk/clerk-expo\"",
+        "import { OAuthStrategy } from \"@clerk/types\"",
+        "import { OAuthStrategy } from \"@clerk/types\"",
+        "import { OAuthStrategy } from \"@clerk/types\"",
+        "import { ClerkProvider } from \"@clerk/clerk-expo\"",
+        "import { getAuth, clerkClient } from '@clerk/nextjs/server'"
+      ],
+      "provider_patterns": [],
+      "middleware_patterns": [],
+      "hook_usage": [
+        {
+          "useAuth": true,
+          "useUser": true,
+          "useSignIn": true,
+          "useSignUp": true
+        },
+        {
+          "useAuth": true
+        },
+        {
+          "useAuth": true,
+          "useUser": true,
+          "useSignIn": true,
+          "useSignUp": true
+        },
+        {
+          "useAuth": true,
+          "useSignUp": true
+        },
+        {
+          "useAuth": true,
+          "useSignIn": true
+        },
+        {
+          "useUser": true,
+          "useSignUp": true
+        }
+      ],
+      "api_protection": [
+        {
+          "uses_get_auth": true
+        }
+      ],
+      "env_vars": [
+        "CLERK_SECRET_KEY",
+        "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY"
+      ]
+    },
+    {
+      "repo_id": "repo_009",
+      "repo_name": "clerk/t3-turbo-and-clerk",
+      "framework": "nextjs",
+      "clerk_version": "^0.17.7",
+      "imports": [
+        "import { withClerkMiddleware } from \"@clerk/nextjs/server\"",
+        "import { ClerkProvider, SignedIn, SignedOut } from \"@clerk/clerk-expo\"",
+        "import { useAuth } from \"@clerk/clerk-expo\"",
+        "import { useAuth } from \"@clerk/clerk-expo\"",
+        "import { useOAuth } from \"@clerk/clerk-expo\"",
+        "import { useAuth, UserButton } from \"@clerk/nextjs\"",
+        "import { ClerkProvider } from \"@clerk/nextjs\"",
+        "import { SignUp } from \"@clerk/nextjs\"",
+        "import { SignIn } from \"@clerk/nextjs\"",
+        "import { getAuth } from \"@clerk/nextjs/server\""
+      ],
+      "provider_patterns": [],
+      "middleware_patterns": [],
+      "hook_usage": [
+        {
+          "useAuth": true
+        },
+        {
+          "useAuth": true
+        },
+        {
+          "useAuth": true
+        }
+      ],
+      "api_protection": [
+        {
+          "uses_get_auth": true
+        }
+      ],
+      "env_vars": [
+        "CLERK_SECRET_KEY",
+        "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY"
+      ]
+    },
+    {
+      "repo_id": "repo_007",
+      "repo_name": "adrianhajdin/ai_saas_app",
+      "framework": "nextjs",
+      "clerk_version": "^4.29.6",
+      "imports": [
+        "import { ClerkProvider } from \"@clerk/nextjs\"",
+        "import { authMiddleware } from \"@clerk/nextjs\"",
+        "import { auth } from \"@clerk/nextjs\"",
+        "import { SignedIn, auth } from \"@clerk/nextjs\"",
+        "import { auth } from \"@clerk/nextjs\"",
+        "import { auth } from '@clerk/nextjs'",
+        "import { auth } from \"@clerk/nextjs\"",
+        "import { SignUp } from '@clerk/nextjs'",
+        "import { SignIn } from '@clerk/nextjs'",
+        "import { SignedIn, SignedOut, UserButton } from \"@clerk/nextjs\"",
+        "import { SignedIn, SignedOut, UserButton } from '@clerk/nextjs'",
+        "import { clerkClient } from \"@clerk/nextjs\"",
+        "import { WebhookEvent } from \"@clerk/nextjs/server\""
+      ],
+      "provider_patterns": [
+        {
+          "has_provider": true,
+          "props": "appearance={{\n      variables: { colorPrimary: '#624cf5' }\n    }}",
+          "has_appearance": true
+        }
+      ],
+      "middleware_patterns": [
+        {
+          "type": "authMiddleware",
+          "public_routes": [
+            "/",
+            "/api/webhooks/clerk",
+            "/api/webhooks/stripe"
+          ]
+        }
+      ],
+      "hook_usage": [],
+      "api_protection": [],
+      "env_vars": []
+    },
+    {
+      "repo_id": "repo_005",
+      "repo_name": "clerk/javascript",
+      "framework": "nextjs",
+      "clerk_version": "workspace:*",
+      "imports": [
+        "import { ClerkProvider } from '@clerk/nextjs'",
+        "import { ClerkProvider } from \"@clerk/chrome-extension\"",
+        "import { ClerkProvider } from '@clerk/nextjs'",
+        "import { ClerkProvider } from '@clerk/nextjs'",
+        "import { ClerkProvider } from '@clerk/nextjs'",
+        "import { ClerkLoaded, ClerkProvider } from '@clerk/clerk-expo'",
+        "import { ClerkProvider } from '@clerk/nextjs'",
+        "import { ClerkProvider } from '@clerk/nextjs'",
+        "import { ClerkProvider } from '@clerk/nextjs'",
+        "import { clerkMiddleware } from '@clerk/nextjs/server'",
+        "import { clerkMiddleware } from '@clerk/nextjs/server'",
+        "import { clerkMiddleware } from '@clerk/nextjs/server'",
+        "import { clerkMiddleware, createRouteMatcher } from '@clerk/nuxt/server'",
+        "import { rootAuthLoader } from '@clerk/react-router/ssr.server'",
+        "import { ClerkProvider } from '@clerk/react-router'",
+        "import { clerkMiddleware, createRouteMatcher } from '@clerk/astro/server'",
+        "import { clerkMiddleware } from '@clerk/astro/server'",
+        "import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'",
+        "import { clerkMiddleware } from '@clerk/nextjs/server'",
+        "import { clerkMiddleware } from '@clerk/nextjs/server'",
+        "import { AuthStatus, constants, createClerkRequest } from '@clerk/backend/internal'",
+        "import { handleNetlifyCacheInDevInstance } from '@clerk/shared/netlifyCacheHandler'",
+        "import { clerkMiddleware } from '@clerk/nextjs/server'",
+        "import { AuthStatus, constants, getAuthObjectForAcceptedToken } from '@clerk/backend/internal'",
+        "import { deprecated } from '@clerk/shared/deprecated'",
+        "import { handleNetlifyCacheInDevInstance } from '@clerk/shared/netlifyCacheHandler'",
+        "import {\n  AuthStatus,\n  constants,\n  createClerkRequest,\n  createRedirect,\n  getAuthObjectForAcceptedToken,\n  isMachineTokenByPrefix,\n  isTokenTypeAccepted,\n  makeAuthObjectSerializable,\n  TokenType,\n} from '@clerk/backend/internal'",
+        "import { parsePublishableKey } from '@clerk/shared/keys'",
+        "import { AuthStatus, constants, TokenType } from '@clerk/backend/internal'",
+        "import {\n  AuthStatus,\n  constants,\n  createClerkRequest,\n  createRedirect,\n  getAuthObjectForAcceptedToken,\n  signedOutAuthObject,\n  TokenType,\n} from '@clerk/backend/internal'",
+        "import { isDevelopmentFromSecretKey } from '@clerk/shared/keys'",
+        "import { handleNetlifyCacheInDevInstance } from '@clerk/shared/netlifyCacheHandler'",
+        "import { isHttpOrHttps } from '@clerk/shared/proxy'",
+        "import { handleValueOrFn } from '@clerk/shared/utils'",
+        "import { AuthStatus, constants, createClerkRequest } from '@clerk/backend/internal'",
+        "import { handleNetlifyCacheInDevInstance } from '@clerk/shared/netlifyCacheHandler'",
+        "import { AuthStatus, TokenType } from '@clerk/backend/internal'",
+        "import { AuthStatus } from '@clerk/backend/internal'",
+        "import { clerkMiddleware } from '@clerk/express'",
+        "import { getAuth, requireAuth, UnauthorizedError, ForbiddenError } from '@clerk/express'",
+        "import { createClerkClient } from '@clerk/chrome-extension/background'",
+        "import { clerkPlugin, getAuth } from '@clerk/fastify'",
+        "import { clerkClient, clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'",
+        "import { clerkClient } from '@clerk/nextjs/server'",
+        "import { clerkMiddleware } from '@clerk/nextjs/server'",
+        "import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'",
+        "import { ClerkProvider } from \"@clerk/nextjs\"",
+        "import { UserProfile, UserButton } from '@clerk/nextjs'",
+        "import { createClerkClient } from '@clerk/backend'",
+        "import { getAuth } from '@clerk/nextjs/server'",
+        "import { getAuth } from '@clerk/nextjs/server'",
+        "import { TokenType } from '@clerk/backend/internal'",
+        "import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'",
+        "import { auth } from '@clerk/nextjs/server'",
+        "import { auth } from '@clerk/nextjs/server'",
+        "import { clerkClient } from '@clerk/astro/server'",
+        "import { clerkClient } from '@clerk/astro/server'",
+        "import { auth } from '@clerk/nextjs/server'",
+        "import { auth } from '@clerk/nextjs/server'",
+        "import { useAuth } from '@clerk/vue'",
+        "import { isBrowserOnline } from '@clerk/shared/browser'",
+        "import { retry } from '@clerk/shared/retry'",
+        "import { camelToSnake } from '@clerk/shared/underscore'"
+      ],
+      "provider_patterns": [
+        {
+          "has_provider": true,
+          "props": "clerkJSUrl={'https://js.lclclerk.com/npm/clerk.browser.js'}"
+        },
+        {
+          "has_provider": true,
+          "props": "routerPush={(to) ="
+        },
+        {
+          "has_provider": true,
+          "props": "dynamic"
+        },
+        {
+          "has_provider": true,
+          "props": "appearance={{\n        layout: {\n          // Icon buttons only contain accessible labels when they use an icon; our generated letter icon does not have\n          // an accessible label. Using the \"blockButton\" variant ensures that the button contains a visible label that\n          // can be selected by a Playwright selector.\n          socialButtonsVariant: 'blockButton',\n        },\n      }}\n      experimental={{\n        persistClient: process.env.NEXT_PUBLIC_EXPERIMENTAL_PERSIST_CLIENT\n          ? process.env.NEXT_PUBLIC_EXPERIMENTAL_PERSIST_CLIENT === 'true'\n          : undefined,\n      }}",
+          "has_appearance": true
+        },
+        {
+          "has_provider": true,
+          "props": "dynamic"
+        },
+        {
+          "has_provider": true,
+          "props": "routerPush={(to: string) ="
+        },
+        {
+          "has_provider": true,
+          "props": ""
+        },
+        {
+          "has_provider": true,
+          "props": "clerkJSVariant='headless'"
+        },
+        {
+          "has_provider": true,
+          "props": "clerkJSVariant='headless'"
+        }
+      ],
+      "middleware_patterns": [],
+      "hook_usage": [],
+      "api_protection": [
+        {
+          "uses_get_auth": true
+        },
+        {
+          "uses_get_auth": true
+        }
+      ],
+      "env_vars": [
+        "CLERK_SIGN_UP_FALLBACK_URL",
+        "NEXT_PUBLIC_CLERK_SIGN_UP_URL",
+        "CLERK_SIGN_IN_URL",
+        "CLERK_SIGN_IN_FALLBACK_URL",
+        "CLERK_SIGN_UP_URL",
+        "NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL",
+        "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY",
+        "NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL",
+        "NEXT_PUBLIC_CLERK_SIGN_IN_URL",
+        "CLERK_PUBLISHABLE_KEY",
+        "CLERK_SECRET_KEY",
+        "CLERK_FRONTEND_API"
+      ]
+    },
+    {
+      "repo_id": "repo_008",
+      "repo_name": "adrianhajdin/zoom-clone",
+      "framework": "nextjs",
+      "clerk_version": "^5.0.0-beta.35",
+      "imports": [
+        "import { ClerkProvider } from \"@clerk/nextjs\"",
+        "import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'",
+        "import { useUser } from '@clerk/nextjs'",
+        "import { currentUser } from '@clerk/nextjs/server'",
+        "import { useUser } from '@clerk/nextjs'",
+        "import { SignedIn, UserButton } from '@clerk/nextjs'",
+        "import { useUser } from '@clerk/nextjs'",
+        "import { useUser } from \"@clerk/nextjs\"",
+        "import { useUser } from '@clerk/nextjs'",
+        "import { SignUp } from '@clerk/nextjs'",
+        "import { SignIn } from '@clerk/nextjs'"
+      ],
+      "provider_patterns": [
+        {
+          "has_provider": true,
+          "props": "appearance={{\n          layout: {\n            socialButtonsVariant: \"iconButton\",\n            logoImageUrl: \"/icons/yoom-logo.svg\",\n          },\n          variables: {\n            colorText: \"#fff\",\n            colorPrimary: \"#0E78F9\",\n            colorBackground: \"#1C1F2E\",\n            colorInputBackground: \"#252A41\",\n            colorInputText: \"#fff\",\n          },\n        }}",
+          "has_appearance": true
+        }
+      ],
+      "middleware_patterns": [],
+      "hook_usage": [
+        {
+          "useUser": true
+        },
+        {
+          "useUser": true
+        },
+        {
+          "useUser": true
+        },
+        {
+          "useUser": true
+        },
+        {
+          "useUser": true
+        }
+      ],
+      "api_protection": [],
+      "env_vars": []
+    },
+    {
+      "repo_id": "repo_003",
+      "repo_name": "nicoalbanese/kirimase",
+      "framework": "react",
+      "clerk_version": null,
+      "imports": [
+        "import { ClerkProvider } from \"@clerk/nextjs\"",
+        "import { ClerkProvider } from \"@clerk/nextjs\"",
+        "import { UserButton } from \"@clerk/nextjs\"",
+        "import { UserButton } from \"@clerk/nextjs\"",
+        "import { UserButton } from \"@clerk/nextjs\"",
+        "import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'",
+        "import { SignIn } from \"@clerk/nextjs\"",
+        "import { SignUp } from \"@clerk/nextjs\"",
+        "import { auth } from \"@clerk/nextjs/server\""
+      ],
+      "provider_patterns": [],
+      "middleware_patterns": [],
+      "hook_usage": [],
+      "api_protection": [],
+      "env_vars": []
+    },
+    {
+      "repo_id": "repo_011",
+      "repo_name": "belastrittmatter/Framely",
+      "framework": "nextjs",
+      "clerk_version": "^6.11.3",
+      "imports": [
+        "import { ClerkProvider } from \"@clerk/nextjs\"",
+        "import { clerkMiddleware } from \"@clerk/nextjs/server\"",
+        "import { auth } from \"@clerk/nextjs/server\"",
+        "import { auth } from \"@clerk/nextjs/server\"",
+        "import {\n  ClerkLoading,\n  SignInButton,\n  SignOutButton,\n  SignedIn,\n  SignedOut,\n  UserButton,\n} from \"@clerk/nextjs\"",
+        "import { dark } from \"@clerk/themes\"",
+        "import { auth } from \"@clerk/nextjs/server\"",
+        "import { RedirectToSignIn } from \"@clerk/nextjs\""
+      ],
+      "provider_patterns": [
+        {
+          "has_provider": true,
+          "props": ""
+        }
+      ],
+      "middleware_patterns": [],
+      "hook_usage": [],
+      "api_protection": [],
+      "env_vars": [
+        "CLERK_SECRET_KEY",
+        "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY"
+      ]
+    },
+    {
+      "repo_id": "repo_012",
+      "repo_name": "adrianhajdin/collaborative-editor",
+      "framework": "nextjs",
+      "clerk_version": "^5.2.4",
+      "imports": [
+        "import { ClerkProvider } from \"@clerk/nextjs\"",
+        "import { dark } from \"@clerk/themes\"",
+        "import { clerkMiddleware } from \"@clerk/nextjs/server\"",
+        "import { clerkClient } from \"@clerk/nextjs/server\"",
+        "import { useUser } from '@clerk/nextjs'",
+        "import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/nextjs'",
+        "import { SignedIn, UserButton } from '@clerk/nextjs'",
+        "import { currentUser } from '@clerk/nextjs/server'",
+        "import { currentUser } from \"@clerk/nextjs/server\"",
+        "import { SignUp } from '@clerk/nextjs'",
+        "import { SignIn } from '@clerk/nextjs'",
+        "import { currentUser } from \"@clerk/nextjs/server\""
+      ],
+      "provider_patterns": [
+        {
+          "has_provider": true,
+          "props": "appearance={{\n        baseTheme: dark,\n        variables: { \n          colorPrimary: \"#3371FF\" ,\n          fontSize: '16px'\n        },\n      }}",
+          "has_appearance": true
+        }
+      ],
+      "middleware_patterns": [],
+      "hook_usage": [
+        {
+          "useUser": true
+        }
+      ],
+      "api_protection": [
+        {
+          "uses_current_user": true
+        }
+      ],
+      "env_vars": []
+    },
+    {
+      "repo_id": "repo_014",
+      "repo_name": "clerk/nextjs-auth-starter-template",
+      "framework": "react",
+      "clerk_version": "6.34.0",
+      "imports": [
+        "import { ClerkProvider } from \"@clerk/nextjs\"",
+        "import { clerkMiddleware } from \"@clerk/nextjs/server\"",
+        "import { UserButton } from \"@clerk/nextjs\"",
+        "import { auth } from \"@clerk/nextjs/server\"",
+        "import { useOrganization, useSession, useUser } from \"@clerk/nextjs\"",
+        "import { useOrganization, useSession, useUser } from \"@clerk/nextjs\"",
+        "import { SignInButton, SignedIn, SignedOut } from \"@clerk/nextjs\"",
+        "import { SignIn } from \"@clerk/nextjs\"",
+        "import { auth } from \"@clerk/nextjs/server\""
+      ],
+      "provider_patterns": [
+        {
+          "has_provider": true,
+          "props": "appearance={clerkAppearanceObject}",
+          "has_appearance": true
+        }
+      ],
+      "middleware_patterns": [],
+      "hook_usage": [
+        {
+          "useUser": true
+        },
+        {
+          "useUser": true
+        }
+      ],
+      "api_protection": [],
+      "env_vars": [
+        "NEXT_PUBLIC_CLERK_SIGN_IN_FORCE_REDIRECT_URL",
+        "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY",
+        "CLERK_SECRET_KEY",
+        "NEXT_PUBLIC_CLERK_SIGN_IN_URL",
+        "NEXT_PUBLIC_CLERK_SIGN_UP_FORCE_REDIRECT_URL"
+      ]
+    },
+    {
+      "repo_id": "repo_015",
+      "repo_name": "adrianhajdin/saas-app",
+      "framework": "nextjs",
+      "clerk_version": "^6.19.4",
+      "imports": [
+        "import { ClerkProvider } from \"@clerk/nextjs\"",
+        "import { clerkMiddleware } from \"@clerk/nextjs/server\"",
+        "import {auth} from \"@clerk/nextjs/server\"",
+        "import {auth} from \"@clerk/nextjs/server\"",
+        "import { SignInButton, SignedIn, SignedOut, UserButton } from \"@clerk/nextjs\"",
+        "import { currentUser } from \"@clerk/nextjs/server\"",
+        "import {PricingTable} from \"@clerk/nextjs\"",
+        "import { SignIn } from '@clerk/nextjs'",
+        "import {auth} from \"@clerk/nextjs/server\"",
+        "import {currentUser} from \"@clerk/nextjs/server\""
+      ],
+      "provider_patterns": [
+        {
+          "has_provider": true,
+          "props": "appearance={{ variables: { colorPrimary: '#fe5933' }} }",
+          "has_appearance": true
+        }
+      ],
+      "middleware_patterns": [],
+      "hook_usage": [],
+      "api_protection": [],
+      "env_vars": []
+    },
+    {
+      "repo_id": "repo_018",
+      "repo_name": "hardikverma22/travel-planner-ai",
+      "framework": "nextjs",
+      "clerk_version": "^0.38.3",
+      "imports": [
+        "import { authMiddleware } from \"@clerk/nextjs\"",
+        "import {auth} from \"@clerk/nextjs\"",
+        "import { useClerk } from \"@clerk/nextjs\"",
+        "import { ClerkProvider, useAuth } from \"@clerk/nextjs\"",
+        "import { useAuth } from \"@clerk/nextjs\"",
+        "import { SignInButton, UserButton } from \"@clerk/nextjs\"",
+        "import { SignInButton, UserButton } from \"@clerk/nextjs\"",
+        "import { useUser } from \"@clerk/nextjs\"",
+        "import { useUser } from \"@clerk/nextjs\"",
+        "import { SignInButton, UserButton } from \"@clerk/nextjs\""
+      ],
+      "provider_patterns": [],
+      "middleware_patterns": [
+        {
+          "type": "authMiddleware",
+          "public_routes": [
+            "/",
+            "/plans/:planId/community-plan(.*)",
+            "/community-plans"
+          ]
+        }
+      ],
+      "hook_usage": [
+        {
+          "useAuth": true,
+          "useClerk": true
+        },
+        {
+          "useAuth": true
+        },
+        {
+          "useAuth": true
+        },
+        {
+          "useAuth": true
+        },
+        {
+          "useUser": true
+        },
+        {
+          "useUser": true
+        }
+      ],
+      "api_protection": [],
+      "env_vars": [
+        "CLERK_SECRET_KEY",
+        "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY",
+        "CLERK_WEBHOOK_SECRET"
+      ]
+    },
+    {
+      "repo_id": "repo_019",
+      "repo_name": "sonnysangha/ticket-marketplace-saas-nextjs15-convex-clerk-stripe-connect",
+      "framework": "nextjs",
+      "clerk_version": "^6.3.2",
+      "imports": [
+        "import { ClerkProvider } from \"@clerk/nextjs\"",
+        "import { clerkMiddleware } from \"@clerk/nextjs/server\"",
+        "import { auth } from \"@clerk/nextjs/server\"",
+        "import { auth } from \"@clerk/nextjs/server\"",
+        "import { auth } from \"@clerk/nextjs/server\"",
+        "import { useUser } from \"@clerk/nextjs\"",
+        "import { useUser } from \"@clerk/nextjs\"",
+        "import { useUser } from \"@clerk/nextjs\"",
+        "import { useUser } from \"@clerk/nextjs\"",
+        "import { useUser } from \"@clerk/nextjs\"",
+        "import { SignInButton, SignedIn, SignedOut, UserButton } from \"@clerk/nextjs\"",
+        "import { useUser } from \"@clerk/nextjs\""
+      ],
+      "provider_patterns": [
+        {
+          "has_provider": true,
+          "props": ""
+        }
+      ],
+      "middleware_patterns": [],
+      "hook_usage": [
+        {
+          "useUser": true
+        },
+        {
+          "useUser": true
+        },
+        {
+          "useUser": true
+        },
+        {
+          "useUser": true
+        },
+        {
+          "useUser": true
+        },
+        {
+          "useUser": true
+        }
+      ],
+      "api_protection": [],
+      "env_vars": [
+        "CLERK_SECRET_KEY",
+        "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY"
+      ]
+    },
+    {
+      "repo_id": "repo_017",
+      "repo_name": "get-convex/turbo-expo-nextjs-clerk-convex-monorepo",
+      "framework": "react",
+      "clerk_version": "^2.13.2",
+      "imports": [
+        "import { clerkMiddleware, createRouteMatcher } from \"@clerk/nextjs/server\"",
+        "import { ClerkProvider, useAuth } from \"@clerk/clerk-expo\"",
+        "import { useAuth, useUser } from \"@clerk/clerk-expo\"",
+        "import { useOAuth } from \"@clerk/clerk-expo\"",
+        "import { ClerkProvider, useAuth } from \"@clerk/clerk-react\"",
+        "import { useUser } from \"@clerk/clerk-react\"",
+        "import { useClerk } from \"@clerk/clerk-react\""
+      ],
+      "provider_patterns": [],
+      "middleware_patterns": [],
+      "hook_usage": [
+        {
+          "useAuth": true
+        },
+        {
+          "useAuth": true,
+          "useUser": true
+        },
+        {
+          "useAuth": true
+        },
+        {
+          "useUser": true
+        },
+        {
+          "useClerk": true
+        }
+      ],
+      "api_protection": [],
+      "env_vars": []
+    },
+    {
+      "repo_id": "repo_013",
+      "repo_name": "antiwork/iffy",
+      "framework": "nextjs",
+      "clerk_version": "^6.9.13",
+      "imports": [
+        "import { ClerkProvider } from \"@clerk/nextjs\"",
+        "import { OrganizationList } from \"@clerk/nextjs\"",
+        "import { auth } from \"@clerk/nextjs/server\"",
+        "import { ClerkLoaded, ClerkLoading, OrganizationSwitcher, SignOutButton } from \"@clerk/nextjs\"",
+        "import { clerkMiddleware, createRouteMatcher } from \"@clerk/nextjs/server\"",
+        "import { auth } from \"@clerk/nextjs/server\"",
+        "import { auth } from \"@clerk/nextjs/server\"",
+        "import { clerkClient } from \"@clerk/nextjs/server\"",
+        "import { auth } from \"@clerk/nextjs/server\"",
+        "import { auth } from \"@clerk/nextjs/server\"",
+        "import { clerkClient } from \"@clerk/nextjs/server\"",
+        "import { SignedIn, SignedOut } from \"@clerk/nextjs\"",
+        "import { clerkClient } from \"@clerk/nextjs/server\"",
+        "import { SignUp } from \"@clerk/nextjs\"",
+        "import { auth } from \"@clerk/nextjs/server\"",
+        "import { SignIn } from \"@clerk/nextjs\"",
+        "import { auth } from \"@clerk/nextjs/server\"",
+        "import { clerk, clerkSetup } from \"@clerk/testing/playwright\"",
+        "import { WebhookEvent } from \"@clerk/nextjs/server\""
+      ],
+      "provider_patterns": [
+        {
+          "has_provider": true,
+          "props": ""
+        }
+      ],
+      "middleware_patterns": [],
+      "hook_usage": [],
+      "api_protection": [],
+      "env_vars": [
+        "NEXT_PUBLIC_CLERK_SIGN_UP_URL",
+        "NEXT_PUBLIC_CLERK_SIGN_UP_FALLBACK_REDIRECT_URL",
+        "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY",
+        "CLERK_WEBHOOK_SECRET",
+        "CLERK_SECRET_KEY",
+        "NEXT_PUBLIC_CLERK_SIGN_IN_URL",
+        "NEXT_PUBLIC_CLERK_SIGN_IN_FALLBACK_REDIRECT_URL"
+      ]
+    },
+    {
+      "repo_id": "repo_002",
+      "repo_name": "stack-auth/stack-auth",
+      "framework": "nextjs",
+      "clerk_version": null,
+      "imports": [],
+      "provider_patterns": [],
+      "middleware_patterns": [],
+      "hook_usage": [],
+      "api_protection": [],
+      "env_vars": []
+    },
+    {
+      "repo_id": "repo_016",
+      "repo_name": "vanxh/openbio",
+      "framework": "nextjs",
+      "clerk_version": "^4.27.1",
+      "imports": [
+        "import { ClerkProvider } from \"@clerk/nextjs\"",
+        "import { authMiddleware } from \"@clerk/nextjs\"",
+        "import { currentUser } from \"@clerk/nextjs\"",
+        "import { currentUser } from \"@clerk/nextjs\"",
+        "import { currentUser } from \"@clerk/nextjs\"",
+        "import { auth } from \"@clerk/nextjs\"",
+        "import { SignUp } from \"@clerk/nextjs\"",
+        "import { dark } from \"@clerk/themes\"",
+        "import { SignIn } from \"@clerk/nextjs\"",
+        "import { dark } from \"@clerk/themes\"",
+        "import { useClerk } from \"@clerk/clerk-react\"",
+        "import { useUser } from \"@clerk/nextjs\"",
+        "import { getAuth } from \"@clerk/nextjs/server\"",
+        "import { type SignedInAuthObject } from \"@clerk/nextjs/api\""
+      ],
+      "provider_patterns": [
+        {
+          "has_provider": true,
+          "props": ""
+        }
+      ],
+      "middleware_patterns": [
+        {
+          "type": "authMiddleware",
+          "public_routes": [
+            "/",
+            "/api",
+            "/api/(.*)",
+            "/:link"
+          ]
+        }
+      ],
+      "hook_usage": [
+        {
+          "useClerk": true
+        },
+        {
+          "useUser": true
+        }
+      ],
+      "api_protection": [
+        {
+          "uses_get_auth": true
+        }
+      ],
+      "env_vars": [
+        "NEXT_PUBLIC_CLERK_SIGN_UP_URL",
+        "NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL",
+        "NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL",
+        "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY",
+        "CLERK_WEBHOOK_SECRET",
+        "CLERK_SECRET_KEY",
+        "NEXT_PUBLIC_CLERK_SIGN_IN_URL"
+      ]
+    }
+  ],
+  "aggregated": {
+    "total_repos_analyzed": 20,
+    "by_framework": {
+      "nextjs": 16,
+      "react": 4
+    },
+    "clerk_versions": {
+      "^6.12.7": 1,
+      "^4.21.15": 1,
+      "^6.20.0": 1,
+      "^6.34.0": 1,
+      "^4.6.15": 1,
+      "^0.17.7": 1,
+      "^4.29.6": 1,
+      "workspace:*": 1,
+      "^5.0.0-beta.35": 1,
+      "^6.11.3": 1,
+      "^5.2.4": 1,
+      "6.34.0": 1,
+      "^6.19.4": 1,
+      "^0.38.3": 1,
+      "^6.3.2": 1,
+      "^2.13.2": 1,
+      "^6.9.13": 1,
+      "^4.27.1": 1
+    },
+    "common_imports": {
+      "import { ClerkProvider } from \"@clerk/nextjs\"": 18,
+      "import { auth } from \"@clerk/nextjs/server\"": 18,
+      "import { currentUser } from \"@clerk/nextjs\"": 14,
+      "import { useUser } from \"@clerk/nextjs\"": 10,
+      "import { dark } from \"@clerk/themes\"": 7,
+      "import { ClerkProvider } from '@clerk/nextjs'": 7,
+      "import { clerkMiddleware } from '@clerk/nextjs/server'": 7,
+      "import { SignIn } from \"@clerk/nextjs\"": 6,
+      "import { SignUp } from \"@clerk/nextjs\"": 5,
+      "import { auth } from '@clerk/nextjs/server'": 5,
+      "import { OAuthStrategy } from \"@clerk/types\"": 5,
+      "import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'": 5,
+      "import { useUser } from '@clerk/nextjs'": 5,
+      "import { clerkMiddleware } from \"@clerk/nextjs/server\"": 5,
+      "import { clerkMiddleware, createRouteMatcher } from \"@clerk/nextjs/server\"": 4,
+      "import { authMiddleware } from \"@clerk/nextjs\"": 4,
+      "import { auth } from \"@clerk/nextjs\"": 4,
+      "import { SignIn } from '@clerk/nextjs'": 4,
+      "import { handleNetlifyCacheInDevInstance } from '@clerk/shared/netlifyCacheHandler'": 4,
+      "import { UserButton } from \"@clerk/nextjs\"": 4
+    },
+    "provider_usage": {
+      "total": 22,
+      "with_publishable_key": 0,
+      "with_appearance": 8,
+      "with_redirect_urls": 0
+    },
+    "middleware_usage": {
+      "authMiddleware": 5,
+      "express_middleware": 0
+    },
+    "common_hooks": {
+      "useUser": 23,
+      "useAuth": 15,
+      "useClerk": 4,
+      "useSignIn": 4,
+      "useSignUp": 4
+    },
+    "api_protection_methods": {
+      "uses_get_auth": 6,
+      "uses_current_user": 2
+    },
+    "common_env_vars": {
+      "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY": 12,
+      "CLERK_SECRET_KEY": 12,
+      "NEXT_PUBLIC_CLERK_SIGN_IN_URL": 6,
+      "NEXT_PUBLIC_CLERK_SIGN_UP_URL": 5,
+      "CLERK_WEBHOOK_SECRET": 4,
+      "NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL": 3,
+      "NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL": 3,
+      "NEXT_PUBLIC_CLERK_SIGN_IN_FORCE_REDIRECT_URL": 2,
+      "NEXT_PUBLIC_CLERK_SIGN_UP_FORCE_REDIRECT_URL": 2,
+      "CLERK_SIGN_UP_FALLBACK_URL": 1,
+      "CLERK_SIGN_IN_URL": 1,
+      "CLERK_SIGN_IN_FALLBACK_URL": 1,
+      "CLERK_SIGN_UP_URL": 1,
+      "CLERK_PUBLISHABLE_KEY": 1,
+      "CLERK_FRONTEND_API": 1,
+      "NEXT_PUBLIC_CLERK_SIGN_UP_FALLBACK_REDIRECT_URL": 1,
+      "NEXT_PUBLIC_CLERK_SIGN_IN_FALLBACK_REDIRECT_URL": 1
+    },
+    "task_suitability": {
+      "task1_init": [
+        "clerk/clerk-playwright-nextjs",
+        "adrianhajdin/threads",
+        "adrianhajdin/threads",
+        "nextify-limited/saasfly",
+        "adrianhajdin/ai_saas_app",
+        "clerk/javascript",
+        "clerk/javascript",
+        "clerk/javascript",
+        "clerk/javascript",
+        "clerk/javascript",
+        "clerk/javascript",
+        "clerk/javascript",
+        "clerk/javascript",
+        "clerk/javascript",
+        "adrianhajdin/zoom-clone",
+        "belastrittmatter/Framely",
+        "adrianhajdin/collaborative-editor",
+        "clerk/nextjs-auth-starter-template",
+        "adrianhajdin/saas-app",
+        "sonnysangha/ticket-marketplace-saas-nextjs15-convex-clerk-stripe-connect",
+        "antiwork/iffy",
+        "vanxh/openbio"
+      ],
+      "task2_middleware": [
+        "adrianhajdin/threads",
+        "vercel/next-forge",
+        "adrianhajdin/ai_saas_app",
+        "hardikverma22/travel-planner-ai",
+        "vanxh/openbio"
+      ],
+      "task3_hooks": [
+        "nextify-limited/saasfly",
+        "nextify-limited/saasfly",
+        "nextify-limited/saasfly",
+        "chen-rn/CUA",
+        "chen-rn/CUA",
+        "chen-rn/CUA",
+        "chen-rn/CUA",
+        "chen-rn/CUA",
+        "chen-rn/CUA",
+        "clerk/t3-turbo-and-clerk",
+        "clerk/t3-turbo-and-clerk",
+        "clerk/t3-turbo-and-clerk",
+        "adrianhajdin/zoom-clone",
+        "adrianhajdin/zoom-clone",
+        "adrianhajdin/zoom-clone",
+        "adrianhajdin/zoom-clone",
+        "adrianhajdin/zoom-clone",
+        "adrianhajdin/collaborative-editor",
+        "clerk/nextjs-auth-starter-template",
+        "clerk/nextjs-auth-starter-template",
+        "hardikverma22/travel-planner-ai",
+        "hardikverma22/travel-planner-ai",
+        "hardikverma22/travel-planner-ai",
+        "hardikverma22/travel-planner-ai",
+        "hardikverma22/travel-planner-ai",
+        "hardikverma22/travel-planner-ai",
+        "sonnysangha/ticket-marketplace-saas-nextjs15-convex-clerk-stripe-connect",
+        "sonnysangha/ticket-marketplace-saas-nextjs15-convex-clerk-stripe-connect",
+        "sonnysangha/ticket-marketplace-saas-nextjs15-convex-clerk-stripe-connect",
+        "sonnysangha/ticket-marketplace-saas-nextjs15-convex-clerk-stripe-connect",
+        "sonnysangha/ticket-marketplace-saas-nextjs15-convex-clerk-stripe-connect",
+        "sonnysangha/ticket-marketplace-saas-nextjs15-convex-clerk-stripe-connect",
+        "get-convex/turbo-expo-nextjs-clerk-convex-monorepo",
+        "get-convex/turbo-expo-nextjs-clerk-convex-monorepo",
+        "get-convex/turbo-expo-nextjs-clerk-convex-monorepo",
+        "get-convex/turbo-expo-nextjs-clerk-convex-monorepo",
+        "get-convex/turbo-expo-nextjs-clerk-convex-monorepo",
+        "vanxh/openbio",
+        "vanxh/openbio"
+      ],
+      "task4_complete": [
+        "adrianhajdin/threads",
+        "nextify-limited/saasfly",
+        "adrianhajdin/collaborative-editor",
+        "vanxh/openbio"
+      ],
+      "task5_migration": [
+        "adrianhajdin/threads",
+        "chen-rn/CUA",
+        "adrianhajdin/ai_saas_app",
+        "vanxh/openbio"
+      ]
+    }
+  }
+}

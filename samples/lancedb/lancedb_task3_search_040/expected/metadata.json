@@ -1,0 +1,16 @@
+{
+  "sample_id": "lancedb_task3_search_040",
+  "task_type": 3,
+  "task_name": "vector_search",
+  "sdk": "lancedb",
+  "description": "Implement vector similarity search using LanceDB",
+  "ground_truth": {
+    "ingredients": {
+      "search_operations": {
+        "method": "table.search",
+        "limit": 5,
+        "embedding_model": "all-MiniLM-L6-v2"
+      }
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "sample_id": "lancedb_task1_init_011",
+  "task_type": 1,
+  "task_name": "initialization",
+  "sdk": "lancedb",
+  "lancedb_version": "0.5.0",
+  "framework": "python",
+  "difficulty": "medium",
+  "estimated_lines": 15,
+  "description": "Initialize in CLI application",
+  "scenario": "cli_tool",
+  "use_case": "command line tool",
+  "ground_truth": {
+    "ingredients": {
+      "initialization": {
+        "location": "app.py",
+        "pattern": "lancedb.connect",
+        "imports": [
+          "lancedb"
+        ]
+      },
+      "configuration": {
+        "db_path": "~/.lancedb/data",
+        "connection_method": "lancedb.connect"
+      }
+    }
+  },
+  "evaluation_targets": {
+    "i_acc": {
+      "correct_file": "app.py",
+      "correct_pattern": "lancedb.connect",
+      "correct_imports": [
+        "import lancedb"
+      ]
+    },
+    "c_comp": {
+      "required_components": 2,
+      "components": [
+        "import",
+        "connection"
+      ]
+    },
+    "ipa": {
+      "integration_points": [
+        "lancedb.connect",
+        "table_names"
+      ]
+    },
+    "f_corr": {
+      "test_command": "pytest tests/test_init.py",
+      "expected_pass": true
+    }
+  }
+}

@@ -1,0 +1,209 @@
+{
+  "total_repos": 10,
+  "import_patterns": {
+    "import lancedb": 21,
+    "from lancedb.pydantic import LanceModel, Vector": 10,
+    "from lancedb.embeddings import EmbeddingFunctionRegistry": 4,
+    "from lancedb.table import Table": 2,
+    "from lancedb.rerankers import RRFReranker": 1,
+    "from lancedb.pydantic import LanceModel": 1,
+    "from lancedb.embeddings import with_embeddings": 1,
+    "from lancedb.rerankers import AnswerdotaiRerankers": 1,
+    "from lancedb.pydantic import pydantic_to_schema": 1,
+    "from lancedb.embeddings.registry import get_registry": 1,
+    "from lancedb.rerankers import LinearCombinationReranker": 1
+  },
+  "connection_patterns": [
+    {
+      "connection_string": [
+        "lancedb.connect(temp_db_path)",
+        "lancedb.connect(temp_db_path)",
+        "lancedb.connect(temp_db_path)",
+        "lancedb.connect(temp_db_path)"
+      ],
+      "assignment": [
+        "db = lancedb.connect",
+        "db = lancedb.connect"
+      ]
+    },
+    {
+      "uses_env_vars": true
+    },
+    {
+      "connection_string": [
+        "lancedb.connect(database)"
+      ],
+      "assignment": [
+        "db = lancedb.connect"
+      ]
+    },
+    {
+      "connection_string": [
+        "lancedb.connect(database)"
+      ],
+      "assignment": [
+        "db = lancedb.connect"
+      ]
+    },
+    {
+      "connection_string": [
+        "lancedb.connect(lance_dir)"
+      ],
+      "assignment": [
+        "db = lancedb.connect"
+      ]
+    },
+    {
+      "connection_string": [
+        "lancedb.connect(str(Path(lance_path)"
+      ],
+      "assignment": [
+        "db = lancedb.connect"
+      ]
+    },
+    {
+      "uses_env_vars": true
+    },
+    {
+      "connection_string": [
+        "lancedb.connect(db_path)"
+      ],
+      "assignment": [
+        "db = lancedb.connect"
+      ],
+      "uses_env_vars": true
+    },
+    {
+      "local_path": [
+        "lancedb.connect(\"/usr/src/.lancedb\""
+      ],
+      "connection_string": [
+        "lancedb.connect(\"/usr/src/.lancedb\")"
+      ],
+      "assignment": [
+        "db = lancedb.connect"
+      ],
+      "uses_env_vars": true
+    },
+    {
+      "local_path": [
+        "lancedb.connect(\"/usr/src/.lancedb\""
+      ],
+      "connection_string": [
+        "lancedb.connect(\"/usr/src/.lancedb\")"
+      ],
+      "assignment": [
+        "db = lancedb.connect"
+      ],
+      "uses_env_vars": true
+    }
+  ],
+  "table_patterns": {
+    "add_operations": [
+      ".add(document_id)",
+      ".append((created_document, doc_data)",
+      ".add(pd.DataFrame({\"image_uri\": uris})",
+      ".append(os.path.join(root, filename)",
+      ".append(col)",
+      ".append((property_name, property_type)",
+      ".append(current_table_schema)",
+      ".append(text)",
+      ".append(text)",
+      ".append(req)"
+    ],
+    "create_table": [
+      "create_table(\"settings\", schema=SettingsRecord)",
+      "create_table(\"documents\", schema=DocumentRecord)",
+      "create_table(\n    database: str,\n    table_name: str,\n    data_path: str,\n    schema: Any = Myntra,\n    mode: str = \"overwrite\",\n    num_samples: int = 1000,\n)",
+      "create_table(database=\"~/.lancedb\"\", table_name=\"myntra\", data_path=\"input\")",
+      "create_table(\n    jamai: JamAI | JamAIAsync,\n    table_type: TableType,\n    cols: list[ColumnSchemaCreate],\n    table_id: str = TABLE_ID_A,\n)",
+      "create_table(jamai, TableType.action, cols)",
+      "create_table(TABLE_NAME, schema=schema, mode=\"overwrite\")",
+      "create_table(self.table_name, data, mode=\"overwrite\")",
+      "create_table(\n            table_name + \"_method\", \n            schema=Method, \n            mode=\"overwrite\",\n            on_bad_vectors='drop'\n        )",
+      "create_table(\n            table_name + \"_class\", \n            schema=Class, \n            mode=\"overwrite\",\n            on_bad_vectors='drop'\n        )"
+    ],
+    "open_table": [
+      "open_table(\"settings\")",
+      "open_table(\"documents\")",
+      "open_table(table_name)",
+      "open_table(table_name)",
+      "open_table(project_id=project_id, table_id=table_id)",
+      "open_table(table_name)",
+      "open_table(TABLE_NAME)",
+      "open_table(self.table_name)",
+      "open_table(codebase_folder_name + \"_method\")",
+      "open_table(codebase_folder_name + \"_class\")"
+    ],
+    "schema_definitions": [
+      "class SettingsRecord(LanceModel):\n        id: str = Field(default=\"settings\")\n        settings: str = Field(default=\"{}\")\n\n    class DocumentRecord(LanceModel):\n        id: str\n        content: str\n\n    class ChunkRecord(LanceModel):\n        id: str\n        document_id: str\n        content: str\n    ",
+      "class DocumentRecord(LanceModel):\n    id: str = Field(default_factory=lambda: str(uuid4()))\n    content: str\n    uri: str | None = None\n    title: str | None = None\n    metadata: str = Field(default=\"{}\")\n    created_at: str = Field(default_factory=lambda: \"\")\n    updated_at: str = Field(default_fac",
+      "class Myntra(LanceModel):\n    \"\"\"\n    Represents a Myntra Schema.\n\n    Attributes:\n        vector (Vector): The vector representation of the item.\n        image_uri (str): The URI of the item's image.\n    \"\"\"\n\n    vector: Vector(clip.ndims()) = clip.VectorField()\n    image_uri: str = clip.SourceFiel",
+      "class Method(LanceModel):\n    code: str = model.SourceField()\n    method_embeddings: Vector(EMBEDDING_DIM) = model.VectorField()\n    file_path: str\n    class_name: str\n    name: str\n    doc_comment: str\n    source_code: str\n    references: str\n\nclass Class(LanceModel):\n    source_code: str = model.S",
+      "class FileNotFoundError(Exception):\n    pass\n\n\n@lru_cache()\ndef get_settings():\n    # Use lru_cache to avoid loading .env file for every request\n    return Settings()\n\n\ndef chunk_iterable(item_list: list[JsonBlob], chunksize: int) -> Iterator[list[JsonBlob]]:\n    \"\"\"\n    Break a large iterable into ",
+      "class Wine(BaseModel):\n    model_config = ConfigDict(\n        populate_by_name=True,\n        validate_assignment=True,\n        extra=\"allow\",\n        str_strip_whitespace=True,\n        json_schema_extra={\n            \"example\": {\n                \"id\": 45100,\n                \"points\": 85,\n           ",
+      "class Media(LanceModel):\n    vector: Vector(clip.ndims()) = clip.VectorField()\n    image_uri: str = clip.SourceField()\n\n    @property\n    def image(self):\n        return Image.open(self.image_uri)\n\ndb = lancedb.connect(\"data/image_table\")\nif \"media\" in db:\n    print('exists already')\n    table = db[",
+      "class Schema(LanceModel):\n    embeddings: Vector(model.ndims()) = model.VectorField()\n    text: str = model.SourceField()\n    metadata: str\n    tweet_id: str\n    year: int\n    month: int\n    likes: int\n    retweets: int\n    link_present: int\n    media_present: int\n\ncsv_file_path = 'processed/embeddi"
+    ]
+  },
+  "embedding_models": {
+    "all-MiniLM-L6-v2": 4,
+    "SentenceTransformer(\"sentence-transformers/all-MiniLM-L6-v2\"": 1,
+    "SentenceTransformer('BAAI/bge-small-en-v1.5'": 1,
+    "SentenceTransformer('all-MiniLM-L6-v2'": 1
+  },
+  "search_methods": [
+    ".search(\n            \"tutorial\", limit=5, filter=\"uri LIKE '%example.com%'\"\n        )",
+    ".search(\n            \"tutorial\", limit=5, filter=\"uri = 'https://other.com/java.html'\"\n        )",
+    ".search(search_query)",
+    ".search(r\"\\[(\\d+)",
+    ".vector_search(\n            \"dummy_query\",\n            embedding_fn=lambda _, __: test_vectors[\"valid_vector\"],\n            vector_column_names=[\"vect",
+    ".query(question_embedding)",
+    ".query(question, cypher)",
+    ".search(\n        collection_name=TABLE_NAME,\n        search_params=models.SearchParams(hnsw_ef=HNSW_EF)",
+    ".search(\n        query=query_vec\n    )",
+    ".query(query_texts=doc2, n_results=1)"
+  ],
+  "task_suitability": {
+    "initialization": [
+      "haiku.rag",
+      "lancedb-multimodal-myntra-fashion-search-engine",
+      "JamAIBase",
+      "graph-rag-workshop",
+      "rag-containers",
+      "prompttools",
+      "code_qa",
+      "lancedb-study",
+      "semantweet-search"
+    ],
+    "data_operations": [
+      "haiku.rag",
+      "lancedb-multimodal-myntra-fashion-search-engine",
+      "JamAIBase",
+      "graph-rag-workshop",
+      "rag-containers",
+      "prompttools",
+      "code_qa",
+      "lancedb-study",
+      "semantweet-search",
+      "ThinkRAG"
+    ],
+    "vector_search": [
+      "haiku.rag",
+      "lancedb-multimodal-myntra-fashion-search-engine",
+      "JamAIBase",
+      "graph-rag-workshop",
+      "rag-containers",
+      "prompttools",
+      "code_qa",
+      "lancedb-study",
+      "semantweet-search",
+      "ThinkRAG"
+    ],
+    "embeddings": [
+      "JamAIBase",
+      "prompttools",
+      "semantweet-search"
+    ]
+  }
+}

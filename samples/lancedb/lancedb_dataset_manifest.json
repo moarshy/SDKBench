@@ -1,0 +1,315 @@
+{
+  "dataset_version": "1.0",
+  "sdk": "lancedb",
+  "created_at": "2025-11-25T09:14:55.869095",
+  "total_samples": 50,
+  "by_task_type": {
+    "1": 15,
+    "2": 15,
+    "3": 10,
+    "4": 7,
+    "5": 3
+  },
+  "samples": [
+    {
+      "sample_id": "lancedb_task1_init_001",
+      "task_type": 1,
+      "sdk": "lancedb",
+      "created_at": "2025-11-25T09:14:55.836622"
+    },
+    {
+      "sample_id": "lancedb_task1_init_002",
+      "task_type": 1,
+      "sdk": "lancedb",
+      "created_at": "2025-11-25T09:14:55.837218"
+    },
+    {
+      "sample_id": "lancedb_task1_init_003",
+      "task_type": 1,
+      "sdk": "lancedb",
+      "created_at": "2025-11-25T09:14:55.837758"
+    },
+    {
+      "sample_id": "lancedb_task1_init_004",
+      "task_type": 1,
+      "sdk": "lancedb",
+      "created_at": "2025-11-25T09:14:55.838475"
+    },
+    {
+      "sample_id": "lancedb_task1_init_005",
+      "task_type": 1,
+      "sdk": "lancedb",
+      "created_at": "2025-11-25T09:14:55.839580"
+    },
+    {
+      "sample_id": "lancedb_task1_init_006",
+      "task_type": 1,
+      "sdk": "lancedb",
+      "created_at": "2025-11-25T09:14:55.840517"
+    },
+    {
+      "sample_id": "lancedb_task1_init_007",
+      "task_type": 1,
+      "sdk": "lancedb",
+      "created_at": "2025-11-25T09:14:55.841316"
+    },
+    {
+      "sample_id": "lancedb_task1_init_008",
+      "task_type": 1,
+      "sdk": "lancedb",
+      "created_at": "2025-11-25T09:14:55.842240"
+    },
+    {
+      "sample_id": "lancedb_task1_init_009",
+      "task_type": 1,
+      "sdk": "lancedb",
+      "created_at": "2025-11-25T09:14:55.842948"
+    },
+    {
+      "sample_id": "lancedb_task1_init_010",
+      "task_type": 1,
+      "sdk": "lancedb",
+      "created_at": "2025-11-25T09:14:55.843485"
+    },
+    {
+      "sample_id": "lancedb_task1_init_011",
+      "task_type": 1,
+      "sdk": "lancedb",
+      "created_at": "2025-11-25T09:14:55.844008"
+    },
+    {
+      "sample_id": "lancedb_task1_init_012",
+      "task_type": 1,
+      "sdk": "lancedb",
+      "created_at": "2025-11-25T09:14:55.844547"
+    },
+    {
+      "sample_id": "lancedb_task1_init_013",
+      "task_type": 1,
+      "sdk": "lancedb",
+      "created_at": "2025-11-25T09:14:55.845194"
+    },
+    {
+      "sample_id": "lancedb_task1_init_014",
+      "task_type": 1,
+      "sdk": "lancedb",
+      "created_at": "2025-11-25T09:14:55.845715"
+    },
+    {
+      "sample_id": "lancedb_task1_init_015",
+      "task_type": 1,
+      "sdk": "lancedb",
+      "created_at": "2025-11-25T09:14:55.846238"
+    },
+    {
+      "sample_id": "lancedb_task2_data_ops_016",
+      "task_type": 2,
+      "sdk": "lancedb",
+      "created_at": "2025-11-25T09:14:55.846937"
+    },
+    {
+      "sample_id": "lancedb_task2_data_ops_017",
+      "task_type": 2,
+      "sdk": "lancedb",
+      "created_at": "2025-11-25T09:14:55.847453"
+    },
+    {
+      "sample_id": "lancedb_task2_data_ops_018",
+      "task_type": 2,
+      "sdk": "lancedb",
+      "created_at": "2025-11-25T09:14:55.847868"
+    },
+    {
+      "sample_id": "lancedb_task2_data_ops_019",
+      "task_type": 2,
+      "sdk": "lancedb",
+      "created_at": "2025-11-25T09:14:55.848647"
+    },
+    {
+      "sample_id": "lancedb_task2_data_ops_020",
+      "task_type": 2,
+      "sdk": "lancedb",
+      "created_at": "2025-11-25T09:14:55.849261"
+    },
+    {
+      "sample_id": "lancedb_task2_data_ops_021",
+      "task_type": 2,
+      "sdk": "lancedb",
+      "created_at": "2025-11-25T09:14:55.849734"
+    },
+    {
+      "sample_id": "lancedb_task2_data_ops_022",
+      "task_type": 2,
+      "sdk": "lancedb",
+      "created_at": "2025-11-25T09:14:55.850186"
+    },
+    {
+      "sample_id": "lancedb_task2_data_ops_023",
+      "task_type": 2,
+      "sdk": "lancedb",
+      "created_at": "2025-11-25T09:14:55.850630"
+    },
+    {
+      "sample_id": "lancedb_task2_data_ops_024",
+      "task_type": 2,
+      "sdk": "lancedb",
+      "created_at": "2025-11-25T09:14:55.851110"
+    },
+    {
+      "sample_id": "lancedb_task2_data_ops_025",
+      "task_type": 2,
+      "sdk": "lancedb",
+      "created_at": "2025-11-25T09:14:55.851568"
+    },
+    {
+      "sample_id": "lancedb_task2_data_ops_026",
+      "task_type": 2,
+      "sdk": "lancedb",
+      "created_at": "2025-11-25T09:14:55.852221"
+    },
+    {
+      "sample_id": "lancedb_task2_data_ops_027",
+      "task_type": 2,
+      "sdk": "lancedb",
+      "created_at": "2025-11-25T09:14:55.852917"
+    },
+    {
+      "sample_id": "lancedb_task2_data_ops_028",
+      "task_type": 2,
+      "sdk": "lancedb",
+      "created_at": "2025-11-25T09:14:55.853561"
+    },
+    {
+      "sample_id": "lancedb_task2_data_ops_029",
+      "task_type": 2,
+      "sdk": "lancedb",
+      "created_at": "2025-11-25T09:14:55.854771"
+    },
+    {
+      "sample_id": "lancedb_task2_data_ops_030",
+      "task_type": 2,
+      "sdk": "lancedb",
+      "created_at": "2025-11-25T09:14:55.855317"
+    },
+    {
+      "sample_id": "lancedb_task3_search_031",
+      "task_type": 3,
+      "sdk": "lancedb",
+      "created_at": "2025-11-25T09:14:55.855865"
+    },
+    {
+      "sample_id": "lancedb_task3_search_032",
+      "task_type": 3,
+      "sdk": "lancedb",
+      "created_at": "2025-11-25T09:14:55.856390"
+    },
+    {
+      "sample_id": "lancedb_task3_search_033",
+      "task_type": 3,
+      "sdk": "lancedb",
+      "created_at": "2025-11-25T09:14:55.856929"
+    },
+    {
+      "sample_id": "lancedb_task3_search_034",
+      "task_type": 3,
+      "sdk": "lancedb",
+      "created_at": "2025-11-25T09:14:55.857552"
+    },
+    {
+      "sample_id": "lancedb_task3_search_035",
+      "task_type": 3,
+      "sdk": "lancedb",
+      "created_at": "2025-11-25T09:14:55.858165"
+    },
+    {
+      "sample_id": "lancedb_task3_search_036",
+      "task_type": 3,
+      "sdk": "lancedb",
+      "created_at": "2025-11-25T09:14:55.859032"
+    },
+    {
+      "sample_id": "lancedb_task3_search_037",
+      "task_type": 3,
+      "sdk": "lancedb",
+      "created_at": "2025-11-25T09:14:55.859461"
+    },
+    {
+      "sample_id": "lancedb_task3_search_038",
+      "task_type": 3,
+      "sdk": "lancedb",
+      "created_at": "2025-11-25T09:14:55.860243"
+    },
+    {
+      "sample_id": "lancedb_task3_search_039",
+      "task_type": 3,
+      "sdk": "lancedb",
+      "created_at": "2025-11-25T09:14:55.860607"
+    },
+    {
+      "sample_id": "lancedb_task3_search_040",
+      "task_type": 3,
+      "sdk": "lancedb",
+      "created_at": "2025-11-25T09:14:55.861051"
+    },
+    {
+      "sample_id": "lancedb_task4_pipeline_041",
+      "task_type": 4,
+      "sdk": "lancedb",
+      "created_at": "2025-11-25T09:14:55.861725"
+    },
+    {
+      "sample_id": "lancedb_task4_pipeline_042",
+      "task_type": 4,
+      "sdk": "lancedb",
+      "created_at": "2025-11-25T09:14:55.862483"
+    },
+    {
+      "sample_id": "lancedb_task4_pipeline_043",
+      "task_type": 4,
+      "sdk": "lancedb",
+      "created_at": "2025-11-25T09:14:55.863302"
+    },
+    {
+      "sample_id": "lancedb_task4_pipeline_044",
+      "task_type": 4,
+      "sdk": "lancedb",
+      "created_at": "2025-11-25T09:14:55.864013"
+    },
+    {
+      "sample_id": "lancedb_task4_pipeline_045",
+      "task_type": 4,
+      "sdk": "lancedb",
+      "created_at": "2025-11-25T09:14:55.864525"
+    },
+    {
+      "sample_id": "lancedb_task4_pipeline_046",
+      "task_type": 4,
+      "sdk": "lancedb",
+      "created_at": "2025-11-25T09:14:55.865102"
+    },
+    {
+      "sample_id": "lancedb_task4_pipeline_047",
+      "task_type": 4,
+      "sdk": "lancedb",
+      "created_at": "2025-11-25T09:14:55.865702"
+    },
+    {
+      "sample_id": "lancedb_task5_migration_048",
+      "task_type": 5,
+      "sdk": "lancedb",
+      "created_at": "2025-11-25T09:14:55.867074"
+    },
+    {
+      "sample_id": "lancedb_task5_migration_049",
+      "task_type": 5,
+      "sdk": "lancedb",
+      "created_at": "2025-11-25T09:14:55.868111"
+    },
+    {
+      "sample_id": "lancedb_task5_migration_050",
+      "task_type": 5,
+      "sdk": "lancedb",
+      "created_at": "2025-11-25T09:14:55.869091"
+    }
+  ]
+}

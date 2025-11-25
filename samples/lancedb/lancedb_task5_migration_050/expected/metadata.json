@@ -1,0 +1,48 @@
+{
+  "sample_id": "lancedb_task5_migration_050",
+  "task_type": 5,
+  "task_name": "schema_migration",
+  "sdk": "lancedb",
+  "lancedb_version": "0.5.0",
+  "framework": "python",
+  "difficulty": "hard",
+  "estimated_lines": 80,
+  "description": "Rename table with data preservation",
+  "migration_type": "rename_table",
+  "ground_truth": {
+    "ingredients": {
+      "database_operations": [
+        "connect",
+        "open_table",
+        "create_table",
+        "to_pandas"
+      ],
+      "migration_steps": [
+        "backup",
+        "transform",
+        "create",
+        "verify"
+      ],
+      "error_handling": true
+    }
+  },
+  "evaluation_targets": {
+    "i_acc": {
+      "correct_pattern": "schema_migration",
+      "correct_imports": [
+        "import lancedb",
+        "import pandas"
+      ]
+    },
+    "c_comp": {
+      "required_components": 5,
+      "components": [
+        "backup",
+        "transform",
+        "create",
+        "verify",
+        "run"
+      ]
+    }
+  }
+}

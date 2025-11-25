@@ -1,0 +1,45 @@
+{
+  "model": "test",
+  "sdk": "lancedb",
+  "timestamp": "2025-11-24T15:45:33.554185",
+  "total_samples": 5,
+  "successful": 0,
+  "results": [
+    {
+      "sample_id": "lancedb_task1_init_001",
+      "model": "test",
+      "error": "No evaluation results",
+      "stdout": "",
+      "stderr": "usage: evaluate_existing.py [-h] --model MODEL [--n-workers N_WORKERS]\n                            [--limit LIMIT]\nevaluate_existing.py: error: the following arguments are required: --model\n"
+    },
+    {
+      "sample_id": "lancedb_task1_init_002",
+      "model": "test",
+      "error": "No evaluation results",
+      "stdout": "",
+      "stderr": "usage: evaluate_existing.py [-h] --model MODEL [--n-workers N_WORKERS]\n                            [--limit LIMIT]\nevaluate_existing.py: error: the following arguments are required: --model\n"
+    },
+    {
+      "sample_id": "lancedb_task1_init_003",
+      "model": "test",
+      "error": "No evaluation results",
+      "stdout": "",
+      "stderr": "usage: evaluate_existing.py [-h] --model MODEL [--n-workers N_WORKERS]\n                            [--limit LIMIT]\nevaluate_existing.py: error: the following arguments are required: --model\n"
+    },
+    {
+      "sample_id": "lancedb_task1_init_004",
+      "model": "test",
+      "error": "No evaluation results",
+      "stdout": "",
+      "stderr": "usage: evaluate_existing.py [-h] --model MODEL [--n-workers N_WORKERS]\n                            [--limit LIMIT]\nevaluate_existing.py: error: the following arguments are required: --model\n"
+    },
+    {
+      "sample_id": "lancedb_task1_init_005",
+      "model": "test",
+      "error": "No evaluation results",
+      "stdout": "",
+      "stderr": "usage: evaluate_existing.py [-h] --model MODEL [--n-workers N_WORKERS]\n                            [--limit LIMIT]\nevaluate_existing.py: error: the following arguments are required: --model\n"
+    }
+  ],
+  "metrics": {}
+}

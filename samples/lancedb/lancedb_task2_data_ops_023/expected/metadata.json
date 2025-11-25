@@ -1,0 +1,45 @@
+{
+  "sample_id": "lancedb_task2_data_ops_023",
+  "task_type": 2,
+  "task_name": "data_operations",
+  "sdk": "lancedb",
+  "lancedb_version": "0.5.0",
+  "framework": "python",
+  "difficulty": "medium",
+  "estimated_lines": 40,
+  "description": "Create table schema and store data with vectors in LanceDB",
+  "ground_truth": {
+    "ingredients": {
+      "table_operations": {
+        "table_name": "vectors",
+        "operations": [
+          "create_table",
+          "add"
+        ],
+        "schema": "LanceModel"
+      },
+      "vector_config": {
+        "dimension": 384,
+        "field_name": "vector"
+      }
+    }
+  },
+  "evaluation_targets": {
+    "i_acc": {
+      "correct_pattern": "create_table",
+      "correct_imports": [
+        "import lancedb",
+        "from lancedb.pydantic"
+      ]
+    },
+    "c_comp": {
+      "required_components": 4,
+      "components": [
+        "schema",
+        "connection",
+        "table_creation",
+        "vectors"
+      ]
+    }
+  }
+}

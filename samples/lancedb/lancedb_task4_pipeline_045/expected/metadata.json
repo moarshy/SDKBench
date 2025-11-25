@@ -1,0 +1,51 @@
+{
+  "sample_id": "lancedb_task4_pipeline_045",
+  "task_type": 4,
+  "task_name": "complete_pipeline",
+  "sdk": "lancedb",
+  "lancedb_version": "0.5.0",
+  "framework": "python",
+  "difficulty": "hard",
+  "estimated_lines": 100,
+  "description": "Build a complete Streaming RAG using LanceDB",
+  "pipeline_type": "streaming",
+  "ground_truth": {
+    "ingredients": {
+      "database_operations": [
+        "connect",
+        "create_table",
+        "open_table",
+        "search"
+      ],
+      "embedding_model": "sentence-transformers",
+      "schema_definition": true,
+      "functions": [
+        "ingest_documents",
+        "search",
+        "generate_response",
+        "run_pipeline"
+      ]
+    }
+  },
+  "evaluation_targets": {
+    "i_acc": {
+      "correct_pattern": "complete_pipeline",
+      "correct_imports": [
+        "import lancedb",
+        "from sentence_transformers",
+        "from lancedb.pydantic"
+      ]
+    },
+    "c_comp": {
+      "required_components": 6,
+      "components": [
+        "imports",
+        "schema",
+        "connection",
+        "ingestion",
+        "search",
+        "pipeline"
+      ]
+    }
+  }
+}

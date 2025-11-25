@@ -1,0 +1,14 @@
+{
+  "sdk": "clerk",
+  "model": "gpt-5.1-2025-11-13",
+  "timestamp": "2025-11-24T17:46:17.675098",
+  "total_samples": 2,
+  "generation": {
+    "success": 2,
+    "failed": 0
+  },
+  "evaluation": {
+    "success": 0,
+    "failed": 2
+  }
+}
