@@ -8,7 +8,7 @@ from typing import Dict, List, Set, Optional
 from pathlib import Path
 
 from sdkbench.core import Solution, GroundTruth, SemSimResult
-from sdkbench.parsers import TypeScriptParser
+from sdkbench.parsers import TypeScriptParser, PythonParser
 
 
 class SemSimEvaluator:
@@ -250,21 +250,114 @@ class SemSimEvaluator:
         Returns:
             Score 0-1 for approach alignment
         """
+        # Detect project type
+        is_python = any(f.endswith('.py') for f in self.solution.files.keys())
+        is_typescript = any(f.endswith(('.ts', '.tsx', '.js', '.jsx')) for f in self.solution.files.keys())
+
         scores = []
 
-        # Check if using server vs client components correctly
-        server_client_score = self._check_server_client_usage()
-        scores.append(server_client_score)
+        if is_python:
+            # Python-specific approach checks
+            sdk_score = self._check_python_sdk_patterns()
+            scores.append(sdk_score)
 
-        # Check if using correct Clerk patterns (v4 vs v5)
-        version_score = self._check_version_patterns()
-        scores.append(version_score)
+            conventions_score = self._check_python_conventions()
+            scores.append(conventions_score)
+        elif is_typescript:
+            # TypeScript/Next.js-specific checks
+            server_client_score = self._check_server_client_usage()
+            scores.append(server_client_score)
 
-        # Check if following Next.js conventions
-        conventions_score = self._check_framework_conventions()
-        scores.append(conventions_score)
+            version_score = self._check_version_patterns()
+            scores.append(version_score)
+
+            conventions_score = self._check_framework_conventions()
+            scores.append(conventions_score)
+        else:
+            return 1.0
 
         return sum(scores) / len(scores) if scores else 1.0
+
+    def _check_python_sdk_patterns(self) -> float:
+        """Check if Python SDK patterns are used correctly.
+
+        Returns:
+            Score 0-1
+        """
+        scores = []
+
+        # Get expected SDK from ground truth
+        sdk = self.ground_truth.metadata.get('sdk', '').lower()
+
+        for file_path, content in self.solution.files.items():
+            if not file_path.endswith('.py'):
+                continue
+
+            if sdk == 'lancedb':
+                # Check for LanceDB patterns
+                patterns = PythonParser.get_sdk_patterns('lancedb')
+                pattern_counts = PythonParser.count_patterns(content, patterns)
+
+                # Must have at least connect pattern
+                if 'connect' in pattern_counts:
+                    scores.append(1.0)
+                else:
+                    scores.append(0.5)
+
+                # Bonus for using advanced patterns
+                advanced = ['EmbeddingFunctionRegistry', 'LanceModel', 'SourceField', 'VectorField']
+                advanced_count = sum(1 for p in advanced if p in pattern_counts)
+                if advanced_count > 0:
+                    scores.append(min(1.0, 0.5 + advanced_count * 0.15))
+
+        return sum(scores) / len(scores) if scores else 0.5
+
+    def _check_python_conventions(self) -> float:
+        """Check if Python conventions are followed.
+
+        Returns:
+            Score 0-1
+        """
+        scores = []
+
+        for file_path, content in self.solution.files.items():
+            if not file_path.endswith('.py'):
+                continue
+
+            # Check for docstrings
+            has_docstring = '"""' in content or "'''" in content
+            if has_docstring:
+                scores.append(1.0)
+            else:
+                scores.append(0.7)
+
+            # Check for if __name__ == "__main__" pattern
+            if 'if __name__' in content:
+                scores.append(1.0)
+            else:
+                scores.append(0.8)
+
+            # Check for proper imports at top
+            lines = content.split('\n')
+            import_after_code = False
+            seen_non_import = False
+            for line in lines:
+                stripped = line.strip()
+                if not stripped or stripped.startswith('#') or stripped.startswith('"""') or stripped.startswith("'''"):
+                    continue
+                if stripped.startswith('import ') or stripped.startswith('from '):
+                    if seen_non_import:
+                        import_after_code = True
+                        break
+                else:
+                    seen_non_import = True
+
+            if not import_after_code:
+                scores.append(1.0)
+            else:
+                scores.append(0.7)
+
+        return sum(scores) / len(scores) if scores else 0.8
 
     def _check_server_client_usage(self) -> float:
         """Check correct usage of server vs client components.

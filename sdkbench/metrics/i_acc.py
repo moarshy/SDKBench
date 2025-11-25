@@ -7,7 +7,7 @@ from typing import Dict, List, Optional
 from pathlib import Path
 
 from sdkbench.core import Solution, GroundTruth, IAccResult
-from sdkbench.parsers import TypeScriptParser
+from sdkbench.parsers import TypeScriptParser, PythonParser
 
 
 class IAccEvaluator:
@@ -100,26 +100,47 @@ class IAccEvaluator:
         if not file_content:
             return False
 
-        # Extract actual imports
-        actual_imports = TypeScriptParser.extract_imports(file_content)
+        # Determine if Python or TypeScript based on file extension
+        is_python = expected_file.endswith('.py')
+
+        # Extract actual imports using appropriate parser
+        if is_python:
+            actual_imports = PythonParser.extract_imports(file_content)
+        else:
+            actual_imports = TypeScriptParser.extract_imports(file_content)
 
         # Check each expected import
         for expected in expected_imports:
             found = False
 
-            # Parse expected import
-            exp_source = expected.get('source')
-            exp_names = expected.get('names', [])
+            # Handle both string and dict format for expected imports
+            if isinstance(expected, str):
+                # String format: "import lancedb" or "lancedb"
+                exp_source = expected.replace('import ', '').strip()
+                exp_names = []
+            elif isinstance(expected, dict):
+                exp_source = expected.get('source')
+                exp_names = expected.get('names', [])
+            else:
+                continue
 
             # Look for matching import in actual imports
             for actual in actual_imports:
-                if actual['source'] == exp_source:
+                # Check source module match
+                if actual['source'] == exp_source or actual['source'].startswith(f"{exp_source}."):
+                    if not exp_names:
+                        found = True
+                        break
                     # Check if all expected names are present
                     actual_names = actual['names']
-
                     if all(name in actual_names for name in exp_names):
                         found = True
                         break
+
+                # For Python, also check if expected source is in names
+                if is_python and exp_source in actual['names']:
+                    found = True
+                    break
 
             if not found:
                 return False
@@ -138,7 +159,7 @@ class IAccEvaluator:
         pattern_data = init_data.get('pattern')
         expected_file = init_data.get('file')
 
-        if not pattern_data or not expected_file:
+        if not expected_file:
             return True
 
         # Get file content
@@ -146,17 +167,106 @@ class IAccEvaluator:
         if not file_content:
             return False
 
+        # Determine if Python or TypeScript based on file extension
+        is_python = expected_file.endswith('.py')
+
+        # Handle string pattern (e.g., "lancedb.connect")
+        if isinstance(pattern_data, str):
+            return self._check_string_pattern(file_content, pattern_data, is_python)
+
+        if not pattern_data:
+            return True
+
         # Check pattern based on type
         pattern_type = pattern_data.get('type')
 
-        if pattern_type == 'jsx_component':
-            return self._check_jsx_component_pattern(file_content, pattern_data)
-        elif pattern_type == 'function_call':
-            return self._check_function_call_pattern(file_content, pattern_data)
-        elif pattern_type == 'export':
-            return self._check_export_pattern(file_content, pattern_data)
+        if is_python:
+            # Python pattern types
+            if pattern_type == 'function_call' or pattern_type is None:
+                return self._check_python_function_call(file_content, pattern_data)
+            elif pattern_type == 'class_usage':
+                return self._check_python_class_usage(file_content, pattern_data)
+            else:
+                # Default: check if pattern name exists in content
+                pattern_name = pattern_data.get('name', '')
+                return pattern_name in file_content
         else:
+            # TypeScript pattern types
+            if pattern_type == 'jsx_component':
+                return self._check_jsx_component_pattern(file_content, pattern_data)
+            elif pattern_type == 'function_call':
+                return self._check_function_call_pattern(file_content, pattern_data)
+            elif pattern_type == 'export':
+                return self._check_export_pattern(file_content, pattern_data)
+            else:
+                return False
+
+    def _check_string_pattern(self, content: str, pattern: str, is_python: bool) -> bool:
+        """Check if a string pattern exists in content.
+
+        Args:
+            content: File content
+            pattern: Pattern string (e.g., "lancedb.connect")
+            is_python: Whether this is Python code
+
+        Returns:
+            True if pattern found
+        """
+        # Direct string match
+        if pattern in content:
+            return True
+
+        # For function calls, also check with parentheses
+        if '.' in pattern:
+            # e.g., "lancedb.connect" -> check for "lancedb.connect("
+            if f"{pattern}(" in content:
+                return True
+
+        return False
+
+    def _check_python_function_call(self, content: str, pattern_data: Dict) -> bool:
+        """Check Python function call pattern.
+
+        Args:
+            content: File content
+            pattern_data: Pattern specification
+
+        Returns:
+            True if pattern found
+        """
+        function_name = pattern_data.get('name')
+        if not function_name:
             return False
+
+        # Use PythonParser to find function calls
+        calls = PythonParser.extract_function_calls(content, function_name)
+        return len(calls) > 0
+
+    def _check_python_class_usage(self, content: str, pattern_data: Dict) -> bool:
+        """Check Python class usage pattern.
+
+        Args:
+            content: File content
+            pattern_data: Pattern specification
+
+        Returns:
+            True if pattern found
+        """
+        class_name = pattern_data.get('name')
+        if not class_name:
+            return False
+
+        # Check for class definition or instantiation
+        classes = PythonParser.extract_class_definitions(content)
+        for cls in classes:
+            if cls['name'] == class_name:
+                return True
+
+        # Check for class instantiation: ClassName(
+        if f"{class_name}(" in content:
+            return True
+
+        return False
 
     def _check_jsx_component_pattern(self, content: str, pattern_data: Dict) -> bool:
         """Check JSX component pattern (e.g., <ClerkProvider>).

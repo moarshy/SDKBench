@@ -8,7 +8,7 @@ from typing import Dict, List, Set
 from pathlib import Path
 
 from sdkbench.core import Solution, GroundTruth, CQResult
-from sdkbench.parsers import TypeScriptParser
+from sdkbench.parsers import TypeScriptParser, PythonParser
 
 
 class CQEvaluator:
@@ -97,31 +97,53 @@ class CQEvaluator:
         issues = []
 
         for file_path, content in self.solution.files.items():
+            is_python = file_path.endswith('.py')
+            is_typescript = file_path.endswith(('.ts', '.tsx', '.js', '.jsx'))
+
             # Skip non-code files
-            if not file_path.endswith(('.ts', '.tsx', '.js', '.jsx')):
+            if not is_python and not is_typescript:
                 continue
 
-            # Check for async functions without try-catch
-            if 'async' in content or 'await' in content:
-                # Count try-catch blocks
-                try_count = content.count('try {')
-                catch_count = content.count('catch')
+            if is_python:
+                # Python error handling checks
+                # Check for async functions without try-except
+                if 'async def' in content or 'await' in content:
+                    try_count = content.count('try:')
+                    except_count = content.count('except')
 
-                # Count async functions
-                async_func_count = len(re.findall(r'async\s+(?:function|\()', content))
+                    async_func_count = len(re.findall(r'async\s+def\s+', content))
 
-                # If there are async functions but no error handling
-                if async_func_count > 0 and try_count == 0:
+                    if async_func_count > 0 and try_count == 0:
+                        issues.append(
+                            f"{file_path}: Async code without try-except blocks"
+                        )
+
+                # Check for API/DB operations without error handling
+                dangerous_patterns = ['requests.', 'httpx.', '.connect(', 'open(']
+                has_dangerous = any(p in content for p in dangerous_patterns)
+                if has_dangerous and 'except' not in content:
                     issues.append(
-                        f"{file_path}: Async code without try-catch blocks"
+                        f"{file_path}: I/O operations without error handling"
                     )
 
-            # Check for fetch/API calls without error handling
-            if 'fetch(' in content or 'axios.' in content:
-                if 'catch' not in content and '.catch(' not in content:
-                    issues.append(
-                        f"{file_path}: API calls without error handling"
-                    )
+            else:
+                # TypeScript/JavaScript error handling checks
+                if 'async' in content or 'await' in content:
+                    try_count = content.count('try {')
+                    catch_count = content.count('catch')
+
+                    async_func_count = len(re.findall(r'async\s+(?:function|\()', content))
+
+                    if async_func_count > 0 and try_count == 0:
+                        issues.append(
+                            f"{file_path}: Async code without try-catch blocks"
+                        )
+
+                if 'fetch(' in content or 'axios.' in content:
+                    if 'catch' not in content and '.catch(' not in content:
+                        issues.append(
+                            f"{file_path}: API calls without error handling"
+                        )
 
         return issues
 
@@ -141,27 +163,50 @@ class CQEvaluator:
         }
 
         for file_path, content in self.solution.files.items():
-            if not file_path.endswith(('.ts', '.tsx', '.js', '.jsx')):
+            is_python = file_path.endswith('.py')
+            is_typescript = file_path.endswith(('.ts', '.tsx', '.js', '.jsx'))
+
+            if not is_python and not is_typescript:
                 continue
 
-            # Check for mixed naming in variables
-            # Extract variable declarations
-            var_pattern = r'(?:const|let|var)\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*='
-            variables = re.findall(var_pattern, content)
+            if is_python:
+                # Python naming: should use snake_case for functions/variables, PascalCase for classes
+                # Extract function names
+                func_names = re.findall(r'def\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\(', content)
 
-            camel_count = sum(1 for v in variables if re.fullmatch(patterns['camelCase'], v))
-            snake_count = sum(1 for v in variables if re.fullmatch(patterns['snake_case'], v))
+                # Check for camelCase in function names (should be snake_case)
+                camel_funcs = [f for f in func_names if re.match(r'^[a-z]+[A-Z]', f)]
+                if camel_funcs:
+                    issues.append(
+                        f"{file_path}: Functions using camelCase instead of snake_case: {', '.join(camel_funcs[:3])}"
+                    )
 
-            # If both styles are used significantly
-            if camel_count > 0 and snake_count > 0:
-                issues.append(
-                    f"{file_path}: Mixed naming styles (camelCase and snake_case)"
-                )
+                # Check class names are PascalCase
+                class_names = re.findall(r'class\s+([a-zA-Z_][a-zA-Z0-9_]*)', content)
+                bad_classes = [c for c in class_names if c[0].islower()]
+                if bad_classes:
+                    issues.append(
+                        f"{file_path}: Class names should be PascalCase: {', '.join(bad_classes[:3])}"
+                    )
+
+            else:
+                # TypeScript/JavaScript naming checks
+                var_pattern = r'(?:const|let|var)\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*='
+                variables = re.findall(var_pattern, content)
+
+                camel_count = sum(1 for v in variables if re.fullmatch(patterns['camelCase'], v))
+                snake_count = sum(1 for v in variables if re.fullmatch(patterns['snake_case'], v))
+
+                # If both styles are used significantly
+                if camel_count > 0 and snake_count > 0:
+                    issues.append(
+                        f"{file_path}: Mixed naming styles (camelCase and snake_case)"
+                    )
 
         return issues
 
     def _check_typescript_types(self) -> List[str]:
-        """Check for missing TypeScript types.
+        """Check for missing TypeScript types or Python type hints.
 
         Returns:
             List of type issues
@@ -169,31 +214,43 @@ class CQEvaluator:
         issues = []
 
         for file_path, content in self.solution.files.items():
-            # Only check TypeScript files
-            if not file_path.endswith(('.ts', '.tsx')):
-                continue
+            is_python = file_path.endswith('.py')
+            is_typescript = file_path.endswith(('.ts', '.tsx'))
 
-            # Check for 'any' type usage
-            any_count = len(re.findall(r':\s*any\b', content))
-            if any_count > 0:
-                issues.append(
-                    f"{file_path}: Uses 'any' type {any_count} time(s)"
+            if is_python:
+                # Python type hint checks
+                functions = PythonParser.extract_function_definitions(content)
+
+                # Check for functions without type hints (optional - don't penalize too much)
+                # Only flag if there are some typed and some untyped (inconsistency)
+                typed_funcs = [f for f in functions if f.get('return_type') or ':' in f.get('args', '')]
+                untyped_funcs = [f for f in functions if not f.get('return_type') and ':' not in f.get('args', '')]
+
+                if typed_funcs and untyped_funcs and len(untyped_funcs) > len(typed_funcs):
+                    issues.append(
+                        f"{file_path}: Inconsistent type hints - some functions typed, others not"
+                    )
+
+            elif is_typescript:
+                # TypeScript type checks
+                any_count = len(re.findall(r':\s*any\b', content))
+                if any_count > 0:
+                    issues.append(
+                        f"{file_path}: Uses 'any' type {any_count} time(s)"
+                    )
+
+                # Check for untyped function parameters
+                untyped_params = re.findall(
+                    r'(?:function\s+\w+|const\s+\w+\s*=)\s*\(([^)]+)\)\s*(?:=>|{)',
+                    content
                 )
 
-            # Check for untyped function parameters
-            # Pattern: function name(param) or (param) =>
-            untyped_params = re.findall(
-                r'(?:function\s+\w+|const\s+\w+\s*=)\s*\(([^)]+)\)\s*(?:=>|{)',
-                content
-            )
-
-            for params in untyped_params:
-                # Check if parameters have types
-                if ':' not in params and params.strip() and params.strip() != '':
-                    issues.append(
-                        f"{file_path}: Function with untyped parameters"
-                    )
-                    break  # Only report once per file
+                for params in untyped_params:
+                    if ':' not in params and params.strip() and params.strip() != '':
+                        issues.append(
+                            f"{file_path}: Function with untyped parameters"
+                        )
+                        break
 
         return issues
 
@@ -209,13 +266,16 @@ class CQEvaluator:
         file_contents = []
 
         for file_path, content in self.solution.files.items():
-            if file_path.endswith(('.ts', '.tsx', '.js', '.jsx')):
+            if file_path.endswith(('.ts', '.tsx', '.js', '.jsx', '.py')):
                 file_contents.append((file_path, content))
 
         # Check for duplicate imports
         all_imports = []
         for file_path, content in file_contents:
-            imports = TypeScriptParser.extract_imports(content)
+            if file_path.endswith('.py'):
+                imports = PythonParser.extract_imports(content)
+            else:
+                imports = TypeScriptParser.extract_imports(content)
             all_imports.extend(imports)
 
         # Check if same imports are repeated across files
@@ -231,7 +291,6 @@ class CQEvaluator:
             )
 
         # Check for repeated code patterns (simple heuristic)
-        # Extract function bodies and look for similar patterns
         for i, (file1, content1) in enumerate(file_contents):
             for file2, content2 in file_contents[i+1:]:
                 # Check for similar large blocks (> 100 chars)
@@ -245,9 +304,9 @@ class CQEvaluator:
                     issues.append(
                         f"Similar code blocks in {file1} and {file2}"
                     )
-                    break  # Only report first occurrence
+                    break
 
-        return issues[:3]  # Limit to 3 duplication issues
+        return issues[:3]
 
     def _check_structure(self) -> List[str]:
         """Check for structural issues.
@@ -260,8 +319,8 @@ class CQEvaluator:
         # Check file organization
         files = list(self.solution.files.keys())
 
-        # Check if middleware is in correct location
-        middleware_files = [f for f in files if 'middleware' in f.lower()]
+        # Check if middleware is in correct location (TypeScript/Next.js)
+        middleware_files = [f for f in files if 'middleware' in f.lower() and f.endswith(('.ts', '.js'))]
         for mw_file in middleware_files:
             # Should be at root or in app directory for Next.js
             if not (mw_file == 'middleware.ts' or mw_file.startswith('app/') or mw_file.startswith('src/')):
@@ -271,7 +330,8 @@ class CQEvaluator:
 
         # Check for overly long files (> 500 lines)
         for file_path, content in self.solution.files.items():
-            if not file_path.endswith(('.ts', '.tsx', '.js', '.jsx')):
+            is_code = file_path.endswith(('.ts', '.tsx', '.js', '.jsx', '.py'))
+            if not is_code:
                 continue
 
             line_count = len(content.split('\n'))
@@ -279,6 +339,23 @@ class CQEvaluator:
                 issues.append(
                     f"{file_path}: File too long ({line_count} lines)"
                 )
+
+        # Python-specific structure checks
+        python_files = [f for f in files if f.endswith('.py')]
+        if python_files:
+            # Check for __init__.py in package directories
+            dirs_with_py = set()
+            for f in python_files:
+                if '/' in f:
+                    dirs_with_py.add(f.rsplit('/', 1)[0])
+
+            for dir_path in dirs_with_py:
+                init_path = f"{dir_path}/__init__.py"
+                # Only flag if it looks like a package (multiple .py files)
+                py_in_dir = [f for f in python_files if f.startswith(dir_path)]
+                if len(py_in_dir) > 1 and init_path not in python_files:
+                    # This is minor - don't add as issue
+                    pass
 
         # Check for missing key files
         expected_structure = self.ground_truth.metadata.get('expected_structure', {})

@@ -7,7 +7,7 @@ from typing import Dict, List, Set, Optional
 from pathlib import Path
 
 from sdkbench.core import Solution, GroundTruth, IPAResult
-from sdkbench.parsers import TypeScriptParser
+from sdkbench.parsers import TypeScriptParser, PythonParser
 
 
 class IPAEvaluator:
@@ -177,6 +177,88 @@ class IPAEvaluator:
         """
         solution_points = self.solution.extract_integration_points()
 
+        # Detect SDK type
+        sdk = self.ground_truth.metadata.get('sdk', '').lower()
+        is_python = any(f.endswith('.py') for f in self.solution.files.keys())
+
+        if is_python and sdk == 'lancedb':
+            return self._analyze_lancedb_patterns()
+        else:
+            return self._analyze_clerk_patterns(solution_points)
+
+    def _analyze_lancedb_patterns(self) -> Dict:
+        """Analyze LanceDB integration patterns.
+
+        Returns:
+            Dict with pattern analysis
+        """
+        pattern_counts = {
+            'connect': 0,
+            'create_table': 0,
+            'open_table': 0,
+            'table_names': 0,
+            'search': 0,
+            'add': 0,
+            'embedding_registry': 0,
+            'lance_model': 0,
+        }
+
+        file_patterns = {}
+
+        for file_path, content in self.solution.files.items():
+            if not file_path.endswith('.py'):
+                continue
+
+            patterns_in_file = []
+
+            # Check for LanceDB patterns
+            if 'lancedb.connect' in content or '.connect(' in content:
+                pattern_counts['connect'] += 1
+                patterns_in_file.append('connect')
+
+            if '.create_table(' in content:
+                pattern_counts['create_table'] += 1
+                patterns_in_file.append('create_table')
+
+            if '.open_table(' in content:
+                pattern_counts['open_table'] += 1
+                patterns_in_file.append('open_table')
+
+            if '.table_names()' in content:
+                pattern_counts['table_names'] += 1
+                patterns_in_file.append('table_names')
+
+            if '.search(' in content:
+                pattern_counts['search'] += 1
+                patterns_in_file.append('search')
+
+            if '.add(' in content:
+                pattern_counts['add'] += 1
+                patterns_in_file.append('add')
+
+            if 'EmbeddingFunctionRegistry' in content:
+                pattern_counts['embedding_registry'] += 1
+                patterns_in_file.append('EmbeddingFunctionRegistry')
+
+            if 'LanceModel' in content:
+                pattern_counts['lance_model'] += 1
+                patterns_in_file.append('LanceModel')
+
+            if patterns_in_file:
+                file_patterns[file_path] = patterns_in_file
+
+        return {
+            'pattern_counts': pattern_counts,
+            'file_patterns': file_patterns,
+            'total_patterns': sum(pattern_counts.values()),
+        }
+
+    def _analyze_clerk_patterns(self, solution_points: List[str]) -> Dict:
+        """Analyze Clerk integration patterns.
+
+        Returns:
+            Dict with pattern analysis
+        """
         pattern_counts = {
             'auth_helper': 0,
             'current_user': 0,
@@ -195,7 +277,6 @@ class IPAEvaluator:
             if not file_content:
                 continue
 
-            # Count patterns in this file
             patterns_in_file = []
 
             # Check for auth()

@@ -3,11 +3,12 @@
 Measures completeness of SDK configuration in the solution.
 """
 
+import re
 from typing import Dict, List, Optional
 from pathlib import Path
 
 from sdkbench.core import Solution, GroundTruth, CCompResult
-from sdkbench.parsers import EnvParser, ConfigParser
+from sdkbench.parsers import EnvParser, ConfigParser, PythonParser
 
 
 class CCompEvaluator:
@@ -141,32 +142,130 @@ class CCompEvaluator:
         if not expected_deps:
             return True
 
-        # Get package.json from solution
+        # Determine project type by checking for config files
         package_json_path = self.solution.solution_dir / 'package.json'
+        requirements_path = self.solution.solution_dir / 'requirements.txt'
+        pyproject_path = self.solution.solution_dir / 'pyproject.toml'
 
-        if not package_json_path.exists():
-            return False
+        # Try package.json (Node.js/TypeScript)
+        if package_json_path.exists():
+            package_json = ConfigParser.parse_package_json(package_json_path)
+            if package_json:
+                solution_deps = ConfigParser.extract_dependencies(package_json)
+                return self._verify_deps(expected_deps, solution_deps)
 
-        package_json = ConfigParser.parse_package_json(package_json_path)
+        # Try requirements.txt (Python)
+        if requirements_path.exists():
+            solution_deps = self._parse_requirements_txt(requirements_path)
+            return self._verify_deps(expected_deps, solution_deps, is_python=True)
 
-        if not package_json:
-            return False
+        # Try pyproject.toml (Python)
+        if pyproject_path.exists():
+            solution_deps = self._parse_pyproject_toml(pyproject_path)
+            return self._verify_deps(expected_deps, solution_deps, is_python=True)
 
-        # Extract dependencies
-        solution_deps = ConfigParser.extract_dependencies(package_json)
+        # No dependency file found - check if any expected
+        return len(expected_deps) == 0
 
-        # Check each expected dependency
-        for dep_name, dep_version in expected_deps.items():
-            if dep_name not in solution_deps:
+    def _verify_deps(self, expected: Dict, actual: Dict, is_python: bool = False) -> bool:
+        """Verify expected dependencies are present.
+
+        Args:
+            expected: Expected dependencies
+            actual: Actual dependencies found
+            is_python: Whether this is a Python project
+
+        Returns:
+            True if all expected deps present
+        """
+        for dep_name, dep_version in expected.items():
+            # Normalize package name (Python uses underscores/hyphens interchangeably)
+            if is_python:
+                normalized_name = dep_name.lower().replace('-', '_').replace('_', '-')
+                found = any(
+                    actual_name.lower().replace('-', '_').replace('_', '-') == normalized_name
+                    or actual_name.lower() == dep_name.lower()
+                    for actual_name in actual.keys()
+                )
+            else:
+                found = dep_name in actual
+
+            if not found:
                 return False
 
-            # Optionally check version compatibility
-            if dep_version:
-                actual_version = solution_deps[dep_name]
+            # Version check (optional)
+            if dep_version and dep_name in actual:
+                actual_version = actual[dep_name]
                 if not self._check_version_compatible(actual_version, dep_version):
                     return False
 
         return True
+
+    def _parse_requirements_txt(self, path: Path) -> Dict[str, str]:
+        """Parse requirements.txt file.
+
+        Args:
+            path: Path to requirements.txt
+
+        Returns:
+            Dict mapping package names to version specs
+        """
+        deps = {}
+        try:
+            with open(path, 'r') as f:
+                for line in f:
+                    line = line.strip()
+                    # Skip comments and empty lines
+                    if not line or line.startswith('#'):
+                        continue
+                    # Skip -r includes
+                    if line.startswith('-'):
+                        continue
+
+                    # Parse package name and version
+                    # Formats: package, package==1.0, package>=1.0, package[extra]>=1.0
+                    match = re.match(r'^([a-zA-Z0-9_-]+)(?:\[.*?\])?(.*)$', line)
+                    if match:
+                        name = match.group(1)
+                        version = match.group(2).strip()
+                        deps[name] = version
+        except Exception:
+            pass
+        return deps
+
+    def _parse_pyproject_toml(self, path: Path) -> Dict[str, str]:
+        """Parse pyproject.toml for dependencies.
+
+        Args:
+            path: Path to pyproject.toml
+
+        Returns:
+            Dict mapping package names to version specs
+        """
+        deps = {}
+        try:
+            with open(path, 'r') as f:
+                content = f.read()
+
+            # Simple parsing - look for dependencies section
+            in_deps = False
+            for line in content.split('\n'):
+                if 'dependencies' in line and '=' in line:
+                    in_deps = True
+                    continue
+                if in_deps:
+                    if line.startswith('[') or (line.strip() and not line.startswith(' ') and not line.startswith('"')):
+                        in_deps = False
+                        continue
+                    # Parse "package>=version" format
+                    match = re.search(r'"([a-zA-Z0-9_-]+)([<>=!].*?)?"', line)
+                    if match:
+                        name = match.group(1)
+                        version = match.group(2) or ''
+                        deps[name] = version
+        except Exception:
+            pass
+        return deps
 
     def _check_version_compatible(self, actual: str, expected: str) -> bool:
         """Check if versions are compatible.
