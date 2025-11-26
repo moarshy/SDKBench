@@ -1,0 +1,11 @@
+{
+  "score": 50.0,
+  "env_vars_score": 0.0,
+  "provider_props_score": 1.0,
+  "middleware_config_score": 1.0,
+  "details": {
+    "missing_env_vars": [],
+    "missing_provider_props": [],
+    "missing_middleware_config": []
+  }
+}

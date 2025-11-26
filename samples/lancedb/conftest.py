@@ -6,6 +6,43 @@ valid implementation patterns (module-level variables vs factory functions).
 
 import pytest
 import os
+import re
+import inspect
+
+
+def _extract_db_path_from_source(module):
+    """Extract the database path from lancedb.connect() calls in module source.
+
+    This handles the common case where db is created as a local variable
+    inside main() rather than at module level.
+
+    Args:
+        module: The imported module
+
+    Returns:
+        Database path string or None if not found
+    """
+    try:
+        source = inspect.getsource(module)
+        # Match patterns like: lancedb.connect("./path") or lancedb.connect('./path')
+        patterns = [
+            r'lancedb\.connect\s*\(\s*["\']([^"\']+)["\']',  # lancedb.connect("path")
+            r'connect\s*\(\s*["\']([^"\']+)["\']',           # connect("path") after import
+            r'DB_PATH\s*=\s*["\']([^"\']+)["\']',            # DB_PATH = "path"
+            r'db_path\s*=\s*["\']([^"\']+)["\']',            # db_path = "path"
+            r'database_path\s*=\s*["\']([^"\']+)["\']',      # database_path = "path"
+        ]
+        for pattern in patterns:
+            match = re.search(pattern, source)
+            if match:
+                path = match.group(1)
+                # Skip S3 paths (require credentials)
+                if path.startswith('s3://'):
+                    continue
+                return path
+    except Exception:
+        pass
+    return None
 
 
 def get_db_connection(module):
@@ -18,6 +55,7 @@ def get_db_connection(module):
     - module.connect() (direct connect)
     - module.get_cloud_database() (cloud variant)
     - Running main() to initialize module state
+    - Parsing source to find db path and connecting directly
 
     Args:
         module: The imported module to extract connection from
@@ -31,7 +69,7 @@ def get_db_connection(module):
 
     # Factory functions - common patterns for getting/creating database connections
     factory_funcs = [
-        'get_database', 'get_db', 'get_connection', 'connect', 'get_cloud_database',
+        'get_database', 'get_db', 'get_connection', 'get_cloud_database',
         'create_test_db', 'create_db', 'create_database', 'init_db', 'initialize_db',
         'setup_db', 'setup_database', 'make_db', 'build_db',
     ]
@@ -40,11 +78,13 @@ def get_db_connection(module):
             func = getattr(module, func_name)
             if callable(func):
                 try:
-                    return func()
+                    result = func()
+                    if result is not None and hasattr(result, 'table_names'):
+                        return result
                 except Exception:
                     continue
 
-    # Last resort: try running main() which might initialize module-level db
+    # Try running main() which might initialize module-level db
     if hasattr(module, 'main') and callable(module.main):
         try:
             module.main()
@@ -54,13 +94,86 @@ def get_db_connection(module):
         except Exception:
             pass
 
+    # Last resort: parse source to find db path and connect directly
+    db_path = _extract_db_path_from_source(module)
+    if db_path:
+        try:
+            import lancedb
+            return lancedb.connect(db_path)
+        except Exception:
+            pass
+
+    return None
+
+
+def run_main_and_get_db(module):
+    """Run main() to initialize the database, then get the connection.
+
+    This is the most reliable way to get a db connection when the LLM
+    creates the db as a local variable inside main().
+
+    Args:
+        module: The imported module
+
+    Returns:
+        Database connection or None if not found
+    """
+    # First run main() to ensure the database is created
+    if hasattr(module, 'main') and callable(module.main):
+        try:
+            module.main()
+        except Exception:
+            pass  # main() might fail but db might still be created
+
+    # Now try to get the connection
+    # Check module-level first (in case main() set it)
+    if hasattr(module, 'db') and module.db is not None:
+        return module.db
+
+    # Try factory functions
+    factory_funcs = [
+        'get_database', 'get_db', 'get_connection', 'get_cloud_database',
+    ]
+    for func_name in factory_funcs:
+        if hasattr(module, func_name):
+            func = getattr(module, func_name)
+            if callable(func):
+                try:
+                    result = func()
+                    if result is not None and hasattr(result, 'table_names'):
+                        return result
+                except Exception:
+                    continue
+
+    # Handle Flask apps - try to get db within app context
+    if hasattr(module, 'app') and hasattr(module.app, 'app_context'):
+        flask_app = module.app
+        try:
+            with flask_app.app_context():
+                # Try get_db function inside Flask context
+                if hasattr(module, 'get_db'):
+                    result = module.get_db()
+                    if result is not None and hasattr(result, 'table_names'):
+                        return result
+        except Exception:
+            pass
+
+    # Parse source to find db path and connect directly
+    db_path = _extract_db_path_from_source(module)
+    if db_path:
+        try:
+            import lancedb
+            return lancedb.connect(db_path)
+        except Exception:
+            pass
+
     return None
 
 
 def has_db_connection(module):
     """Check if module has any way to get a database connection.
 
-    This actually tries to get a connection to verify it works.
+    This runs main() first (if available), then tries to get the connection.
 
     Args:
         module: The imported module to check
@@ -68,8 +181,8 @@ def has_db_connection(module):
     Returns:
         True if module has database connection capability
     """
-    # Actually try to get the connection - this is more reliable than just checking attributes
-    return get_db_connection(module) is not None
+    # Use run_main_and_get_db which is more reliable
+    return run_main_and_get_db(module) is not None
 
 
 def has_search_capability(module):
@@ -108,7 +221,8 @@ def get_table(module, table_name=None):
     Returns:
         Table object or None
     """
-    db = get_db_connection(module)
+    # Use run_main_and_get_db to ensure db is initialized
+    db = run_main_and_get_db(module)
     if db is None:
         return None
 

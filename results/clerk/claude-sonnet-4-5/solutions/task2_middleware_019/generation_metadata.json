@@ -1,0 +1,13 @@
+{
+  "sample_id": "task2_middleware_019",
+  "model": "claude-sonnet-4-5",
+  "provider": "anthropic",
+  "generated_at": "2025-11-26T12:40:28.470676",
+  "tokens_used": 2224,
+  "cost": 0.0,
+  "files_generated": [
+    "middleware.ts",
+    "app/dashboard/page.tsx",
+    "app/api/protected/route.ts"
+  ]
+}

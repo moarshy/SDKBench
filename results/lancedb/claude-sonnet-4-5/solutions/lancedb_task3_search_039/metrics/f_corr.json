@@ -1,0 +1,12 @@
+{
+  "score": 100.0,
+  "tests_passed": 2,
+  "tests_failed": 0,
+  "tests_total": 2,
+  "tests_skipped": 0,
+  "duration": 1.946681022644043,
+  "error": null,
+  "failed_tests": [],
+  "failure_details": [],
+  "raw_output": "============================= test session starts ==============================\nplatform darwin -- Python 3.12.0, pytest-9.0.1, pluggy-1.6.0 -- /Users/arshath/miniforge3/bin/python\ncachedir: .pytest_cache\nrootdir: /private/var/folders/wx/bj4n9pyj10n74txq4mpt0j9h0000gn/T/fcorr_dax05izy\nplugins: anyio-4.7.0\ncollecting ... collected 2 items\n\ntests/test_search.py::test_database_connection PASSED                    [ 50%]\ntests/test_search.py::test_search_function_exists PASSED                 [100%]\n\n============================== 2 passed in 1.16s ===============================\n"
+}

@@ -1,0 +1,13 @@
+{
+  "score": 100.0,
+  "precision": 1.0,
+  "recall": 1.0,
+  "f1": 1.0,
+  "details": {
+    "true_positives": [
+      "components/UserProfile.tsx"
+    ],
+    "false_positives": [],
+    "false_negatives": []
+  }
+}

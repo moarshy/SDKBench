@@ -1,0 +1,12 @@
+{
+  "score": 100.0,
+  "tests_passed": 3,
+  "tests_failed": 0,
+  "tests_total": 3,
+  "tests_skipped": 0,
+  "duration": 6.243788957595825,
+  "error": null,
+  "failed_tests": [],
+  "failure_details": [],
+  "raw_output": "jest-haste-map: Haste module naming collision: react-app\n  The following files share their name; please adjust your hasteImpl:\n    * <rootDir>/expected/package.json\n    * <rootDir>/package.json\n\nts-jest[config] (WARN) \u001b[94mmessage\u001b[0m\u001b[90m TS151001: \u001b[0mIf you have issues related to imports, you should consider setting `esModuleInterop` to `true` in your TypeScript configuration file (usually `tsconfig.json`). See https://blogs.msdn.microsoft.com/typescript/2018/01/31/announcing-typescript-2-7/#easier-ecmascript-module-interoperability for more information.\nPASS tests/init.test.ts\n  Clerk Initialization - React\n    \u2713 should have ClerkProvider in index.tsx (2 ms)\n    \u2713 should have @clerk/clerk-react in package.json\n    \u2713 should have publishable key in .env.example\n\nTest Suites: 1 passed, 1 total\nTests:       3 passed, 3 total\nSnapshots:   0 total\nTime:        1.216 s\nRan all test suites.\n"
+}

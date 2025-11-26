@@ -1,0 +1,12 @@
+{
+  "score": 100.0,
+  "tests_passed": 4,
+  "tests_failed": 0,
+  "tests_total": 4,
+  "tests_skipped": 0,
+  "duration": 6.1027140617370605,
+  "error": null,
+  "failed_tests": [],
+  "failure_details": [],
+  "raw_output": "\n> clerk-nextjs-app@0.1.0 test\n> jest\n\nts-jest[config] (WARN) \u001b[94mmessage\u001b[0m\u001b[90m TS151001: \u001b[0mIf you have issues related to imports, you should consider setting `esModuleInterop` to `true` in your TypeScript configuration file (usually `tsconfig.json`). See https://blogs.msdn.microsoft.com/typescript/2018/01/31/announcing-typescript-2-7/#easier-ecmascript-module-interoperability for more information.\nPASS tests/hooks.test.ts\n  Clerk Hooks - useAuth\n    \u2713 should have useAuth imported (1 ms)\n    \u2713 should use client directive\n    \u2713 should call useAuth hook\n    \u2713 should handle loading state\n\nTest Suites: 1 passed, 1 total\nTests:       4 passed, 4 total\nSnapshots:   0 total\nTime:        0.993 s\nRan all test suites.\n"
+}

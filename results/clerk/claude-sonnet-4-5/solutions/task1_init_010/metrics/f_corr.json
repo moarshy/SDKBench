@@ -1,0 +1,12 @@
+{
+  "score": 0.0,
+  "tests_passed": 0,
+  "tests_failed": 0,
+  "tests_total": 0,
+  "tests_skipped": 0,
+  "duration": 5.164305925369263,
+  "error": "0 tests failed",
+  "failed_tests": [],
+  "failure_details": [],
+  "raw_output": "\n> clerk-express-app@1.0.0 test\n> echo \"Error: no test specified\" && exit 1\n\nError: no test specified\n"
+}

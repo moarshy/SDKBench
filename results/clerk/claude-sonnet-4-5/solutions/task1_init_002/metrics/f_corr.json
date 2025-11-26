@@ -1,0 +1,22 @@
+{
+  "score": 0.0,
+  "tests_passed": 2,
+  "tests_failed": 1,
+  "tests_total": 3,
+  "tests_skipped": 0,
+  "duration": 13.014678001403809,
+  "error": "1 tests failed",
+  "failed_tests": [
+    "Clerk Initialization - Next.js \u203a should have required environment variables"
+  ],
+  "failure_details": [
+    {
+      "test_name": "Clerk Initialization - Next.js \u203a should have required environment variables",
+      "file_path": "tests/init.test.ts",
+      "line_number": 22,
+      "error_message": "Test failed",
+      "stack_trace": "\n    ENOENT: no such file or directory, open '/private/var/folders/wx/bj4n9pyj10n74txq4mpt0j9h0000gn/T/fcorr_cysmm5o2/expected/.env.example'\n\n    \u001b[0m \u001b[90m 20 |\u001b[39m\n     \u001b[90m 21 |\u001b[39m   it(\u001b[32m'should have required environment variables'\u001b[39m\u001b[33m,\u001b[39m () \u001b[33m=>\u001b[39m {\n    \u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 22 |\u001b[39m     \u001b[36mconst\u001b[39m env \u001b[33m=\u001b[39m readFileSync(envPath\u001b[33m,\u001b[39m \u001b[32m'utf-8'\u001b[39m)\u001b[33m;\u001b[39m\n     \u001b[90m    |\u001b[39m                             \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n     \u001b[90m 23 |\u001b[39m     expect(env)\u001b[33m.\u001b[39mtoContain(\u001b[32m'NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY'\u001b[39m)\u001b[33m;\u001b[39m\n     \u001b[90m 24 |\u001b[39m     expect(env)\u001b[33m.\u001b[39mtoContain(\u001b[32m'CLERK_SECRET_KEY'\u001b[39m)\u001b[33m;\u001b[39m\n     \u001b[90m 25 |\u001b[39m   })\u001b[33m;\u001b[39m\u001b[0m\n\n      at Object.<anonymous> (tests/init.test.ts:22:29)\n\nTest Suites: 1 failed, 1 total\nTests:       1 failed, 2 passed, 3 total\nSnapshots:   0 total\nTime:        1.281 s\nRan all test suites."
+    }
+  ],
+  "raw_output": "jest-haste-map: Haste module naming collision: nextjs-app\n  The following files share their name; please adjust your hasteImpl:\n    * <rootDir>/expected/package.json\n    * <rootDir>/package.json\n\nts-jest[config] (WARN) \u001b[94mmessage\u001b[0m\u001b[90m TS151001: \u001b[0mIf you have issues related to imports, you should consider setting `esModuleInterop` to `true` in your TypeScript configuration file (usually `tsconfig.json`). See https://blogs.msdn.microsoft.com/typescript/2018/01/31/announcing-typescript-2-7/#easier-ecmascript-module-interoperability for more information.\nFAIL tests/init.test.ts\n  Clerk Initialization - Next.js\n    \u2713 should have ClerkProvider in layout.tsx (1 ms)\n    \u2713 should have @clerk/nextjs in package.json (1 ms)\n    \u2715 should have required environment variables\n\n  \u25cf Clerk Initialization - Next.js \u203a should have required environment variables\n\n    ENOENT: no such file or directory, open '/private/var/folders/wx/bj4n9pyj10n74txq4mpt0j9h0000gn/T/fcorr_cysmm5o2/expected/.env.example'\n\n    \u001b[0m \u001b[90m 20 |\u001b[39m\n     \u001b[90m 21 |\u001b[39m   it(\u001b[32m'should have required environment variables'\u001b[39m\u001b[33m,\u001b[39m () \u001b[33m=>\u001b[39m {\n    \u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 22 |\u001b[39m     \u001b[36mconst\u001b[39m env \u001b[33m=\u001b[39m readFileSync(envPath\u001b[33m,\u001b[39m \u001b[32m'utf-8'\u001b[39m)\u001b[33m;\u001b[39m\n     \u001b[90m    |\u001b[39m                             \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n     \u001b[90m 23 |\u001b[39m     expect(env)\u001b[33m.\u001b[39mtoContain(\u001b[32m'NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY'\u001b[39m)\u001b[33m;\u001b[39m\n     \u001b[90m 24 |\u001b[39m     expect(env)\u001b[33m.\u001b[39mtoContain(\u001b[32m'CLERK_SECRET_KEY'\u001b[39m)\u001b[33m;\u001b[39m\n     \u001b[90m 25 |\u001b[39m   })\u001b[33m;\u001b[39m\u001b[0m\n\n      at Object.<anonymous> (tests/init.test.ts:22:29)\n\nTest Suites: 1 failed, 1 total\nTests:       1 failed, 2 passed, 3 total\nSnapshots:   0 total\nTime:        1.281 s\nRan all test suites.\n"
+}

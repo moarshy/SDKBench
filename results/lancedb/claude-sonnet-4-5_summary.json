@@ -1,0 +1,1076 @@
+{
+  "sdk": "lancedb",
+  "model": "claude-sonnet-4-5",
+  "timestamp": "2025-11-26T12:45:55.026322",
+  "f_corr_enabled": true,
+  "total_samples": 50,
+  "generation": {
+    "success": 50,
+    "failed": 0
+  },
+  "evaluation": {
+    "success": 50,
+    "failed": 0
+  },
+  "average_metrics": {
+    "i_acc": 100.0,
+    "c_comp": 100.0,
+    "ipa": 100.0,
+    "cq": 100.0,
+    "sem_sim": 100.0,
+    "f_corr": 58.0,
+    "overall": 89.5
+  },
+  "samples": [
+    {
+      "sample_id": "lancedb_task1_init_001",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 100.0,
+        "ipa": 100.0,
+        "cq": 100,
+        "sem_sim": 100.0,
+        "f_corr": 100.0
+      },
+      "overall_score": 100.0,
+      "grade": "A"
+    },
+    {
+      "sample_id": "lancedb_task1_init_007",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 100.0,
+        "ipa": 100.0,
+        "cq": 100,
+        "sem_sim": 100.0,
+        "f_corr": 100.0
+      },
+      "overall_score": 100.0,
+      "grade": "A"
+    },
+    {
+      "sample_id": "lancedb_task1_init_003",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 100.0,
+        "ipa": 100.0,
+        "cq": 100,
+        "sem_sim": 100.0,
+        "f_corr": 100.0
+      },
+      "overall_score": 100.0,
+      "grade": "A"
+    },
+    {
+      "sample_id": "lancedb_task1_init_004",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 100.0,
+        "ipa": 100.0,
+        "cq": 100,
+        "sem_sim": 100.0,
+        "f_corr": 100.0
+      },
+      "overall_score": 100.0,
+      "grade": "A"
+    },
+    {
+      "sample_id": "lancedb_task1_init_002",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 100.0,
+        "ipa": 100.0,
+        "cq": 100,
+        "sem_sim": 100.0,
+        "f_corr": 100.0
+      },
+      "overall_score": 100.0,
+      "grade": "A"
+    },
+    {
+      "sample_id": "lancedb_task1_init_005",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 100.0,
+        "ipa": 100.0,
+        "cq": 100,
+        "sem_sim": 100.0,
+        "f_corr": 100.0
+      },
+      "overall_score": 100.0,
+      "grade": "A"
+    },
+    {
+      "sample_id": "lancedb_task1_init_009",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 100.0,
+        "ipa": 100.0,
+        "cq": 100,
+        "sem_sim": 100.0,
+        "f_corr": 0.0
+      },
+      "overall_score": 75.0,
+      "grade": "C"
+    },
+    {
+      "sample_id": "lancedb_task1_init_010",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 100.0,
+        "ipa": 100.0,
+        "cq": 100,
+        "sem_sim": 100.0,
+        "f_corr": 100.0
+      },
+      "overall_score": 100.0,
+      "grade": "A"
+    },
+    {
+      "sample_id": "lancedb_task1_init_008",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 100.0,
+        "ipa": 100.0,
+        "cq": 100,
+        "sem_sim": 100.0,
+        "f_corr": 100.0
+      },
+      "overall_score": 100.0,
+      "grade": "A"
+    },
+    {
+      "sample_id": "lancedb_task1_init_006",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 100.0,
+        "ipa": 100.0,
+        "cq": 100,
+        "sem_sim": 100.0,
+        "f_corr": 100.0
+      },
+      "overall_score": 100.0,
+      "grade": "A"
+    },
+    {
+      "sample_id": "lancedb_task2_data_ops_016",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 100.0,
+        "ipa": 100.0,
+        "cq": 100,
+        "sem_sim": 100.0,
+        "f_corr": 100.0
+      },
+      "overall_score": 100.0,
+      "grade": "A"
+    },
+    {
+      "sample_id": "lancedb_task1_init_012",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 100.0,
+        "ipa": 100.0,
+        "cq": 100,
+        "sem_sim": 100.0,
+        "f_corr": 0.0
+      },
+      "overall_score": 75.0,
+      "grade": "C"
+    },
+    {
+      "sample_id": "lancedb_task1_init_014",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 100.0,
+        "ipa": 100.0,
+        "cq": 100,
+        "sem_sim": 100.0,
+        "f_corr": 100.0
+      },
+      "overall_score": 100.0,
+      "grade": "A"
+    },
+    {
+      "sample_id": "lancedb_task1_init_011",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 100.0,
+        "ipa": 100.0,
+        "cq": 100,
+        "sem_sim": 100.0,
+        "f_corr": 100.0
+      },
+      "overall_score": 100.0,
+      "grade": "A"
+    },
+    {
+      "sample_id": "lancedb_task2_data_ops_017",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 100.0,
+        "ipa": 100.0,
+        "cq": 100,
+        "sem_sim": 100.0,
+        "f_corr": 100.0
+      },
+      "overall_score": 100.0,
+      "grade": "A"
+    },
+    {
+      "sample_id": "lancedb_task2_data_ops_019",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 100.0,
+        "ipa": 100.0,
+        "cq": 100,
+        "sem_sim": 100.0,
+        "f_corr": 0.0
+      },
+      "overall_score": 75.0,
+      "grade": "C"
+    },
+    {
+      "sample_id": "lancedb_task1_init_013",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 100.0,
+        "ipa": 100.0,
+        "cq": 100,
+        "sem_sim": 100.0,
+        "f_corr": 0.0
+      },
+      "overall_score": 75.0,
+      "grade": "C"
+    },
+    {
+      "sample_id": "lancedb_task1_init_015",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 100.0,
+        "ipa": 100.0,
+        "cq": 100,
+        "sem_sim": 100.0,
+        "f_corr": 100.0
+      },
+      "overall_score": 100.0,
+      "grade": "A"
+    },
+    {
+      "sample_id": "lancedb_task2_data_ops_022",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 100.0,
+        "ipa": 100.0,
+        "cq": 100,
+        "sem_sim": 100.0,
+        "f_corr": 100.0
+      },
+      "overall_score": 100.0,
+      "grade": "A"
+    },
+    {
+      "sample_id": "lancedb_task2_data_ops_018",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 100.0,
+        "ipa": 100.0,
+        "cq": 100,
+        "sem_sim": 100.0,
+        "f_corr": 100.0
+      },
+      "overall_score": 100.0,
+      "grade": "A"
+    },
+    {
+      "sample_id": "lancedb_task2_data_ops_020",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 100.0,
+        "ipa": 100.0,
+        "cq": 100,
+        "sem_sim": 100.0,
+        "f_corr": 0.0
+      },
+      "overall_score": 75.0,
+      "grade": "C"
+    },
+    {
+      "sample_id": "lancedb_task2_data_ops_023",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 100.0,
+        "ipa": 100.0,
+        "cq": 100,
+        "sem_sim": 100.0,
+        "f_corr": 100.0
+      },
+      "overall_score": 100.0,
+      "grade": "A"
+    },
+    {
+      "sample_id": "lancedb_task2_data_ops_027",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 100.0,
+        "ipa": 100.0,
+        "cq": 100,
+        "sem_sim": 100.0,
+        "f_corr": 100.0
+      },
+      "overall_score": 100.0,
+      "grade": "A"
+    },
+    {
+      "sample_id": "lancedb_task2_data_ops_025",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 100.0,
+        "ipa": 100.0,
+        "cq": 100,
+        "sem_sim": 100.0,
+        "f_corr": 0.0
+      },
+      "overall_score": 75.0,
+      "grade": "C"
+    },
+    {
+      "sample_id": "lancedb_task2_data_ops_024",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 100.0,
+        "ipa": 100.0,
+        "cq": 100,
+        "sem_sim": 100.0,
+        "f_corr": 100.0
+      },
+      "overall_score": 100.0,
+      "grade": "A"
+    },
+    {
+      "sample_id": "lancedb_task2_data_ops_026",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 100.0,
+        "ipa": 100.0,
+        "cq": 100,
+        "sem_sim": 100.0,
+        "f_corr": 100.0
+      },
+      "overall_score": 100.0,
+      "grade": "A"
+    },
+    {
+      "sample_id": "lancedb_task2_data_ops_028",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 100.0,
+        "ipa": 100.0,
+        "cq": 100,
+        "sem_sim": 100.0,
+        "f_corr": 100.0
+      },
+      "overall_score": 100.0,
+      "grade": "A"
+    },
+    {
+      "sample_id": "lancedb_task3_search_036",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 100.0,
+        "ipa": 100.0,
+        "cq": 100,
+        "sem_sim": 100.0,
+        "f_corr": 0.0
+      },
+      "overall_score": 75.0,
+      "grade": "C"
+    },
+    {
+      "sample_id": "lancedb_task2_data_ops_030",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 100.0,
+        "ipa": 100.0,
+        "cq": 100,
+        "sem_sim": 100.0,
+        "f_corr": 100.0
+      },
+      "overall_score": 100.0,
+      "grade": "A"
+    },
+    {
+      "sample_id": "lancedb_task3_search_032",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 100.0,
+        "ipa": 100.0,
+        "cq": 100,
+        "sem_sim": 100.0,
+        "f_corr": 0.0
+      },
+      "overall_score": 75.0,
+      "grade": "C"
+    },
+    {
+      "sample_id": "lancedb_task3_search_033",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 100.0,
+        "ipa": 100.0,
+        "cq": 100,
+        "sem_sim": 100.0,
+        "f_corr": 100.0
+      },
+      "overall_score": 100.0,
+      "grade": "A"
+    },
+    {
+      "sample_id": "lancedb_task3_search_035",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 100.0,
+        "ipa": 100.0,
+        "cq": 100,
+        "sem_sim": 100.0,
+        "f_corr": 0.0
+      },
+      "overall_score": 75.0,
+      "grade": "C"
+    },
+    {
+      "sample_id": "lancedb_task3_search_034",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 100.0,
+        "ipa": 100.0,
+        "cq": 100,
+        "sem_sim": 100.0,
+        "f_corr": 0.0
+      },
+      "overall_score": 75.0,
+      "grade": "C"
+    },
+    {
+      "sample_id": "lancedb_task3_search_038",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 100.0,
+        "ipa": 100.0,
+        "cq": 100,
+        "sem_sim": 100.0,
+        "f_corr": 100.0
+      },
+      "overall_score": 100.0,
+      "grade": "A"
+    },
+    {
+      "sample_id": "lancedb_task3_search_037",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 100.0,
+        "ipa": 100.0,
+        "cq": 100,
+        "sem_sim": 100.0,
+        "f_corr": 100.0
+      },
+      "overall_score": 100.0,
+      "grade": "A"
+    },
+    {
+      "sample_id": "lancedb_task3_search_039",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 100.0,
+        "ipa": 100.0,
+        "cq": 100,
+        "sem_sim": 100.0,
+        "f_corr": 100.0
+      },
+      "overall_score": 100.0,
+      "grade": "A"
+    },
+    {
+      "sample_id": "lancedb_task3_search_031",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 100.0,
+        "ipa": 100.0,
+        "cq": 100,
+        "sem_sim": 100.0,
+        "f_corr": 0.0
+      },
+      "overall_score": 75.0,
+      "grade": "C"
+    },
+    {
+      "sample_id": "lancedb_task2_data_ops_021",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 100.0,
+        "ipa": 100.0,
+        "cq": 100,
+        "sem_sim": 100.0,
+        "f_corr": 100.0
+      },
+      "overall_score": 100.0,
+      "grade": "A"
+    },
+    {
+      "sample_id": "lancedb_task2_data_ops_029",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 100.0,
+        "ipa": 100.0,
+        "cq": 100,
+        "sem_sim": 100.0,
+        "f_corr": 100.0
+      },
+      "overall_score": 100.0,
+      "grade": "A"
+    },
+    {
+      "sample_id": "lancedb_task4_pipeline_041",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 100.0,
+        "ipa": 100.0,
+        "cq": 100,
+        "sem_sim": 100.0,
+        "f_corr": 0.0
+      },
+      "overall_score": 75.0,
+      "grade": "C"
+    },
+    {
+      "sample_id": "lancedb_task3_search_040",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 100.0,
+        "ipa": 100.0,
+        "cq": 100,
+        "sem_sim": 100.0,
+        "f_corr": 100.0
+      },
+      "overall_score": 100.0,
+      "grade": "A"
+    },
+    {
+      "sample_id": "lancedb_task5_migration_048",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 100.0,
+        "ipa": 100.0,
+        "cq": 100,
+        "sem_sim": 100.0,
+        "f_corr": 0.0
+      },
+      "overall_score": 75.0,
+      "grade": "C"
+    },
+    {
+      "sample_id": "lancedb_task4_pipeline_042",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 100.0,
+        "ipa": 100.0,
+        "cq": 100,
+        "sem_sim": 100.0,
+        "f_corr": 0.0
+      },
+      "overall_score": 75.0,
+      "grade": "C"
+    },
+    {
+      "sample_id": "lancedb_task4_pipeline_043",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 100.0,
+        "ipa": 100.0,
+        "cq": 100,
+        "sem_sim": 100.0,
+        "f_corr": 0.0
+      },
+      "overall_score": 75.0,
+      "grade": "C"
+    },
+    {
+      "sample_id": "lancedb_task4_pipeline_045",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 100.0,
+        "ipa": 100.0,
+        "cq": 100,
+        "sem_sim": 100.0,
+        "f_corr": 0.0
+      },
+      "overall_score": 75.0,
+      "grade": "C"
+    },
+    {
+      "sample_id": "lancedb_task4_pipeline_046",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 100.0,
+        "ipa": 100.0,
+        "cq": 100,
+        "sem_sim": 100.0,
+        "f_corr": 0.0
+      },
+      "overall_score": 75.0,
+      "grade": "C"
+    },
+    {
+      "sample_id": "lancedb_task4_pipeline_047",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 100.0,
+        "ipa": 100.0,
+        "cq": 100,
+        "sem_sim": 100.0,
+        "f_corr": 0.0
+      },
+      "overall_score": 75.0,
+      "grade": "C"
+    },
+    {
+      "sample_id": "lancedb_task4_pipeline_044",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 100.0,
+        "ipa": 100.0,
+        "cq": 100,
+        "sem_sim": 100.0,
+        "f_corr": 0.0
+      },
+      "overall_score": 75.0,
+      "grade": "C"
+    },
+    {
+      "sample_id": "lancedb_task5_migration_049",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 100.0,
+        "ipa": 100.0,
+        "cq": 100,
+        "sem_sim": 100.0,
+        "f_corr": 0.0
+      },
+      "overall_score": 75.0,
+      "grade": "C"
+    },
+    {
+      "sample_id": "lancedb_task5_migration_050",
+      "generation": {
+        "success": true,
+        "error": null
+      },
+      "evaluation": {
+        "success": true,
+        "error": null
+      },
+      "metrics": {
+        "i_acc": 100.0,
+        "c_comp": 100.0,
+        "ipa": 100.0,
+        "cq": 100,
+        "sem_sim": 100.0,
+        "f_corr": 0.0
+      },
+      "overall_score": 75.0,
+      "grade": "C"
+    }
+  ]
+}

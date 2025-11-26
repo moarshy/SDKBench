@@ -1,0 +1,16 @@
+{
+  "sample_id": "task4_complete_047",
+  "model": "claude-sonnet-4-5",
+  "provider": "anthropic",
+  "generated_at": "2025-11-26T12:42:08.674915",
+  "tokens_used": 3795,
+  "cost": 0.0,
+  "files_generated": [
+    "middleware.ts",
+    "app/layout.tsx",
+    "app/dashboard/page.tsx",
+    "app/api/user/route.ts",
+    "app/sign-in/[[...sign-in]]/page.tsx",
+    "app/sign-up/[[...sign-up]]/page.tsx"
+  ]
+}

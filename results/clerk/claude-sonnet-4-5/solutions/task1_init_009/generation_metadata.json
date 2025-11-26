@@ -1,0 +1,14 @@
+{
+  "sample_id": "task1_init_009",
+  "model": "claude-sonnet-4-5",
+  "provider": "anthropic",
+  "generated_at": "2025-11-26T12:39:45.112706",
+  "tokens_used": 2044,
+  "cost": 0.0,
+  "files_generated": [
+    "package.json",
+    ".env.example",
+    "src/index.tsx",
+    "src/App.tsx"
+  ]
+}

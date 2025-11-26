@@ -8,10 +8,10 @@ import pandas as pd
 from lancedb.pydantic import LanceModel, Vector
 from typing import List, Dict, Any
 
-# New schema (after migration)
+# New schema (after migration) - content renamed from text, vector preserved
 class NewDocument(LanceModel):
-    text: str
     content: str  # Renamed from 'text'
+    vector: List[float]  # Preserved from original
 
 # Database connection
 db = lancedb.connect("./migration_db")

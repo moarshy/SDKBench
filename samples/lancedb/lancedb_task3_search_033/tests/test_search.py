@@ -24,6 +24,9 @@ def test_search_function_exists():
         hasattr(search, 'search_similar') or
         hasattr(search, 'hybrid_search') or
         hasattr(search, 'search_with_rrf') or
-        hasattr(search, 'hyde_search')
+        hasattr(search, 'hyde_search') or
+        hasattr(search, 'search_with_prefilter') or
+        hasattr(search, 'prefilter_search') or
+        hasattr(search, 'filtered_search')
     )
     assert has_search

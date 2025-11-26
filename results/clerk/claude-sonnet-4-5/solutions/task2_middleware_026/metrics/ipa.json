@@ -1,0 +1,16 @@
+{
+  "score": 50.0,
+  "precision": 0.3333333333333333,
+  "recall": 1.0,
+  "f1": 0.5,
+  "details": {
+    "true_positives": [
+      "middleware.ts"
+    ],
+    "false_positives": [
+      "app/dashboard/page.tsx",
+      "app/api/protected/route.ts"
+    ],
+    "false_negatives": []
+  }
+}

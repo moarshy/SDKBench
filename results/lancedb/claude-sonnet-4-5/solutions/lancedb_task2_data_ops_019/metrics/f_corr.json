@@ -1,0 +1,38 @@
+{
+  "score": 0.0,
+  "tests_passed": 0,
+  "tests_failed": 3,
+  "tests_total": 3,
+  "tests_skipped": 0,
+  "duration": 0.7291090488433838,
+  "error": "3 tests failed",
+  "failed_tests": [
+    "test_database_connection",
+    "test_table_creation",
+    "test_data_stored"
+  ],
+  "failure_details": [
+    {
+      "test_name": "test_database_connection",
+      "file_path": "tests/test_data_ops.py",
+      "line_number": 15,
+      "error_message": "ImportError: cannot...",
+      "stack_trace": "tests/test_data_ops.py:15: in test_database_connection\n    from expected import data_ops\nE   ImportError: cannot import name 'data_ops' from 'expected' (/private/var/folders/wx/bj4n9pyj10n74txq4mpt0j9h0000gn/T/fcorr_90dd_b9q/expected/__init__.py)"
+    },
+    {
+      "test_name": "test_table_creation",
+      "file_path": "tests/test_data_ops.py",
+      "line_number": 20,
+      "error_message": "ImportError: cannot impo...",
+      "stack_trace": "tests/test_data_ops.py:20: in test_table_creation\n    from expected import data_ops\nE   ImportError: cannot import name 'data_ops' from 'expected' (/private/var/folders/wx/bj4n9pyj10n74txq4mpt0j9h0000gn/T/fcorr_90dd_b9q/expected/__init__.py)"
+    },
+    {
+      "test_name": "test_data_stored",
+      "file_path": "tests/test_data_ops.py",
+      "line_number": 27,
+      "error_message": "ImportError: cannot import ...",
+      "stack_trace": "tests/test_data_ops.py:27: in test_data_stored\n    from expected import data_ops\nE   ImportError: cannot import name 'data_ops' from 'expected' (/private/var/folders/wx/bj4n9pyj10n74txq4mpt0j9h0000gn/T/fcorr_90dd_b9q/expected/__init__.py)"
+    }
+  ],
+  "raw_output": "============================= test session starts ==============================\nplatform darwin -- Python 3.12.0, pytest-9.0.1, pluggy-1.6.0 -- /Users/arshath/miniforge3/bin/python\ncachedir: .pytest_cache\nrootdir: /private/var/folders/wx/bj4n9pyj10n74txq4mpt0j9h0000gn/T/fcorr_90dd_b9q\nplugins: anyio-4.7.0\ncollecting ... collected 3 items\n\ntests/test_data_ops.py::test_database_connection FAILED                  [ 33%]\ntests/test_data_ops.py::test_table_creation FAILED                       [ 66%]\ntests/test_data_ops.py::test_data_stored FAILED                          [100%]\n\n=================================== FAILURES ===================================\n___________________________ test_database_connection ___________________________\ntests/test_data_ops.py:15: in test_database_connection\n    from expected import data_ops\nE   ImportError: cannot import name 'data_ops' from 'expected' (/private/var/folders/wx/bj4n9pyj10n74txq4mpt0j9h0000gn/T/fcorr_90dd_b9q/expected/__init__.py)\n_____________________________ test_table_creation ______________________________\ntests/test_data_ops.py:20: in test_table_creation\n    from expected import data_ops\nE   ImportError: cannot import name 'data_ops' from 'expected' (/private/var/folders/wx/bj4n9pyj10n74txq4mpt0j9h0000gn/T/fcorr_90dd_b9q/expected/__init__.py)\n_______________________________ test_data_stored _______________________________\ntests/test_data_ops.py:27: in test_data_stored\n    from expected import data_ops\nE   ImportError: cannot import name 'data_ops' from 'expected' (/private/var/folders/wx/bj4n9pyj10n74txq4mpt0j9h0000gn/T/fcorr_90dd_b9q/expected/__init__.py)\n=========================== short test summary info ============================\nFAILED tests/test_data_ops.py::test_database_connection - ImportError: cannot...\nFAILED tests/test_data_ops.py::test_table_creation - ImportError: cannot impo...\nFAILED tests/test_data_ops.py::test_data_stored - ImportError: cannot import ...\n============================== 3 failed in 0.02s ===============================\n"
+}

@@ -1,0 +1,12 @@
+{
+  "score": 100.0,
+  "tests_passed": 3,
+  "tests_failed": 0,
+  "tests_total": 3,
+  "tests_skipped": 0,
+  "duration": 8.050597906112671,
+  "error": null,
+  "failed_tests": [],
+  "failure_details": [],
+  "raw_output": "============================= test session starts ==============================\nplatform darwin -- Python 3.12.0, pytest-9.0.1, pluggy-1.6.0 -- /Users/arshath/miniforge3/bin/python\ncachedir: .pytest_cache\nrootdir: /private/var/folders/wx/bj4n9pyj10n74txq4mpt0j9h0000gn/T/fcorr_gs7ginrs\nplugins: anyio-4.7.0\ncollecting ... collected 3 items\n\ntests/test_init.py::test_registry_import PASSED                          [ 33%]\ntests/test_init.py::test_model_created PASSED                            [ 66%]\ntests/test_init.py::test_document_schema PASSED                          [100%]\n\n=============================== warnings summary ===============================\ntests/test_init.py::test_document_schema\ntests/test_init.py::test_document_schema\n  /private/var/folders/wx/bj4n9pyj10n74txq4mpt0j9h0000gn/T/fcorr_gs7ginrs/conftest.py:351: PydanticDeprecatedSince20: The `__fields__` attribute is deprecated, use `model_fields` instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.10/migration/\n    if cls is not None and hasattr(cls, '__fields__'):\n\ntests/test_init.py::test_document_schema\n  /private/var/folders/wx/bj4n9pyj10n74txq4mpt0j9h0000gn/T/fcorr_gs7ginrs/tests/test_init.py:32: PydanticDeprecatedSince20: The `__fields__` attribute is deprecated, use `model_fields` instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.10/migration/\n    fields = doc_class.__fields__\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n======================== 3 passed, 3 warnings in 6.72s =========================\n"
+}

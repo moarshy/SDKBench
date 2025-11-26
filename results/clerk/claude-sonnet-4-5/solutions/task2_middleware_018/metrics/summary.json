@@ -1,0 +1,23 @@
+{
+  "sample_id": "task2_middleware_018",
+  "timestamp": "2025-11-26T12:40:30.494965",
+  "overall_score": 83.67,
+  "grade": "B",
+  "f_corr_enabled": true,
+  "metrics": {
+    "i_acc": 100.0,
+    "c_comp": 100.0,
+    "ipa": 50.0,
+    "cq": 60,
+    "sem_sim": 81.11111111111111,
+    "f_corr": 100.0
+  },
+  "weights_used": {
+    "i_acc": 0.15,
+    "c_comp": 0.15,
+    "ipa": 0.15,
+    "f_corr": 0.25,
+    "cq": 0.15,
+    "sem_sim": 0.15
+  }
+}

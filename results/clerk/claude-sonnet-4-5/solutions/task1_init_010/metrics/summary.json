@@ -1,0 +1,23 @@
+{
+  "sample_id": "task1_init_010",
+  "timestamp": "2025-11-26T12:40:08.716035",
+  "overall_score": 61.5,
+  "grade": "D",
+  "f_corr_enabled": true,
+  "metrics": {
+    "i_acc": 100.0,
+    "c_comp": 50.0,
+    "ipa": 100.0,
+    "cq": 95,
+    "sem_sim": 65.0,
+    "f_corr": 0.0
+  },
+  "weights_used": {
+    "i_acc": 0.15,
+    "c_comp": 0.15,
+    "ipa": 0.15,
+    "f_corr": 0.25,
+    "cq": 0.15,
+    "sem_sim": 0.15
+  }
+}

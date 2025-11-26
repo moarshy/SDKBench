@@ -1,0 +1,12 @@
+{
+  "score": 100.0,
+  "tests_passed": 3,
+  "tests_failed": 0,
+  "tests_total": 3,
+  "tests_skipped": 0,
+  "duration": 15.045151948928833,
+  "error": null,
+  "failed_tests": [],
+  "failure_details": [],
+  "raw_output": "============================= test session starts ==============================\nplatform darwin -- Python 3.12.0, pytest-9.0.1, pluggy-1.6.0 -- /Users/arshath/miniforge3/bin/python\ncachedir: .pytest_cache\nrootdir: /private/var/folders/wx/bj4n9pyj10n74txq4mpt0j9h0000gn/T/fcorr_z4o5mtwh\nplugins: anyio-4.7.0\ncollecting ... collected 3 items\n\ntests/test_data_ops.py::test_database_connection PASSED                  [ 33%]\ntests/test_data_ops.py::test_table_creation PASSED                       [ 66%]\ntests/test_data_ops.py::test_data_stored PASSED                          [100%]\n\n=============================== warnings summary ===============================\ntests/test_data_ops.py::test_database_connection\n  /private/var/folders/wx/bj4n9pyj10n74txq4mpt0j9h0000gn/T/fcorr_z4o5mtwh/conftest.py:124: RuntimeWarning: coroutine 'main' was never awaited\n    module.main()\n  Enable tracemalloc to get traceback where the object was allocated.\n  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.\n\ntests/test_data_ops.py::test_database_connection\ntests/test_data_ops.py::test_table_creation\ntests/test_data_ops.py::test_data_stored\n  /private/var/folders/wx/bj4n9pyj10n74txq4mpt0j9h0000gn/T/fcorr_z4o5mtwh/conftest.py:90: RuntimeWarning: coroutine 'main' was never awaited\n    module.main()\n  Enable tracemalloc to get traceback where the object was allocated.\n  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n======================== 3 passed, 4 warnings in 13.66s ========================\n"
+}

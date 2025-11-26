@@ -18,9 +18,9 @@ db = lancedb.connect("./my_lancedb")
 
 def ingest_documents(documents: list):
     """Ingest documents with automatic embedding."""
-    # Create Document instances - vectors are auto-generated!
-    docs = [Document(text=d["text"]) for d in documents]
-    table = db.create_table("documents", docs, mode="overwrite")
+    # Use dict data with schema - LanceDB auto-embeds when using the schema
+    # Don't instantiate Document directly as Pydantic requires all fields
+    table = db.create_table("documents", documents, schema=Document, mode="overwrite")
     return table
 
 def main():

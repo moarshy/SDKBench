@@ -8,7 +8,7 @@ describe('Clerk Hooks - useAuth', () => {
   it('should have useAuth imported', () => {
     const profile = readFileSync(profilePath, 'utf-8');
     expect(profile).toContain('useAuth');
-    expect(profile).toContain("from '@clerk/nextjs'");
+    const hasClerkImport = profile.includes("from '@clerk/nextjs'") || profile.includes('from "@clerk/nextjs"'); expect(hasClerkImport).toBe(true);
   });
 
   it('should use client directive', () => {
@@ -23,6 +23,6 @@ describe('Clerk Hooks - useAuth', () => {
 
   it('should handle loading state', () => {
     const profile = readFileSync(profilePath, 'utf-8');
-    expect(profile).toContain('isLoaded') || expect(profile).toContain('user');
+    const hasLoadingCheck = profile.includes('isLoaded') || profile.includes('user'); expect(hasLoadingCheck).toBe(true);
   });
 });

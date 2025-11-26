@@ -1,0 +1,11 @@
+{
+  "score": 65,
+  "type_errors": 0,
+  "eslint_errors": 0,
+  "security_issues": 0,
+  "details": {
+    "type_error_list": [],
+    "eslint_error_list": [],
+    "security_issue_list": []
+  }
+}

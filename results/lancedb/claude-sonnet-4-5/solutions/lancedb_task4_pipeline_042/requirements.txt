@@ -1,0 +1,6 @@
+# filepath: requirements.txt
+lancedb>=0.5.0
+sentence-transformers>=2.2.0
+pandas>=2.0.0
+pillow>=10.0.0
+torch>=2.0.0

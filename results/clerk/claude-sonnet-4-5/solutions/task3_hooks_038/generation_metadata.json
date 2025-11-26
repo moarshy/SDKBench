@@ -1,0 +1,11 @@
+{
+  "sample_id": "task3_hooks_038",
+  "model": "claude-sonnet-4-5",
+  "provider": "anthropic",
+  "generated_at": "2025-11-26T12:41:22.001793",
+  "tokens_used": 1985,
+  "cost": 0.0,
+  "files_generated": [
+    "components/UserProfile.tsx"
+  ]
+}

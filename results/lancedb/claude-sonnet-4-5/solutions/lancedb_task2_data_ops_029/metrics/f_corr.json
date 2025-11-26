@@ -1,0 +1,12 @@
+{
+  "score": 100.0,
+  "tests_passed": 3,
+  "tests_failed": 0,
+  "tests_total": 3,
+  "tests_skipped": 0,
+  "duration": 51.07363486289978,
+  "error": null,
+  "failed_tests": [],
+  "failure_details": [],
+  "raw_output": "============================= test session starts ==============================\nplatform darwin -- Python 3.12.0, pytest-9.0.1, pluggy-1.6.0 -- /Users/arshath/miniforge3/bin/python\ncachedir: .pytest_cache\nrootdir: /private/var/folders/wx/bj4n9pyj10n74txq4mpt0j9h0000gn/T/fcorr_69diad84\nplugins: anyio-4.7.0\ncollecting ... collected 3 items\n\ntests/test_data_ops.py::test_database_connection PASSED                  [ 33%]\ntests/test_data_ops.py::test_table_creation PASSED                       [ 66%]\ntests/test_data_ops.py::test_data_stored PASSED                          [100%]\n\n============================== 3 passed in 49.71s ==============================\n"
+}
