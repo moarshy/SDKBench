@@ -1187,3 +1187,252 @@ Study these existing SDKs:
 - Use `go.mod` for dependencies
 - Use built-in testing package
 - Consider module path conventions
+
+---
+
+## Appendix: Lessons Learned & Best Practices
+
+This section documents critical lessons learned from implementing Clerk (TypeScript) and LanceDB (Python) SDKs. **Following these practices will prevent common bugs and ensure accurate benchmark evaluation.**
+
+### Test Design Best Practices
+
+#### 1. Test Behavior, Not Implementation Structure
+
+**Problem**: Tests that check specific implementation patterns (like `module.db is not None`) fail when correct code uses different patterns (like `module.get_database()`).
+
+**Bad Pattern** ❌:
+```python
+def test_database_connection():
+    from expected import app
+    assert app.db is not None  # Fails if solution uses get_database()
+```
+
+**Good Pattern** ✅:
+```python
+def test_database_connection():
+    from expected import app
+    # Accept multiple valid implementation patterns
+    assert has_db_connection(app), "No database connection method found"
+    db = get_db_connection(app)
+    assert db is not None
+    assert hasattr(db, "table_names")
+```
+
+#### 2. Create Shared Test Utilities
+
+For Python SDKs, create a `conftest.py` at `samples/{sdk}/conftest.py` with helper functions that accept multiple valid patterns:
+
+```python
+"""Shared test utilities for {SDK} samples."""
+
+def get_db_connection(module):
+    """Get database connection from module using various patterns.
+
+    Supports:
+    - module.db (module-level variable)
+    - module.get_database() (factory function)
+    - module.get_db() (short factory)
+    - module.connect() (direct connect)
+    """
+    # Module-level variable
+    if hasattr(module, 'db') and module.db is not None:
+        return module.db
+
+    # Factory functions
+    for func_name in ['get_database', 'get_db', 'get_connection', 'connect']:
+        if hasattr(module, func_name):
+            func = getattr(module, func_name)
+            if callable(func):
+                try:
+                    return func()
+                except Exception:
+                    continue
+
+    return None
+
+def has_db_connection(module):
+    """Check if module has any way to get a database connection."""
+    if hasattr(module, 'db'):
+        return True
+    connection_funcs = ['get_database', 'get_db', 'get_connection', 'connect']
+    return any(hasattr(module, name) and callable(getattr(module, name))
+               for name in connection_funcs)
+```
+
+#### 3. Update Test Templates in build_samples.py
+
+When creating `build_samples.py`, ensure test templates:
+1. Import shared utilities from conftest.py
+2. Use flexible assertion patterns
+3. Test behavior (e.g., "can create table") not structure (e.g., "has db variable")
+
+```python
+def _create_test_template(self, tests_dir: Path, scenario: Dict):
+    test_content = '''"""Tests for {task}."""
+
+import pytest
+import os
+import sys
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+# Import shared test utilities
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+from conftest import get_db_connection, has_db_connection
+
+def test_database_connection():
+    """Test database is connected."""
+    from expected import app
+    assert has_db_connection(app), "No database connection method found"
+    db = get_db_connection(app)
+    assert db is not None
+
+def test_main_runs():
+    """Test main function runs without errors."""
+    from expected import app
+    app.main()  # Should not raise
+'''
+```
+
+### Test Runner Best Practices
+
+#### 4. Exclude Virtual Environments from Test Detection
+
+**Problem**: `rglob("test_*.py")` matches files inside `venv/`, `node_modules/`, causing false positives.
+
+**Solution**: Filter excluded directories when detecting test files:
+
+```python
+EXCLUDED_DIRS = {"venv", ".venv", "node_modules", "__pycache__",
+                 ".git", "dist", "build", ".pytest_cache"}
+
+def _filter_excluded_dirs(self, files: List[Path]) -> List[Path]:
+    return [f for f in files if not any(
+        excluded in f.parts for excluded in self.EXCLUDED_DIRS
+    )]
+
+# Usage
+test_files = self._filter_excluded_dirs(list(working_dir.rglob("test_*.py")))
+```
+
+### F-CORR (Functional Correctness) Best Practices
+
+#### 5. Capture Full Error Tracebacks
+
+**Problem**: When tests fail, `f_corr.json` only shows "1 tests failed" without details, making debugging impossible.
+
+**Solution**: Store full failure details including stack traces:
+
+```python
+# In FCorrResult model
+class FCorrResult(MetricResult):
+    tests_passed: int = 0
+    tests_total: int = 0
+    failed_tests: List[str] = Field(default_factory=list)
+    error_messages: List[str] = Field(default_factory=list)
+    # Add detailed failure info
+    failure_details: List[Dict[str, Any]] = Field(default_factory=list)
+    # Each entry: {
+    #   "test_name": "test_database_connection",
+    #   "file_path": "tests/test_init.py",
+    #   "line_number": 18,
+    #   "error_message": "AssertionError: assert app.db is not None",
+    #   "stack_trace": "Traceback (most recent call last):\n..."
+    # }
+    raw_output: Optional[str] = None
+```
+
+#### 6. Parse Stack Traces from Test Output
+
+Extract full tracebacks from pytest/jest output:
+
+```python
+def _extract_pytest_stack_traces(self, output: str) -> dict:
+    """Extract stack traces from pytest output."""
+    stack_traces = {}
+
+    # pytest formats failures between "= FAILURES =" and summary
+    failures_pattern = r'={3,}\s*FAILURES\s*={3,}(.*?)(?:={3,}\s*(?:short test summary)|\Z)'
+    failures_match = re.search(failures_pattern, output, re.DOTALL)
+
+    if failures_match:
+        # Split by test headers and extract tracebacks
+        test_pattern = r'_{3,}\s*([^\s_]+(?:::[^\s_]+)?)\s*_{3,}'
+        parts = re.split(test_pattern, failures_match.group(1))
+        for i in range(1, len(parts), 2):
+            if i + 1 < len(parts):
+                stack_traces[parts[i].strip()] = parts[i + 1].strip()
+
+    return stack_traces
+```
+
+### Metric Model Best Practices
+
+#### 7. Ensure Model Fields Match Usage
+
+**Problem**: Code uses `result.deductions` but `CQResult` doesn't have that field, causing AttributeError.
+
+**Solution**: Audit all metric result classes to ensure:
+1. All fields used in evaluators exist in models
+2. All fields used in formatters/summaries exist in models
+
+```python
+# In result.py - ensure model has all expected fields
+class CQResult(MetricResult):
+    type_errors: int = 0
+    eslint_errors: int = 0
+    security_issues: int = 0
+    # Add missing field that evaluator uses
+    deductions: List[Dict[str, Any]] = Field(default_factory=list)
+
+    @property
+    def total_deductions(self) -> int:
+        return sum(d.get('points', 0) for d in self.deductions)
+```
+
+### SDK-Specific Considerations
+
+#### 8. TypeScript/JavaScript SDKs (like Clerk)
+
+- Tests check **file contents** using string matching (e.g., `expect(layout).toContain('ClerkProvider')`)
+- Less prone to implementation pattern coupling
+- Focus on ensuring expected files exist and contain required patterns
+
+#### 9. Python SDKs (like LanceDB)
+
+- Tests **import modules** and check attributes/behavior
+- High risk of implementation pattern coupling
+- Always use flexible helpers that accept multiple valid patterns
+- Create `conftest.py` with shared utilities
+
+### Checklist for New SDKs
+
+Before finalizing samples for a new SDK:
+
+- [ ] **Test utilities created**: `samples/{sdk}/conftest.py` with flexible helpers
+- [ ] **Tests are behavioral**: Check what code does, not how it's structured
+- [ ] **Multiple patterns accepted**: Tests pass for different valid implementations
+- [ ] **Excluded dirs filtered**: venv/node_modules excluded from test detection
+- [ ] **Error details captured**: Stack traces stored in f_corr.json
+- [ ] **Model fields match**: All fields used in code exist in Pydantic models
+- [ ] **Templates updated**: build_samples.py generates correct test templates
+
+### Common Bugs to Avoid
+
+| Bug | Symptom | Prevention |
+|-----|---------|------------|
+| Module-level variable coupling | Tests fail for function-based implementations | Use flexible helper functions |
+| Missing model fields | AttributeError in evaluators | Audit model vs. usage |
+| venv in test detection | Thousands of test files detected | Filter excluded directories |
+| No stack traces | "1 tests failed" with no details | Capture full failure details |
+| Template not updated | New samples have old bug | Update build_samples.py templates |
+
+### Reference Files
+
+Study these files for reference implementations:
+
+| File | Purpose |
+|------|---------|
+| `samples/lancedb/conftest.py` | Shared test utilities for Python SDK |
+| `sdkbench/test_harness/python_runner.py` | Test runner with excluded dir filtering |
+| `sdkbench/core/result.py` | Metric result models with all required fields |
+| `sdkbench/metrics/f_corr.py` | F-CORR evaluator with detailed failure capture |
+| `scripts/data_collection/lancedb/build_samples.py` | Sample builder with correct test templates |

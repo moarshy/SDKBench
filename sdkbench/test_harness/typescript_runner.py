@@ -22,9 +22,19 @@ from .models import (
 class TypeScriptTestRunner(BaseTestRunner):
     """Test runner for TypeScript/JavaScript projects."""
 
+    # Directories to exclude from test file detection
+    EXCLUDED_DIRS = {"node_modules", ".git", "dist", "build", "coverage",
+                     ".next", ".nuxt", ".cache", "venv", ".venv", "__pycache__"}
+
     def __init__(self, working_dir: Path, timeout: int = 300):
         super().__init__(working_dir, timeout)
         self._detected_framework: Optional[TestFramework] = None
+
+    def _filter_excluded_dirs(self, files: List[Path]) -> List[Path]:
+        """Filter out files in excluded directories like node_modules."""
+        return [f for f in files if not any(
+            excluded in f.parts for excluded in self.EXCLUDED_DIRS
+        )]
 
     def get_language(self) -> Language:
         return Language.TYPESCRIPT
@@ -83,10 +93,10 @@ class TypeScriptTestRunner(BaseTestRunner):
         except json.JSONDecodeError:
             pass
 
-        # Check for test files and infer framework from imports
+        # Check for test files and infer framework from imports (excluding node_modules)
         test_patterns = ["*.test.ts", "*.test.tsx", "*.test.js", "*.spec.ts", "*.spec.tsx"]
         for pattern in test_patterns:
-            test_files = list(self.working_dir.rglob(pattern))
+            test_files = self._filter_excluded_dirs(list(self.working_dir.rglob(pattern)))
             if test_files:
                 markers_found.append(f"{pattern} ({len(test_files)} files)")
                 # If framework not detected yet, check test file imports
@@ -405,17 +415,58 @@ class TypeScriptTestRunner(BaseTestRunner):
         )
 
     def _extract_jest_failures(self, output: str) -> List[TestFailure]:
-        """Extract failure details from Jest output."""
+        """Extract failure details from Jest output with stack traces."""
         failures = []
 
-        # Pattern: "● Test Suite › test name"
-        pattern = r"●\s+(.+?)(?:\n\n|\n\s+expect)"
-        matches = re.findall(pattern, output)
+        # Jest failure blocks start with "● Test Suite › test name" and include the error
+        # Split by test failure markers
+        failure_blocks = re.split(r'●\s+', output)
 
-        for match in matches:
+        for block in failure_blocks[1:]:  # Skip first element (before first ●)
+            lines = block.strip().split('\n')
+            if not lines:
+                continue
+
+            # First line is test name (possibly with suite hierarchy)
+            test_name = lines[0].strip()
+
+            # Extract error message and stack trace
+            error_message = None
+            stack_trace = None
+            file_path = None
+            line_number = None
+
+            # Look for expect().toXxx() style errors
+            expect_match = re.search(r'expect\(.*?\)\.(toBe|toEqual|toContain|toMatch|toThrow|not\.\w+)\(.*?\)', block)
+            if expect_match:
+                error_message = expect_match.group(0)
+
+            # Look for assertion error details
+            assertion_match = re.search(r'(Expected|Received):.*', block, re.DOTALL)
+            if assertion_match:
+                error_message = assertion_match.group(0).split('\n')[0]
+
+            # Extract stack trace (lines starting with "at ")
+            stack_lines = [l for l in lines if l.strip().startswith('at ')]
+            if stack_lines:
+                stack_trace = '\n'.join(stack_lines)
+
+                # Extract file path and line number from first stack line
+                first_stack = stack_lines[0]
+                path_match = re.search(r'\(([^:)]+):(\d+):(\d+)\)', first_stack)
+                if path_match:
+                    file_path = path_match.group(1)
+                    line_number = int(path_match.group(2))
+
+            # Also capture the full block as context
+            full_trace = '\n'.join(lines[1:]) if len(lines) > 1 else None
+
             failures.append(TestFailure(
-                test_name=match.strip(),
-                error_message="Test failed",
+                test_name=test_name,
+                error_message=error_message or "Test failed",
+                file_path=file_path,
+                line_number=line_number,
+                stack_trace=full_trace or stack_trace,
             ))
 
         return failures

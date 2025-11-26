@@ -135,6 +135,7 @@ def prepare_sample_for_testing(sample_path: Path, verbose: bool = False) -> Opti
     We preserve this structure by creating:
     - temp/expected/  (copy of expected/)
     - temp/tests/     (copy of tests/)
+    - temp/conftest.py (copy from SDK level if exists)
 
     Tests import like: `from expected import app`
 
@@ -169,9 +170,22 @@ def prepare_sample_for_testing(sample_path: Path, verbose: bool = False) -> Opti
     expected_dest = temp_dir / "expected"
     shutil.copytree(expected_dir, expected_dest)
 
+    # Create __init__.py in expected/ for Python imports (if not exists)
+    init_file = expected_dest / "__init__.py"
+    if not init_file.exists():
+        init_file.write_text("# Auto-generated for F-CORR testing\n")
+
     # Copy tests/ directory
     tests_dest = temp_dir / "tests"
     shutil.copytree(tests_dir, tests_dest)
+
+    # Copy conftest.py if it exists (for shared test utilities)
+    # Look in sample's parent directory (SDK level) for conftest.py
+    sdk_conftest = sample_path.parent / "conftest.py"
+    if sdk_conftest.exists():
+        shutil.copy2(sdk_conftest, temp_dir / "conftest.py")
+        if verbose:
+            print(f"  Copied conftest.py from {sdk_conftest}")
 
     # Copy requirements.txt if it exists in expected/
     req_file = expected_dir / "requirements.txt"

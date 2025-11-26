@@ -21,6 +21,17 @@ from .models import (
 class PythonTestRunner(BaseTestRunner):
     """Test runner for Python projects using pytest."""
 
+    # Directories to exclude from test file detection
+    EXCLUDED_DIRS = {"venv", ".venv", "env", ".env", "virtualenv", "__pycache__",
+                     ".git", ".tox", ".nox", "build", "dist", "eggs", ".eggs",
+                     "node_modules", ".mypy_cache", ".pytest_cache"}
+
+    def _filter_excluded_dirs(self, files: List[Path]) -> List[Path]:
+        """Filter out files in excluded directories like venv, node_modules."""
+        return [f for f in files if not any(
+            excluded in f.parts for excluded in self.EXCLUDED_DIRS
+        )]
+
     def get_language(self) -> Language:
         return Language.PYTHON
 
@@ -44,15 +55,16 @@ class PythonTestRunner(BaseTestRunner):
             if (self.working_dir / marker).exists():
                 markers_found.append(marker)
 
-        # Check for pytest files
+        # Check for pytest files (excluding venv, node_modules, etc.)
         test_patterns = ["test_*.py", "*_test.py"]
         for pattern in test_patterns:
-            test_files = list(self.working_dir.rglob(pattern))
+            test_files = self._filter_excluded_dirs(list(self.working_dir.rglob(pattern)))
             if test_files:
                 markers_found.append(f"{pattern} ({len(test_files)} files)")
 
         # Check for conftest.py (pytest marker)
-        if list(self.working_dir.rglob("conftest.py")):
+        conftest_files = self._filter_excluded_dirs(list(self.working_dir.rglob("conftest.py")))
+        if conftest_files:
             markers_found.append("conftest.py")
 
         detected = len(markers_found) > 0
@@ -223,16 +235,32 @@ class PythonTestRunner(BaseTestRunner):
 
         total = passed + failed + skipped
 
-        # Extract failure details
+        # Extract failure details with stack traces
         # Pattern: "FAILED test_file.py::test_name - AssertionError"
         failure_pattern = r"FAILED\s+([^\s]+)::([^\s]+)\s*-?\s*(.*)"
         failure_matches = re.findall(failure_pattern, output)
 
+        # Extract stack traces from pytest output (between FAILURES and short test summary)
+        stack_traces = self._extract_pytest_stack_traces(output)
+
         for file_path, test_name, error in failure_matches:
+            # Try to find the full stack trace for this test
+            full_test_id = f"{file_path}::{test_name}"
+            stack_trace = stack_traces.get(full_test_id) or stack_traces.get(test_name)
+
+            # Extract line number from stack trace if available
+            line_number = None
+            if stack_trace:
+                line_match = re.search(rf'{re.escape(file_path)}:(\d+)', stack_trace)
+                if line_match:
+                    line_number = int(line_match.group(1))
+
             failures.append(TestFailure(
                 test_name=test_name,
                 error_message=error.strip() if error else "Test failed",
                 file_path=file_path,
+                line_number=line_number,
+                stack_trace=stack_trace,
             ))
 
         # If we couldn't parse counts but have failures, estimate
@@ -259,3 +287,41 @@ class PythonTestRunner(BaseTestRunner):
             output=output,
             failures=failures,
         )
+
+    def _extract_pytest_stack_traces(self, output: str) -> dict:
+        """Extract stack traces from pytest output.
+
+        Args:
+            output: Raw pytest output
+
+        Returns:
+            Dict mapping test names to their stack traces
+        """
+        stack_traces = {}
+
+        # pytest formats failures between "= FAILURES =" and "= short test summary info ="
+        failures_section_pattern = r'={3,}\s*FAILURES\s*={3,}(.*?)(?:={3,}\s*(?:short test summary|ERRORS|warnings summary)|\Z)'
+        failures_match = re.search(failures_section_pattern, output, re.DOTALL | re.IGNORECASE)
+
+        if not failures_match:
+            return stack_traces
+
+        failures_section = failures_match.group(1)
+
+        # Split by test headers: "_ test_name _" or "_____ test_file.py::test_name _____"
+        test_pattern = r'_{3,}\s*([^\s_]+(?:::[^\s_]+)?)\s*_{3,}'
+        parts = re.split(test_pattern, failures_section)
+
+        # parts[0] is before first test, then alternating: test_name, traceback, test_name, traceback...
+        for i in range(1, len(parts), 2):
+            if i + 1 < len(parts):
+                test_name = parts[i].strip()
+                traceback = parts[i + 1].strip()
+                stack_traces[test_name] = traceback
+
+                # Also store by short name (without file path)
+                if '::' in test_name:
+                    short_name = test_name.split('::')[-1]
+                    stack_traces[short_name] = traceback
+
+        return stack_traces

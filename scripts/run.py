@@ -451,9 +451,20 @@ class EvaluationPipeline:
             expected_dest = temp_dir / "expected"
             shutil.copytree(solution_path, expected_dest)
 
+            # Create __init__.py in expected/ for Python imports (if not exists)
+            init_file = expected_dest / "__init__.py"
+            if not init_file.exists():
+                init_file.write_text("# Auto-generated for F-CORR testing\n")
+
             # Copy tests
             tests_dest = temp_dir / "tests"
             shutil.copytree(tests_dir, tests_dest)
+
+            # Copy conftest.py if it exists (for shared test utilities)
+            # Look in sample's parent directory (SDK level) for conftest.py
+            sdk_conftest = sample_path.parent / "conftest.py"
+            if sdk_conftest.exists():
+                shutil.copy2(sdk_conftest, temp_dir / "conftest.py")
 
             # Copy requirements.txt if it exists in solution
             req_file = solution_path / "requirements.txt"

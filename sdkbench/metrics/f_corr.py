@@ -125,18 +125,30 @@ class FCorrEvaluator:
                 error_messages=error_messages,
             )
 
-        # Extract failure details
+        # Extract failure details with full traceback information
+        failure_details = []
         for failure in test_result.failures:
             failed_tests.append(failure.test_name)
             if failure.error_message:
                 error_messages.append(f"{failure.test_name}: {failure.error_message}")
+            # Preserve full failure details including stack trace
+            failure_details.append({
+                "test_name": failure.test_name,
+                "file_path": failure.file_path,
+                "line_number": failure.line_number,
+                "error_message": failure.error_message,
+                "stack_trace": failure.stack_trace,
+            })
 
-        # Create result
+        # Create result with all details including raw output
         result = FCorrResult(
             tests_passed=test_result.passed,
             tests_total=test_result.total,
+            tests_skipped=test_result.skipped,
             failed_tests=failed_tests,
             error_messages=error_messages,
+            failure_details=failure_details,
+            raw_output=test_result.output,
         )
 
         # Apply strict scoring if requested

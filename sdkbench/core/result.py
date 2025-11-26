@@ -78,9 +78,24 @@ class FCorrResult(MetricResult):
     """F-CORR (Functional Correctness) metric result."""
     tests_passed: int = 0
     tests_total: int = 0
+    tests_skipped: int = 0
     pass_rate: float = 0.0  # 0-100
     failed_tests: List[str] = Field(default_factory=list)
     error_messages: List[str] = Field(default_factory=list)
+    # Detailed failure information with stack traces
+    failure_details: List[Dict[str, Any]] = Field(default_factory=list)
+    # Each entry: {
+    #   "test_name": "test_database_connection",
+    #   "file_path": "tests/test_init.py",
+    #   "line_number": 18,
+    #   "error_message": "AssertionError: assert app.db is not None",
+    #   "stack_trace": "Traceback (most recent call last):\n..."
+    # }
+    # Raw test output for debugging
+    raw_output: Optional[str] = None
+    # Build/install error details
+    install_error: Optional[str] = None
+    build_error: Optional[str] = None
 
     def model_post_init(self, __context: Any) -> None:
         """Calculate pass rate and score."""
@@ -100,15 +115,27 @@ class CQResult(MetricResult):
     type_error_details: List[str] = Field(default_factory=list)
     eslint_error_details: List[str] = Field(default_factory=list)
     security_issue_details: List[str] = Field(default_factory=list)
+    # Deductions list for detailed quality analysis
+    deductions: List[Dict[str, Any]] = Field(default_factory=list)
+
+    @property
+    def total_deductions(self) -> int:
+        """Calculate total deduction points."""
+        return sum(d.get('points', 0) for d in self.deductions)
 
     def model_post_init(self, __context: Any) -> None:
         """Calculate score by deducting points."""
         if self.score == 0:  # Only calculate if not already set
-            score = 100
-            score -= self.type_errors * 5
-            score -= self.eslint_errors * 2
-            score -= self.security_issues * 20
-            self.score = max(0, score)
+            # If deductions provided, calculate from them
+            if self.deductions:
+                self.score = max(0, 100 - self.total_deductions)
+            else:
+                # Legacy calculation from individual counts
+                score = 100
+                score -= self.type_errors * 5
+                score -= self.eslint_errors * 2
+                score -= self.security_issues * 20
+                self.score = max(0, score)
 
 
 class SemSimResult(MetricResult):
@@ -118,6 +145,10 @@ class SemSimResult(MetricResult):
     approach_match: bool = False
     matched_patterns: List[str] = Field(default_factory=list)
     missing_patterns: List[str] = Field(default_factory=list)
+    # Numeric component scores (0-100 scale) for detailed analysis
+    structure_similarity: float = 0.0
+    pattern_matching: float = 0.0
+    approach_alignment: float = 0.0
 
     def model_post_init(self, __context: Any) -> None:
         """Use similarity score as main score."""

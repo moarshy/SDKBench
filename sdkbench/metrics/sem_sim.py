@@ -54,6 +54,10 @@ class SemSimEvaluator:
             similarity_score=overall_similarity * 100,
             pattern_match=pattern_score > 0.5,
             approach_match=approach_score > 0.5,
+            # Store component scores for get_similarity_summary()
+            structure_similarity=structure_score * 100,
+            pattern_matching=pattern_score * 100,
+            approach_alignment=approach_score * 100,
         )
 
     def _check_structure_similarity(self) -> float:
