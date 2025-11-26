@@ -397,6 +397,9 @@ class EvaluationPipeline:
                     "tests_skipped": fcorr.get("skipped", 0),
                     "duration": fcorr.get("duration", 0),
                     "error": fcorr.get("error"),
+                    "failed_tests": fcorr.get("failed_tests", []),
+                    "failure_details": fcorr.get("failure_details", []),
+                    "raw_output": fcorr.get("raw_output"),
                 })
 
             # Save summary with overall score
@@ -476,10 +479,66 @@ class EvaluationPipeline:
             if sample_req.exists() and not req_file.exists():
                 shutil.copy2(sample_req, temp_dir / "requirements.txt")
 
-            # Copy package.json if it exists
+            # Copy package.json if it exists in solution
             pkg_file = solution_path / "package.json"
             if pkg_file.exists():
                 shutil.copy2(pkg_file, temp_dir / "package.json")
+
+            # Also check sample's expected for package.json (for TypeScript projects)
+            sample_pkg = sample_path / "expected" / "package.json"
+            if sample_pkg.exists() and not pkg_file.exists():
+                shutil.copy2(sample_pkg, temp_dir / "package.json")
+
+            # Also check sample's input directory for package.json (starter project files)
+            input_pkg = sample_path / "input" / "package.json"
+            if input_pkg.exists() and not (temp_dir / "package.json").exists():
+                shutil.copy2(input_pkg, temp_dir / "package.json")
+
+            # If still no package.json but tests are TypeScript, create a minimal one
+            ts_test_files = list((temp_dir / "tests").glob("*.ts")) + list((temp_dir / "tests").glob("*.tsx"))
+            if ts_test_files and not (temp_dir / "package.json").exists():
+                # Check if tests use Jest or Vitest imports
+                test_content = ""
+                for tf in ts_test_files[:3]:  # Check first 3 test files
+                    test_content += tf.read_text()
+
+                if "@jest/globals" in test_content or "from 'jest'" in test_content:
+                    # Use Jest
+                    minimal_pkg = {
+                        "name": "fcorr-test",
+                        "scripts": {
+                            "test": "jest"
+                        },
+                        "devDependencies": {
+                            "jest": "^29.0.0",
+                            "@jest/globals": "^29.0.0",
+                            "ts-jest": "^29.0.0",
+                            "typescript": "^5.0.0",
+                            "@types/jest": "^29.0.0",
+                            "@types/node": "^20.0.0"
+                        },
+                        "jest": {
+                            "preset": "ts-jest",
+                            "testEnvironment": "node",
+                            "moduleFileExtensions": ["ts", "tsx", "js", "jsx"],
+                            "testMatch": ["**/tests/**/*.test.ts", "**/tests/**/*.test.tsx"]
+                        }
+                    }
+                else:
+                    # Default to Vitest
+                    minimal_pkg = {
+                        "name": "fcorr-test",
+                        "type": "module",
+                        "scripts": {
+                            "test": "vitest run"
+                        },
+                        "devDependencies": {
+                            "vitest": "^1.0.0",
+                            "typescript": "^5.0.0"
+                        }
+                    }
+                with open(temp_dir / "package.json", "w") as f:
+                    json.dump(minimal_pkg, f, indent=2)
 
             # Get runner and run tests
             runner = TestRunnerRegistry.get_runner(temp_dir)
@@ -509,6 +568,19 @@ class EvaluationPipeline:
             else:
                 score = 0.0
 
+            # Extract failure details with stack traces
+            failure_details = []
+            failed_tests = []
+            for failure in test_result.failures:
+                failed_tests.append(failure.test_name)
+                failure_details.append({
+                    "test_name": failure.test_name,
+                    "file_path": failure.file_path,
+                    "line_number": failure.line_number,
+                    "error_message": failure.error_message,
+                    "stack_trace": failure.stack_trace,
+                })
+
             return {
                 "score": score,
                 "passed": test_result.passed,
@@ -517,6 +589,9 @@ class EvaluationPipeline:
                 "skipped": test_result.skipped,
                 "duration": time.time() - start_time,
                 "error": None if score == 100.0 else f"{test_result.failed} tests failed",
+                "failed_tests": failed_tests,
+                "failure_details": failure_details,
+                "raw_output": test_result.output,
             }
 
         except Exception as e:

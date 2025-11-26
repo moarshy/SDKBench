@@ -26,10 +26,10 @@ def create_indexed_table(table_name: str, data):
     return table
 
 def main():
-    # Create sample data
+    # Create sample data - need at least 256 rows for PQ index training
     data = [
         Document(text=f"Document {i}", vector=np.random.randn(384).tolist())
-        for i in range(100)
+        for i in range(256)
     ]
 
     table = create_indexed_table("indexed_docs", data)

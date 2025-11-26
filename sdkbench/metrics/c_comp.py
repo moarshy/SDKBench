@@ -244,25 +244,77 @@ class CCompEvaluator:
         """
         deps = {}
         try:
+            # Try to use tomllib (Python 3.11+) or tomli
+            try:
+                import tomllib
+                with open(path, 'rb') as f:
+                    data = tomllib.load(f)
+            except ImportError:
+                try:
+                    import tomli
+                    with open(path, 'rb') as f:
+                        data = tomli.load(f)
+                except ImportError:
+                    # Fallback to regex-based parsing
+                    return self._parse_pyproject_toml_fallback(path)
+
+            # Extract dependencies from parsed TOML
+            # PEP 621 format: [project].dependencies
+            project_deps = data.get('project', {}).get('dependencies', [])
+            for dep in project_deps:
+                match = re.match(r'^([a-zA-Z0-9_-]+)(.*)$', dep.strip())
+                if match:
+                    name = match.group(1)
+                    version = match.group(2).strip()
+                    deps[name] = version
+
+            # Also check [tool.poetry.dependencies] for Poetry projects
+            poetry_deps = data.get('tool', {}).get('poetry', {}).get('dependencies', {})
+            for name, version_spec in poetry_deps.items():
+                if name == 'python':
+                    continue
+                if isinstance(version_spec, str):
+                    deps[name] = version_spec
+                elif isinstance(version_spec, dict):
+                    deps[name] = version_spec.get('version', '')
+
+        except Exception:
+            pass
+        return deps
+
+    def _parse_pyproject_toml_fallback(self, path: Path) -> Dict[str, str]:
+        """Fallback TOML parsing without tomllib/tomli.
+
+        Uses regex to handle multi-line arrays.
+
+        Args:
+            path: Path to pyproject.toml
+
+        Returns:
+            Dict mapping package names to version specs
+        """
+        deps = {}
+        try:
             with open(path, 'r') as f:
                 content = f.read()
 
-            # Simple parsing - look for dependencies section
-            in_deps = False
-            for line in content.split('\n'):
-                if 'dependencies' in line and '=' in line:
-                    in_deps = True
-                    continue
-                if in_deps:
-                    if line.startswith('[') or (line.strip() and not line.startswith(' ') and not line.startswith('"')):
-                        in_deps = False
-                        continue
+            # Find dependencies array using regex that handles multi-line
+            # Pattern: dependencies = [ ... ]
+            deps_pattern = r'dependencies\s*=\s*\[(.*?)\]'
+            match = re.search(deps_pattern, content, re.DOTALL)
+
+            if match:
+                deps_content = match.group(1)
+                # Find all quoted dependency strings
+                dep_strings = re.findall(r'"([^"]+)"', deps_content)
+                for dep in dep_strings:
                     # Parse "package>=version" format
-                    match = re.search(r'"([a-zA-Z0-9_-]+)([<>=!].*?)?"', line)
-                    if match:
-                        name = match.group(1)
-                        version = match.group(2) or ''
+                    dep_match = re.match(r'^([a-zA-Z0-9_-]+)(.*)$', dep.strip())
+                    if dep_match:
+                        name = dep_match.group(1)
+                        version = dep_match.group(2).strip()
                         deps[name] = version
+
         except Exception:
             pass
         return deps

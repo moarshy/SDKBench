@@ -49,15 +49,18 @@ class SemSimEvaluator:
             (approach_score * 0.30)      # 30% weight
         )
 
-        # Convert to 0-100 scale and create result with correct field names
+        # Convert to 0-100 scale and cap at 100 to prevent overflow
+        similarity_score = min(100.0, overall_similarity * 100)
+
+        # Create result with correct field names
         return SemSimResult(
-            similarity_score=overall_similarity * 100,
+            similarity_score=similarity_score,
             pattern_match=pattern_score > 0.5,
             approach_match=approach_score > 0.5,
-            # Store component scores for get_similarity_summary()
-            structure_similarity=structure_score * 100,
-            pattern_matching=pattern_score * 100,
-            approach_alignment=approach_score * 100,
+            # Store component scores for get_similarity_summary(), capped at 100
+            structure_similarity=min(100.0, structure_score * 100),
+            pattern_matching=min(100.0, pattern_score * 100),
+            approach_alignment=min(100.0, approach_score * 100),
         )
 
     def _check_structure_similarity(self) -> float:
@@ -509,12 +512,15 @@ class SemSimEvaluator:
         Returns:
             Normalized path
         """
-        # Remove leading ./ or /
-        path = path.lstrip('./')
-        path = path.lstrip('/')
-
-        # Convert backslashes
+        # Convert backslashes first
         path = path.replace('\\', '/')
+
+        # Remove leading ./ properly (lstrip would remove chars individually)
+        while path.startswith('./'):
+            path = path[2:]
+
+        # Remove leading /
+        path = path.lstrip('/')
 
         return path
 

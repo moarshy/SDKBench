@@ -49,6 +49,9 @@ class TypeScriptTestRunner(BaseTestRunner):
         """Detect TypeScript/JS project and test framework."""
         markers_found = []
 
+        # Reset detected framework to avoid stale state from previous calls
+        self._detected_framework = None
+
         # Check for package.json
         package_json = self.working_dir / "package.json"
         if not package_json.exists():

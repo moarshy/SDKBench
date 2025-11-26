@@ -163,7 +163,8 @@ class PythonTestRunner(BaseTestRunner):
         start_time = time.time()
 
         # Build pytest command
-        cmd = ["python", "-m", "pytest", "-v", "--tb=short", "-q"]
+        # Note: -v (verbose) and -q (quiet) conflict - use -v for detailed output
+        cmd = ["python", "-m", "pytest", "-v", "--tb=short"]
 
         if test_dir:
             cmd.append(str(test_dir))
@@ -172,8 +173,9 @@ class PythonTestRunner(BaseTestRunner):
             # Set up environment - ensure we can find modules
             env = os.environ.copy()
             python_path = str(self.working_dir)
+            # Use os.pathsep for cross-platform compatibility (: on Unix, ; on Windows)
             if "PYTHONPATH" in env:
-                env["PYTHONPATH"] = f"{python_path}:{env['PYTHONPATH']}"
+                env["PYTHONPATH"] = f"{python_path}{os.pathsep}{env['PYTHONPATH']}"
             else:
                 env["PYTHONPATH"] = python_path
 
@@ -309,7 +311,8 @@ class PythonTestRunner(BaseTestRunner):
         failures_section = failures_match.group(1)
 
         # Split by test headers: "_ test_name _" or "_____ test_file.py::test_name _____"
-        test_pattern = r'_{3,}\s*([^\s_]+(?:::[^\s_]+)?)\s*_{3,}'
+        # Pattern matches word characters or :: in the test name
+        test_pattern = r'_{3,}\s*([\w:]+(?:::[\w:]+)*)\s*_{3,}'
         parts = re.split(test_pattern, failures_section)
 
         # parts[0] is before first test, then alternating: test_name, traceback, test_name, traceback...

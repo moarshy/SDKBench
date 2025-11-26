@@ -10,7 +10,7 @@ describe('Clerk Complete Integration', () => {
 
   it('should have authMiddleware in middleware', () => {
     const middleware = readFileSync(join(__dirname, '../expected/middleware.ts'), 'utf-8');
-    expect(middleware).toContain('authMiddleware');
+    expect(middleware.includes('authMiddleware') || middleware.includes('clerkMiddleware')).toBe(true);
   });
 
   it('should protect dashboard with currentUser', () => {

@@ -12,12 +12,18 @@ from pydantic import BaseModel, Field, computed_field
 
 class MetricResult(BaseModel):
     """Base class for metric results."""
-    score: float = 0.0  # 0-100
+    # Use None as sentinel to distinguish "not set" from "calculated as 0"
+    score: Optional[float] = None  # 0-100, None means auto-calculate
     details: Dict[str, Any] = Field(default_factory=dict)
 
     class Config:
         """Pydantic config."""
         arbitrary_types_allowed = True
+
+    def model_post_init(self, __context: Any) -> None:
+        """Ensure score has a default value if not calculated by subclass."""
+        if self.score is None:
+            self.score = 0.0
 
 
 # ==================== Individual Metric Results ====================
@@ -31,7 +37,7 @@ class IAccResult(MetricResult):
 
     def model_post_init(self, __context: Any) -> None:
         """Calculate score based on components."""
-        if self.score == 0:  # Only calculate if not already set
+        if self.score is None:  # Only calculate if not explicitly set
             self.score = (
                 (self.file_location_correct * 0.20) +
                 (self.imports_correct * 0.20) +
@@ -51,7 +57,7 @@ class CCompResult(MetricResult):
 
     def model_post_init(self, __context: Any) -> None:
         """Calculate score based on components."""
-        if self.score == 0:  # Only calculate if not already set
+        if self.score is None:  # Only calculate if not explicitly set
             self.score = (
                 (self.env_vars_score * 0.5) +
                 (self.provider_props_score * 0.3) +
@@ -61,16 +67,16 @@ class CCompResult(MetricResult):
 
 class IPAResult(MetricResult):
     """IPA (Integration Point Accuracy) metric result."""
-    precision: float = 0.0  # 0-100
-    recall: float = 0.0  # 0-100
-    f1: float = 0.0  # 0-100
+    precision: float = 0.0  # 0-1 scale
+    recall: float = 0.0  # 0-1 scale
+    f1: float = 0.0  # 0-1 scale
     true_positives: List[str] = Field(default_factory=list)
     false_positives: List[str] = Field(default_factory=list)
     false_negatives: List[str] = Field(default_factory=list)
 
     def model_post_init(self, __context: Any) -> None:
         """Use F1 score as the main score (converted to 0-100 scale)."""
-        if self.score == 0:  # Only calculate if not already set
+        if self.score is None:  # Only calculate if not explicitly set
             self.score = self.f1 * 100  # Convert from 0-1 to 0-100
 
 
@@ -99,12 +105,15 @@ class FCorrResult(MetricResult):
 
     def model_post_init(self, __context: Any) -> None:
         """Calculate pass rate and score."""
+        # Always calculate pass_rate from test counts
         if self.tests_total > 0:
             self.pass_rate = (self.tests_passed / self.tests_total) * 100
-            self.score = self.pass_rate
         else:
             self.pass_rate = 0.0
-            self.score = 0.0
+
+        # Only calculate score if not explicitly set
+        if self.score is None:
+            self.score = self.pass_rate
 
 
 class CQResult(MetricResult):
@@ -125,7 +134,7 @@ class CQResult(MetricResult):
 
     def model_post_init(self, __context: Any) -> None:
         """Calculate score by deducting points."""
-        if self.score == 0:  # Only calculate if not already set
+        if self.score is None:  # Only calculate if not explicitly set
             # If deductions provided, calculate from them
             if self.deductions:
                 self.score = max(0, 100 - self.total_deductions)
@@ -152,7 +161,7 @@ class SemSimResult(MetricResult):
 
     def model_post_init(self, __context: Any) -> None:
         """Use similarity score as main score."""
-        if self.score == 0:  # Only calculate if not already set
+        if self.score is None:  # Only calculate if not explicitly set
             self.score = self.similarity_score
 
 

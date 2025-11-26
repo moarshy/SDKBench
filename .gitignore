@@ -60,5 +60,5 @@ htmlcov/
 # Node (for JS/TS test samples in Week 2-4)
 node_modules/
 package-lock.json
-temp_solutions/
 results/llm_solutions/
+old-results/

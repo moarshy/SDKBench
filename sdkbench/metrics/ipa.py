@@ -118,12 +118,15 @@ class IPAEvaluator:
         normalized = []
 
         for path in paths:
-            # Remove leading ./ or /
-            path = path.lstrip('./')
-            path = path.lstrip('/')
-
-            # Convert backslashes to forward slashes
+            # Convert backslashes to forward slashes first
             path = path.replace('\\', '/')
+
+            # Remove leading ./ properly (lstrip would remove chars individually)
+            while path.startswith('./'):
+                path = path[2:]
+
+            # Remove leading / properly
+            path = path.lstrip('/')
 
             normalized.append(path)
 

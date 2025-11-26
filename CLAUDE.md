@@ -212,6 +212,10 @@ sdkbench/
 | venv in test detection | Thousands of test files detected | Filter EXCLUDED_DIRS |
 | Missing model fields | AttributeError in evaluators | Audit Pydantic models vs usage |
 | No stack traces in F-CORR | "1 test failed" with no details | Capture full failure_details |
+| Missing package.json (TS) | "No compatible test runner found" | Auto-generate or add package.json |
+| Wrong test framework | Tests import Jest but Vitest runs | Check test imports match package.json |
+| Expected solution bugs | F-CORR=0 even for correct LLM code | Validate expected solutions first |
+| Credential-dependent tests | Tests fail without AWS/OpenAI keys | Add `@pytest.mark.skipif` decorators |
 
 ---
 
@@ -269,6 +273,88 @@ When adding new SDKs, study these existing implementations:
 - [ ] Prompt context added (`sdkbench/llm/prompt_builder.py`)
 - [ ] Dry run passes (`python scripts/run.py --sdk {sdk} --limit 1`)
 - [ ] Full evaluation completes with reasonable metrics
+
+---
+
+## Sample Quality Validation
+
+### Validate Expected Solutions Run Successfully
+
+Before evaluating LLM solutions, ensure expected solutions actually work:
+
+```bash
+# Test a single expected solution
+cd samples/lancedb/lancedb_task1_init_001/expected
+python -c "import app; app.main()"
+
+# Run F-CORR on expected solution (should be 100%)
+python scripts/run_fcorr.py --sample samples/lancedb/lancedb_task1_init_001 --verbose
+```
+
+### Common Expected Solution Issues
+
+| Issue | Example | Fix |
+|-------|---------|-----|
+| Pydantic validation errors | `vector: Field required` | Ensure schema matches LanceDB version |
+| Not enough training data | `Not enough rows to train PQ` | Use smaller index or more sample data |
+| Missing credentials | S3/cloud tests fail | Add `@pytest.mark.skipif` for credential-dependent tests |
+
+### Test Categories
+
+Tests should fall into these categories:
+
+1. **Structural tests** (use conftest helpers): Check module has db/model/schema
+2. **Behavioral tests** (test function APIs): Check `ingest()`, `search()` work correctly
+3. **Integration tests**: Check end-to-end workflows
+
+**Rule**: If a test checks `hasattr(module, 'specific_name')`, it should use conftest helpers to accept alternatives.
+
+---
+
+## Learnings from F-CORR Analysis
+
+### Why Tests Fail (Root Causes)
+
+| Category | % of Failures | Description |
+|----------|---------------|-------------|
+| **LLM architectural choices** | ~40% | LLM creates db inside `main()` as local variable, not at module level |
+| **Test structure coupling** | ~30% | Tests expect `app.db` but LLM uses `get_database()` |
+| **Expected solution bugs** | ~15% | Expected code itself fails (pydantic, index training) |
+| **Missing dependencies** | ~15% | No package.json, wrong test framework |
+
+### Flexible conftest.py Pattern
+
+The `samples/lancedb/conftest.py` now includes comprehensive helpers:
+
+```python
+# Database connection - accepts multiple patterns
+get_db_connection(module)    # Returns db or None
+has_db_connection(module)    # Returns True/False (actually tries to connect)
+
+# Embedding models - accepts module.model, get_model(), etc.
+get_embedding_model(module)  # Returns model or None
+has_embedding_model(module)  # Returns True/False
+
+# Document schemas - accepts Document, Schema, get_document_class(), etc.
+get_document_class(module)   # Returns class or None
+has_document_class(module)   # Returns True/False
+```
+
+### TypeScript Test Infrastructure
+
+For TypeScript SDKs (like Clerk), ensure:
+
+1. **package.json exists** in expected/ folder with test script
+2. **Test framework matches imports**: If tests use `@jest/globals`, use Jest not Vitest
+3. **Accept API variations**: Clerk's `authMiddleware` vs `clerkMiddleware`
+
+```typescript
+// Good: Accept multiple valid patterns
+expect(middleware.includes('authMiddleware') || middleware.includes('clerkMiddleware')).toBe(true);
+
+// Bad: Only accept one pattern
+expect(middleware).toContain('authMiddleware');
+```
 
 ---
 

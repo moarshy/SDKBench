@@ -1669,4 +1669,96 @@ def mock_ground_truth():
 
 ---
 
+---
+
+## Appendix E: Sample Quality Issues (Added 2025-11-26)
+
+### High Priority - Expected Solutions with Runtime Bugs
+
+These expected solutions fail when executed, causing F-CORR to report failures even when the LLM generates correct code.
+
+#### Issue 1: lancedb_task1_init_010 - Pydantic Vector Field Validation ✅ FIXED
+
+**Error:**
+```
+pydantic_core._pydantic_core.ValidationError: 1 validation error for Document
+vector
+  Field required [type=missing, input_value={'text': 'Sample document'}, input_type=dict]
+```
+
+**Root Cause:** The Document schema uses `model.VectorField()` for auto-embedding, but when creating a Document instance without providing the vector field, Pydantic requires it.
+
+**File:** `samples/lancedb/lancedb_task1_init_010/expected/app.py`
+
+**Fix Applied:** Changed from instantiating `Document(text="...")` to using dict data `{"text": "...", "metadata": None}` with `schema=Document` parameter. LanceDB handles auto-embedding when using dict data with schema.
+
+---
+
+#### Issue 2: lancedb_task1_init_012 - PQ Index Training ✅ FIXED
+
+**Error:**
+```
+RuntimeError: lance error: LanceError(Index): Not enough rows to train PQ.
+Requires 256 rows but only 100 available
+```
+
+**Root Cause:** The sample creates an IVF-PQ index which requires minimum 256 rows for training, but only provides 100 sample documents.
+
+**File:** `samples/lancedb/lancedb_task1_init_012/expected/app.py`
+
+**Fix Applied:** Increased sample data from 100 to 256 rows to meet PQ training requirements.
+
+---
+
+### Medium Priority - Test Infrastructure Improvements
+
+| Issue | Description | Files Affected |
+|-------|-------------|----------------|
+| Tests not using conftest helpers | 12 LanceDB tests still had rigid structure checks | Updated 10 files in this session |
+| TypeScript tests missing package.json | 38 Clerk samples missing package.json | Auto-generated in `run.py` |
+| Tests expecting specific middleware | Clerk tests only accepted `authMiddleware` not `clerkMiddleware` | Updated 22 test files |
+
+---
+
+### Low Priority - Documentation & Tooling
+
+- [ ] Add more factory function patterns to conftest helpers
+- [ ] Document TypeScript conftest equivalent patterns
+- [ ] Create script to batch-validate all expected solutions
+- [ ] Consider relaxing F-CORR from strict (0 on any failure) to proportional scoring
+- [ ] Add CI validation that all expected solutions pass their own tests
+
+---
+
+### F-CORR Failure Root Cause Analysis
+
+Based on deep dive analysis of LanceDB samples:
+
+| Category | % of Failures | Description |
+|----------|---------------|-------------|
+| **LLM architectural choices** | ~40% | LLM creates db inside `main()` as local variable, not at module level |
+| **Test structure coupling** | ~30% | Tests expect `app.db` but LLM uses `get_database()` |
+| **Expected solution bugs** | ~15% | Expected code itself fails (pydantic, index training) |
+| **Missing dependencies** | ~15% | No package.json, wrong test framework |
+
+### Flexible conftest.py Helpers Added
+
+The `samples/lancedb/conftest.py` now includes comprehensive helpers:
+
+```python
+# Database connection - accepts multiple patterns
+get_db_connection(module)    # Returns db or None
+has_db_connection(module)    # Returns True/False (actually tries to connect)
+
+# Embedding models - accepts module.model, get_model(), etc.
+get_embedding_model(module)  # Returns model or None
+has_embedding_model(module)  # Returns True/False
+
+# Document schemas - accepts Document, Schema, get_document_class(), etc.
+get_document_class(module)   # Returns class or None
+has_document_class(module)   # Returns True/False
+```
+
+---
+
 *This testing plan was generated based on a comprehensive audit of the SDKBench codebase. Implementation should prioritize Phase 1 critical bug fixes before expanding test coverage.*

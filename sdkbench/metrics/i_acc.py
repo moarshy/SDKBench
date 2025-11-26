@@ -457,23 +457,48 @@ class IAccEvaluator:
         if not function_name or not pattern_name:
             return False
 
-        # Find the function in content
-        func_pattern = rf"(?:export\s+)?(?:async\s+)?function\s+{function_name}\s*\([^)]*\)\s*{{([^}}]*)}}"
-
         import re
-        match = re.search(func_pattern, content, re.DOTALL)
 
-        if not match:
-            # Try arrow function
-            func_pattern = rf"(?:export\s+)?const\s+{function_name}\s*=\s*(?:async\s*)?\([^)]*\)\s*=>\s*{{([^}}]*)}}"
-            match = re.search(func_pattern, content, re.DOTALL)
+        # Find the function declaration start
+        func_start_patterns = [
+            rf"(?:export\s+)?(?:async\s+)?function\s+{function_name}\s*\([^)]*\)\s*\{{",
+            rf"(?:export\s+)?const\s+{function_name}\s*=\s*(?:async\s*)?\([^)]*\)\s*=>\s*\{{",
+        ]
 
-        if not match:
-            return False
+        for func_start_pattern in func_start_patterns:
+            match = re.search(func_start_pattern, content)
+            if match:
+                # Found function start, now extract body with proper brace matching
+                function_body = self._extract_brace_content(content, match.end() - 1)
+                if function_body and pattern_name in function_body:
+                    return True
 
-        # Check if pattern is inside function body
-        function_body = match.group(1)
-        return pattern_name in function_body
+        return False
+
+    def _extract_brace_content(self, content: str, start_pos: int) -> Optional[str]:
+        """Extract content between matching braces.
+
+        Args:
+            content: Full content string
+            start_pos: Position of opening brace
+
+        Returns:
+            Content between braces (excluding braces) or None if no match
+        """
+        if start_pos >= len(content) or content[start_pos] != '{':
+            return None
+
+        depth = 0
+        for i in range(start_pos, len(content)):
+            if content[i] == '{':
+                depth += 1
+            elif content[i] == '}':
+                depth -= 1
+                if depth == 0:
+                    # Found matching closing brace
+                    return content[start_pos + 1:i]
+
+        return None  # No matching brace found
 
     def get_details(self) -> Dict:
         """Get detailed evaluation breakdown.

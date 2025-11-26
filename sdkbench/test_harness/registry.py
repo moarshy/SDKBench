@@ -72,12 +72,16 @@ class TestRunnerRegistry:
         best_confidence = 0.0
 
         for runner_class in cls._runners:
-            runner = runner_class(working_dir)
-            detection = runner.detect()
+            try:
+                runner = runner_class(working_dir)
+                detection = runner.detect()
 
-            if detection.detected and detection.confidence > best_confidence:
-                best_runner = runner
-                best_confidence = detection.confidence
+                if detection.detected and detection.confidence > best_confidence:
+                    best_runner = runner
+                    best_confidence = detection.confidence
+            except Exception:
+                # Skip this runner if detection fails
+                continue
 
         return best_runner
 

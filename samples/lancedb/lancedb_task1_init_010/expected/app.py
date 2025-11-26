@@ -20,9 +20,10 @@ db = lancedb.connect("./schema_db")
 
 def create_table_with_schema(table_name: str):
     """Create table with auto-embedding schema."""
-    # Data will auto-embed on insert - no need to provide vectors!
-    data = [Document(text="Sample document")]
-    table = db.create_table(table_name, data, mode="overwrite")
+    # Use dict data - LanceDB will auto-embed when using the schema
+    # Don't instantiate Document directly as it requires vector field
+    data = [{"text": "Sample document", "metadata": None}]
+    table = db.create_table(table_name, data, schema=Document, mode="overwrite")
     return table
 
 def main():
